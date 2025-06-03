@@ -9,11 +9,12 @@ import planmate.domain.usecase.exceptions.InvalidRoleException
 class CreateProjectUsecase(private val repo: ProjectRepository) {
 
     public fun createProject(project: Project, user:User){
-        if(user.role==ADMIN)
+        if(user.role==ADMIN && project.name.isNotEmpty())
             repo.saveProject(project)
-        else
+        else if (user.role!=ADMIN)
             throw InvalidRoleException()
-
+        else
+            throw NameCantBeNullException()
     }
     companion object{
         private val ADMIN= Role.ADMIN
