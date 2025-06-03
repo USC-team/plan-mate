@@ -5,6 +5,7 @@ import planmate.domain.models.Role
 import planmate.domain.models.User
 import planmate.domain.repository.ProjectRepository
 import planmate.domain.usecase.exceptions.InvalidRoleException
+import planmate.domain.usecase.exceptions.NameCantBeNullException
 
 class CreateProjectUsecase(private val repo: ProjectRepository) {
 
