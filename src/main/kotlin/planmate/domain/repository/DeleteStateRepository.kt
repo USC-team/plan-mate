@@ -5,5 +5,5 @@ import kotlin.uuid.Uuid
 
 interface DeleteStateRepository {
     @OptIn(ExperimentalUuidApi::class)
-    fun deleteState(stateId: Uuid, projectId: Uuid)
+    fun deleteState( projectId: Uuid)
 }

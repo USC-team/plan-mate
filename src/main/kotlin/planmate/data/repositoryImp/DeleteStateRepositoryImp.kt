@@ -9,7 +9,7 @@ class DeleteStateRepositoryImp(
     private val csvFileHandler: CsvFileHandler,
 ) : DeleteStateRepository {
     @OptIn(ExperimentalUuidApi::class)
-    override fun deleteState(stateId: Uuid, projectId: Uuid) {
+    override fun deleteState(projectId: Uuid) {
         TODO("Not yet implemented")
     }
 }

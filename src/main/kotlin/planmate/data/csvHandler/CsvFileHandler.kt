@@ -23,7 +23,7 @@ class CsvFileHandler(private val basePath: String) {
             .toList()
     }
 
-    fun writeAllLines(
+    private fun writeAllLines(
         filename: String,
         headerColumns: Array<String>,
         rows: List<Array<String>>,
