@@ -1,4 +1,4 @@
-package planmate.domain.entities
+package planmate.domain.models
 
 data class User(
     val id: String,

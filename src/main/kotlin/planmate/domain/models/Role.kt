@@ -1,4 +1,4 @@
-package planmate.domain.entities
+package planmate.domain.models
 
 enum class Role {
     ADMIN,
