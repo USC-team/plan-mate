@@ -3,7 +3,8 @@ package planmate.domain.models
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-data class Project @OptIn(ExperimentalUuidApi::class) constructor(
+@OptIn(ExperimentalUuidApi::class)
+data class Project(
     val id: Uuid,
     val name: String
 )
