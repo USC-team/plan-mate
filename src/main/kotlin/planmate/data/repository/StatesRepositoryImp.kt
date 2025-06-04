@@ -23,7 +23,7 @@ class StatesRepositoryImp(
 
         val stateRow = arrayOf(state.id.toString(), state.name, state.projectId.toString())
 
-        csvFileHandler.appendLine(filename = filename, headerColumns = header, newRow = stateRow)
+        csvFileHandler.appendLine(headerColumns = header, newRow = stateRow)
     }
 
     override fun updateState(state: State) {

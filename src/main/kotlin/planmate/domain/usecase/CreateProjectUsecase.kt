@@ -11,7 +11,7 @@ class CreateProjectUsecase(private val repo: ProjectRepository) {
 
     public fun createProject(project: Project, user:User){
         if(user.role==ADMIN && project.name.isNotEmpty())
-            repo.saveProject(project)
+            repo.createProject(project)
         else if (user.role!=ADMIN)
             throw InvalidRoleException()
         else

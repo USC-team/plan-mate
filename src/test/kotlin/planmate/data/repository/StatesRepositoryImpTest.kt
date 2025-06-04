@@ -24,7 +24,6 @@ class StatesRepositoryImpTest {
         // Then
         verify(exactly = 1) {
             mockCsvHandler.appendLine(
-                filename = "states_project_${state.projectId}.csv",
                 headerColumns = arrayOf("id", "name", "projectId"), newRow = arrayOf(
                     state.id.toString(),
                     state.name,

@@ -4,15 +4,17 @@ import java.io.File
 import java.io.FileWriter
 import java.nio.file.Paths
 
-class CsvFileHandler(private val basePath: String) {
+class CsvFileHandler(private val basePath: String,
+    private val fileName: String) {
+
 
     init {
         val dir = File(basePath)
         if (!dir.exists()) dir.mkdirs()
     }
 
-    fun readAllLines(filename: String): List<Array<String>> {
-        val file = File(Paths.get(basePath, filename).toString())
+    fun readAllLines(): List<Array<String>> {
+        val file = File(Paths.get(basePath, fileName).toString())
         if (!file.exists()) return emptyList()
 
         return file
@@ -24,11 +26,10 @@ class CsvFileHandler(private val basePath: String) {
     }
 
     private fun writeAllLines(
-        filename: String,
         headerColumns: Array<String>,
         rows: List<Array<String>>,
     ) {
-        val filePath = Paths.get(basePath, filename).toString()
+        val filePath = Paths.get(basePath, fileName).toString()
         val file = File(filePath)
 
         FileWriter(file, false).use { writer ->
@@ -42,19 +43,37 @@ class CsvFileHandler(private val basePath: String) {
     }
 
     fun appendLine(
-        filename: String,
         headerColumns: Array<String>,
         newRow: Array<String>,
     ) {
-        val filePath = Paths.get(basePath, filename).toString()
+        val filePath = Paths.get(basePath, fileName).toString()
         val file = File(filePath)
 
         if (!file.exists()) {
-            writeAllLines(filename, headerColumns, listOf(newRow))
+            writeAllLines(headerColumns, listOf(newRow))
         } else {
             FileWriter(file, true).use { writer ->
                 writer.append(newRow.joinToString(",")).append("\n")
             }
         }
+    }
+    fun updateLine(updatedRow: Array<String>, headerColumns: Array<String>) {
+        val predicate: (Array<String>) -> Boolean = { it[0] == updatedRow[0] }
+
+        val allLines = readAllLines()
+        val newLines = allLines.map { row ->
+            if (predicate(row)) updatedRow else row
+        }
+
+        writeAllLines(headerColumns, newLines)
+    }
+
+    fun deleteLine(rowIdToDelete: String, headerColumns: Array<String>) {
+        val predicate: (Array<String>) -> Boolean = { it[0] == rowIdToDelete }
+
+        val allLines = readAllLines()
+        val newLines = allLines.filterNot { row -> predicate(row) }
+
+        writeAllLines(headerColumns, newLines)
     }
 }
