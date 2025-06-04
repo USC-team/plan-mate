@@ -16,6 +16,7 @@ class CreateProjectUsecase(private val repo: ProjectRepository) {
             throw InvalidRoleException()
         else
             throw NameCantBeNullException()
+        //move exceptions to repo impl
     }
     companion object{
         private val ADMIN= Role.ADMIN
