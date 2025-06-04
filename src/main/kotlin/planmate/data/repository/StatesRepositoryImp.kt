@@ -1,29 +1,24 @@
 package planmate.data.repository
 
-import planmate.data.csvHandler.CsvFileHandler
+import planmate.data.dto.StateDto
+import planmate.data.repository.datasource.StatesDataSource
 import planmate.domain.models.State
 import planmate.domain.repository.StatesRepository
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 class StatesRepositoryImp(
-    private val csvFileHandler: CsvFileHandler,
+    private val statesDataSource: StatesDataSource,
 ) : StatesRepository {
-
-    private val header = arrayOf("id", "name", "projectId")
 
     @OptIn(ExperimentalUuidApi::class)
     override fun getAllStates(projectId: Uuid): List<State> {
-        TODO("Not yet implemented")
+        return statesDataSource.getAllStates(projectId)
+            .map { it.toDomain() }
     }
 
-    @OptIn(ExperimentalUuidApi::class)
     override fun createState(state: State) {
-        val filename = "states_project_${state.projectId}.csv"
-
-        val stateRow = arrayOf(state.id.toString(), state.name, state.projectId.toString())
-
-        csvFileHandler.appendLine(headerColumns = header, newRow = stateRow)
+        statesDataSource.createState(StateDto.fromDomain(state))
     }
 
     override fun updateState(state: State) {
@@ -31,7 +26,7 @@ class StatesRepositoryImp(
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    override fun deleteState(projectId: Uuid) {
+    override fun deleteState(stateId: Uuid) {
         TODO("Not yet implemented")
     }
 }

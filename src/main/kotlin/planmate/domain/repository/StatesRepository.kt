@@ -14,5 +14,5 @@ interface StatesRepository {
     fun updateState(state: State)
 
     @OptIn(ExperimentalUuidApi::class)
-    fun deleteState(projectId: Uuid)
+    fun deleteState(stateId: Uuid)
 }
