@@ -2,16 +2,16 @@ package planmate.data.repositoryImp
 
 import io.mockk.mockk
 import io.mockk.verify
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import planmate.data.csvHandler.CsvFileHandler
 import planmate.domain.models.State
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-
-class CreateStateRepositoryImpTest {
+class StatesRepositoryImpTest {
     private val mockCsvHandler = mockk<CsvFileHandler>(relaxed = true)
-    private val repo = CreateStateRepositoryImp(mockCsvHandler)
+    private val repo = StatesRepositoryImp(mockCsvHandler)
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
@@ -34,4 +34,5 @@ class CreateStateRepositoryImpTest {
             )
         }
     }
+
 }
