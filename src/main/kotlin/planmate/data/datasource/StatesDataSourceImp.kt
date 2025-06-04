@@ -4,7 +4,6 @@ import planmate.data.csvHandler.CsvFileHandler
 import planmate.data.dto.StateDto
 import planmate.data.repository.datasource.StatesDataSource
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 class StatesDataSourceImp(
     private val csvFileHandler: CsvFileHandler,
@@ -12,10 +11,10 @@ class StatesDataSourceImp(
 
     private val header = arrayOf("id", "name", "projectId")
 
-    @OptIn(ExperimentalUuidApi::class)
-    override fun getAllStates(projectId: Uuid): List<StateDto> {
+    override fun getAllStates(projectId: String): List<StateDto> {
         return csvFileHandler.readAllLines()
             .drop(1)
+            .filter { it.contains(projectId) }
             .map { cols ->
                 StateDto(
                     id = cols[0],
@@ -36,11 +35,16 @@ class StatesDataSourceImp(
     }
 
     override fun updateState(state: StateDto) {
-        TODO("Not yet implemented")
+        csvFileHandler.updateLine(
+            headerColumns = arrayOf("id", "name", "projectId"),
+            updatedRow = arrayOf(state.id, state.name, state.projectId)
+        )
     }
 
-    @OptIn(ExperimentalUuidApi::class)
-    override fun deleteState(stateId: Uuid) {
-        TODO("Not yet implemented")
+    override fun deleteState(stateId: String) {
+        csvFileHandler.deleteLine(
+            headerColumns = arrayOf("id", "name", "projectId"),
+            rowIdToDelete = stateId
+        )
     }
 }

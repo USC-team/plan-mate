@@ -13,7 +13,7 @@ class StatesRepositoryImp(
 
     @OptIn(ExperimentalUuidApi::class)
     override fun getAllStates(projectId: Uuid): List<State> {
-        return statesDataSource.getAllStates(projectId)
+        return statesDataSource.getAllStates(projectId.toString())
             .map { it.toDomain() }
     }
 
@@ -22,11 +22,11 @@ class StatesRepositoryImp(
     }
 
     override fun updateState(state: State) {
-        TODO("Not yet implemented")
+        statesDataSource.updateState(StateDto.fromDomain(state))
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun deleteState(stateId: Uuid) {
-        TODO("Not yet implemented")
+        statesDataSource.deleteState(stateId.toString())
     }
 }
