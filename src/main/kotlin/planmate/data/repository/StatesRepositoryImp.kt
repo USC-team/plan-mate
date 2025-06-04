@@ -1,4 +1,4 @@
-package planmate.data.repositoryImp
+package planmate.data.repository
 
 import planmate.data.csvHandler.CsvFileHandler
 import planmate.domain.models.State

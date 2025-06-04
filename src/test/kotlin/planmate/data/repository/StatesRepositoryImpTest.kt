@@ -1,8 +1,7 @@
-package planmate.data.repositoryImp
+package planmate.data.repository
 
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import planmate.data.csvHandler.CsvFileHandler
 import planmate.domain.models.State

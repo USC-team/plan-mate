@@ -34,7 +34,7 @@ class CsvFileHandler(private val basePath: String) {
         FileWriter(file, false).use { writer ->
             writer.append(headerColumns.joinToString(",")).append("\n")
             rows.asSequence()
-                .map { it.joinToString(",") }    // turn Array<String> into a single CSV line
+                .map { it.joinToString(",") }
                 .forEach { line ->
                     writer.append(line).append("\n")
                 }
