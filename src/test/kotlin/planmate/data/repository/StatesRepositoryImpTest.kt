@@ -56,7 +56,7 @@ class StatesRepositoryImpTest {
 
         // Then
         verify(exactly = 0) {
-            mockCsvHandler.appendLine(any(), any(), any())
+            mockCsvHandler.appendLine(any(), any())
         }
     }
 

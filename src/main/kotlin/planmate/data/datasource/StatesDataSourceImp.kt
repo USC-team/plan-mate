@@ -14,7 +14,7 @@ class StatesDataSourceImp(
 
     @OptIn(ExperimentalUuidApi::class)
     override fun getAllStates(projectId: Uuid): List<StateDto> {
-        return csvFileHandler.readAllLines("states_project_${projectId}.csv")
+        return csvFileHandler.readAllLines()
             .drop(1)
             .map { cols ->
                 StateDto(
@@ -32,7 +32,7 @@ class StatesDataSourceImp(
 
         val stateRow = arrayOf(state.id, state.name, state.projectId)
 
-        csvFileHandler.appendLine(filename = filename, headerColumns = header, newRow = stateRow)
+        csvFileHandler.appendLine(headerColumns = header, newRow = stateRow)
     }
 
     override fun updateState(state: StateDto) {

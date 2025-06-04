@@ -1,11 +1,14 @@
 package planmate.data.repository.datasource
 
-import planmate.data.dto.StateDto
-import kotlin.uuid.ExperimentalUuidApi
+import planmate.data.dto.ProjectDto
 
 interface ProjectsDataSource {
 
-    @OptIn(ExperimentalUuidApi::class)
-    fun getAllProjects(): List<StateDto>
+    fun getAllProjects(): List<ProjectDto>
 
+    fun createProject(project: ProjectDto)
+
+    fun updateProject(project: ProjectDto)
+
+    fun deleteProject(projectId: String)
 }

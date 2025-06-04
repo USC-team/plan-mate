@@ -1,51 +1,33 @@
 package planmate.data.repository
 
-import planmate.data.csvHandler.CsvFileHandler
+import planmate.data.dto.ProjectDto
+import planmate.data.repository.datasource.ProjectsDataSource
 import planmate.domain.models.Project
 import planmate.domain.repository.ProjectRepository
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-
-
 class ProjectsRepositoryImp(
-    private val csvFileHandler: CsvFileHandler,
+    private val projectsDataSource: ProjectsDataSource,
 ) : ProjectRepository {
 
-    private val header = arrayOf("id", "name")
-    private val filename = "projects.csv"
-
-    @OptIn(ExperimentalUuidApi::class)
     override fun getAllProjects(): List<Project> {
-       return csvFileHandler.readAllLines()
-            .map { line ->
-                Project(
-                    id = Uuid.parse(line[0]),
-                    name = line[1],
-                )
-            }
+        return projectsDataSource.getAllProjects()
+            .map { it.toDomain() }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun createProject(project: Project) {
-        val projectRow = arrayOf(project.id.toString(), project.name)
-
-        csvFileHandler.appendLine(headerColumns = header, newRow = projectRow)
+        projectsDataSource.createProject(ProjectDto.fromDomain(project))
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun updateProject(project: Project) {
-        csvFileHandler.updateLine(
-            headerColumns = arrayOf("id", "name"),
-            updatedRow = arrayOf(project.id.toString(), project.name)
-        )
+        projectsDataSource.updateProject(ProjectDto.fromDomain(project))
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun deleteProject(projectId: Uuid) {
-        csvFileHandler.deleteLine(
-            headerColumns = arrayOf("id", "name"),
-            rowIdToDelete = projectId.toString()
-        )
+       projectsDataSource.deleteProject(projectId.toString())
     }
 }
