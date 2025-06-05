@@ -13,20 +13,36 @@ class StatesRepositoryImp(
 
     @OptIn(ExperimentalUuidApi::class)
     override fun getAllStates(projectId: Uuid): List<State> {
-        return statesDataSource.getAllStates(projectId.toString())
-            .map { it.toDomain() }
+        return try {
+            statesDataSource.getAllStates(projectId.toString())
+                .map { it.toDomain() }
+        } catch (e: Exception) {
+            throw Exception("Could not load states for project $projectId", e)
+        }
     }
 
     override fun createState(state: State) {
-        statesDataSource.createState(StateDto.fromDomain(state))
+        try {
+            statesDataSource.createState(StateDto.fromDomain(state))
+        } catch (e: Exception) {
+            throw Exception("Could not create state", e)
+        }
     }
 
     override fun updateState(state: State) {
-        statesDataSource.updateState(StateDto.fromDomain(state))
+        try {
+            statesDataSource.updateState(StateDto.fromDomain(state))
+        } catch (e: Exception) {
+            throw Exception("Could not update state", e)
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun deleteState(stateId: Uuid) {
-        statesDataSource.deleteState(stateId.toString())
+        try {
+            statesDataSource.deleteState(stateId.toString())
+        } catch (e: Exception) {
+            throw Exception("Could not delete state $stateId", e)
+        }
     }
 }

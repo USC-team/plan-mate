@@ -11,8 +11,8 @@ class StatesDataSourceImp(
 
     private val header = arrayOf("id", "name", "projectId")
 
-    override fun getAllStates(projectId: String): List<StateDto> {
-        return csvFileHandler.readAllLines()
+    override fun getAllStates(projectId: String): List<StateDto> = try {
+        csvFileHandler.readAllLines()
             .drop(1)
             .filter { it.contains(projectId) }
             .map { cols ->
@@ -22,29 +22,50 @@ class StatesDataSourceImp(
                     projectId = cols[2]
                 )
             }
+    } catch (e: Exception) {
+        throw Exception("Failed to read states CSV for project $projectId", e)
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun createState(state: StateDto) {
 
-        val filename = "states_project_${state.projectId}.csv"
+        try {
+            val filename = "states_project_${state.projectId}.csv"
 
-        val stateRow = arrayOf(state.id, state.name, state.projectId)
+            val stateRow = arrayOf(state.id, state.name, state.projectId)
 
-        csvFileHandler.appendLine(headerColumns = header, newRow = stateRow)
+            csvFileHandler.appendLine(headerColumns = header, newRow = stateRow)
+        } catch (e: Exception) {
+            throw Exception(
+                "Failed to append new State '${state.id}' to CSV for project ${state.projectId}",
+                e
+            )
+        }
     }
 
     override fun updateState(state: StateDto) {
-        csvFileHandler.updateLine(
-            headerColumns = arrayOf("id", "name", "projectId"),
-            updatedRow = arrayOf(state.id, state.name, state.projectId)
-        )
+        try {
+            csvFileHandler.updateLine(
+                headerColumns = arrayOf("id", "name", "projectId"),
+                updatedRow = arrayOf(state.id, state.name, state.projectId)
+            )
+        } catch (e: Exception) {
+            throw Exception(
+                "Failed to update State '${state.id}' in CSV for project ${state.projectId}",
+                e
+            )
+        }
     }
 
     override fun deleteState(stateId: String) {
-        csvFileHandler.deleteLine(
-            headerColumns = arrayOf("id", "name", "projectId"),
-            rowIdToDelete = stateId
-        )
+        try {
+
+            csvFileHandler.deleteLine(
+                headerColumns = arrayOf("id", "name", "projectId"),
+                rowIdToDelete = stateId
+            )
+        } catch (e: Exception) {
+            throw Exception("Failed to delete State '$stateId' from CSV", e)
+        }
     }
 }
