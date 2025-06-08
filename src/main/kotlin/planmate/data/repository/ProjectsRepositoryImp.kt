@@ -4,6 +4,7 @@ import planmate.data.dto.ProjectDto
 import planmate.data.repository.datasource.ProjectsDataSource
 import planmate.domain.models.Project
 import planmate.domain.repository.ProjectRepository
+import planmate.domain.usecase.exceptions.NameCantBeNullException
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -12,22 +13,45 @@ class ProjectsRepositoryImp(
 ) : ProjectRepository {
 
     override fun getAllProjects(): List<Project> {
-        return projectsDataSource.getAllProjects()
-            .map { it.toDomain() }
+        try {
+            return projectsDataSource.getAllProjects()
+                .map { it.toDomain() }
+        }
+        catch (e: Exception){
+            throw Exception("Could not get projects", e)
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun createProject(project: Project) {
-        projectsDataSource.createProject(ProjectDto.fromDomain(project))
+        try {
+            if (project.name.isNotEmpty()) {
+                projectsDataSource.createProject(ProjectDto.fromDomain(project))
+            } else
+                throw NameCantBeNullException()
+        }
+        catch (e: Exception){
+            throw Exception("Could not create project", e)
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun updateProject(project: Project) {
-        projectsDataSource.updateProject(ProjectDto.fromDomain(project))
+        try {
+            projectsDataSource.updateProject(ProjectDto.fromDomain(project))
+        }
+        catch(e: Exception) {
+            throw Exception("Could not update project", e)
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun deleteProject(projectId: Uuid) {
-       projectsDataSource.deleteProject(projectId.toString())
+        try {
+            projectsDataSource.deleteProject(projectId.toString())
+        }
+        catch(e: Exception) {
+            throw Exception("Could not delete project", e)
+        }
     }
 }

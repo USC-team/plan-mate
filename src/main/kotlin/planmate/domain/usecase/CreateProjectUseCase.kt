@@ -5,18 +5,14 @@ import planmate.domain.models.Role
 import planmate.domain.models.User
 import planmate.domain.repository.ProjectRepository
 import planmate.domain.usecase.exceptions.InvalidRoleException
-import planmate.domain.usecase.exceptions.NameCantBeNullException
 
 class CreateProjectUseCase(private val repo: ProjectRepository) {
 
     fun createProject(project: Project, user:User){
-        if(user.role==ADMIN && project.name.isNotEmpty())
-            repo.createProject(project)
-        else if (user.role!=ADMIN)
+        if (user.role!=ADMIN)
             throw InvalidRoleException()
         else
-            throw NameCantBeNullException()
-        //move exceptions to repo impl
+            repo.createProject(project)
     }
     companion object{
         private val ADMIN= Role.ADMIN
