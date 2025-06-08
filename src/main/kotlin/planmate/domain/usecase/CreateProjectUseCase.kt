@@ -7,7 +7,7 @@ import planmate.domain.repository.ProjectRepository
 import planmate.domain.usecase.exceptions.InvalidRoleException
 import planmate.domain.usecase.exceptions.NameCantBeNullException
 
-class CreateProjectUsecase(private val repo: ProjectRepository) {
+class CreateProjectUseCase(private val repo: ProjectRepository) {
 
     fun createProject(project: Project, user:User){
         if(user.role==ADMIN && project.name.isNotEmpty())

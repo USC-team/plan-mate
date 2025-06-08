@@ -4,7 +4,7 @@ import planmate.domain.models.Project
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-class ProjectDto(
+data class ProjectDto(
     val id: String,
     val name: String,
 ) {
