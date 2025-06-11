@@ -10,6 +10,4 @@ interface UsersDataSource {
     fun updateUser(user: UserDto)
 
     fun deleteUser(userId: String)
-
-    //fun findUser(userId: String): UserDto
 }
