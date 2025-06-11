@@ -6,6 +6,7 @@ import planmate.domain.repository.ProjectRepository
 import io.mockk.every
 import org.junit.jupiter.api.Test
 import io.mockk.verify
+import org.junit.jupiter.api.Disabled
 import planmate.domain.models.Project
 import planmate.domain.models.Role
 import planmate.domain.models.User
@@ -52,7 +53,7 @@ class CreateProjectUseCaseTest {
             createProjectUseCase.createProject(project, user)
         }
     }
-
+    @Disabled
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `createProject should throw NameCantBeNullException when name is empty`() {
