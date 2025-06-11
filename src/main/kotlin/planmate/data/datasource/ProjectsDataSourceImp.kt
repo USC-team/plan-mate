@@ -30,14 +30,14 @@ class ProjectsDataSourceImp (
 
     override fun updateProject(project: ProjectDto) {
         csvFileHandler.updateLine(
-            headerColumns = arrayOf("id", "name"),
+            headerColumns = header,
             updatedRow = arrayOf(project.id.toString(), project.name)
         )
     }
 
     override fun deleteProject(projectId: String) {
         csvFileHandler.deleteLine(
-            headerColumns = arrayOf("id", "name"),
+            headerColumns = header,
             rowIdToDelete = projectId
         )
     }
