@@ -5,10 +5,3 @@ data class User(
     val name: String,
     val role: Role
 )
-
-object DummyUsers {
-    val users: List<User> = listOf(
-        User("u1", "Ali", Role.ADMIN),
-        User("u2", "Omar", Role.MATE)
-    )
-}
