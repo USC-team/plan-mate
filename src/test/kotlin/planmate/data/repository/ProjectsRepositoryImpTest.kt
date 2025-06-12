@@ -129,10 +129,10 @@ class ProjectsRepositoryImpTest {
     @Test
     fun `deleteProject should wrap exception when data source fails`() {
         // Given
-        val stateId = random()
-        every { mockProjectsDataSource.deleteProject(stateId.toString()) } throws RuntimeException("Delete failure")
+        val projectId = random()
+        every { mockProjectsDataSource.deleteProject(projectId.toString()) } throws RuntimeException("Delete failure")
 
         // When & Then
-        assertThrows<Exception> { repo.deleteProject(stateId) }
+        assertThrows<Exception> { repo.deleteProject(projectId) }
     }
 }

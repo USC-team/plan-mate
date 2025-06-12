@@ -46,7 +46,7 @@ class StatesDataSourceImp(
     override fun updateState(state: StateDto) {
         try {
             csvFileHandler.updateLine(
-                headerColumns = arrayOf("id", "name", "projectId"),
+                headerColumns = header,
                 updatedRow = arrayOf(state.id, state.name, state.projectId)
             )
         } catch (e: Exception) {
@@ -61,7 +61,7 @@ class StatesDataSourceImp(
         try {
 
             csvFileHandler.deleteLine(
-                headerColumns = arrayOf("id", "name", "projectId"),
+                headerColumns = header,
                 rowIdToDelete = stateId
             )
         } catch (e: Exception) {
