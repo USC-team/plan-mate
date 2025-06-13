@@ -14,7 +14,9 @@ class StatesDataSourceImp(
     override fun getAllStates(projectId: String): List<StateDto> = try {
         csvFileHandler.readAllLines()
             .drop(1)
-            .filter { it.contains(projectId) }
+            .filter { cols ->
+                cols.size >= 3 && cols[2] == projectId
+            }
             .map { cols ->
                 StateDto(
                     id = cols[0],
