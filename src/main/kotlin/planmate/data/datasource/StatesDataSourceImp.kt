@@ -32,7 +32,6 @@ class StatesDataSourceImp(
     override fun createState(state: StateDto) {
 
         try {
-            val filename = "states_project_${state.projectId}.csv"
 
             val stateRow = arrayOf(state.id, state.name, state.projectId)
 
