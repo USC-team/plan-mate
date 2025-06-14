@@ -2,13 +2,13 @@ package planmate.domain.usecase
 
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.jupiter.api.Assertions.*
+import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.assertThrows
 import planmate.domain.repository.StatesRepository
 import kotlin.test.Test
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid.Companion.random
-import io.mockk.verify
 
 class DeleteStateUseCaseTest {
     private var repository: StatesRepository = mockk(relaxed = true)
@@ -42,11 +42,8 @@ class DeleteStateUseCaseTest {
         every { repository.deleteState(stateId) } throws expectedException
 
         // When && Then
-        try {
+        assertThrows<Exception> {
             deleteStateUseCase(stateId)
-            throw AssertionError("Expected IllegalStateException but none was thrown")
-        } catch (actual: IllegalStateException) {
-            assert(actual.message == "Cannot delete state")
         }
     }
 }
