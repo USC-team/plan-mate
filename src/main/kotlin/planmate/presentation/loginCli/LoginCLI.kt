@@ -2,10 +2,10 @@ package planmate.presentation.loginCli
 
 import planmate.domain.models.User
 import planmate.domain.usecase.FindUserUseCase
+import planmate.presentation.ConsoleIO
 
 class LoginCLI (private val findUserUseCase: FindUserUseCase){
-    private var userName: String=""
-    private lateinit var user:User
+    private lateinit var userName: String
 
     fun login(){
         try {
@@ -13,14 +13,18 @@ class LoginCLI (private val findUserUseCase: FindUserUseCase){
             findUser()
         }
         catch(e: Exception){
-            println("User is not valid!")
+           throw Exception("User not Valid!")
         }
     }
-    fun enterUserName(){
-        println("Enter user name: ")
-        userName=readln().trim()
+    private fun enterUserName(){
+        ConsoleIO.write("Enter user name: ")
+        userName= ConsoleIO.read()
     }
-    fun findUser(){
-        user=findUserUseCase.finUser(userName)
+    private fun findUser(){
+        USER=findUserUseCase.findUser(userName)
+    }
+
+    companion object{
+        lateinit var USER:User
     }
 }

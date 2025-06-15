@@ -31,7 +31,7 @@ class FindUserUseCaseTest {
         every { repository.getAllUsers() } returns users
 
         // When
-        val actual = finsUserUseCase.finUser("User1")
+        val actual = finsUserUseCase.findUser("User1")
 
         // Then
         assertEquals(users[0], actual, "UseCase must return exactly what the repository returns")
@@ -50,7 +50,7 @@ class FindUserUseCaseTest {
 
         // When & Then
         assertThrows<Exception> {
-            finsUserUseCase.finUser("User10")
+            finsUserUseCase.findUser("User10")
         }
     }
 
@@ -61,7 +61,7 @@ class FindUserUseCaseTest {
 
         // When & Then
         assertThrows<Exception> {
-            finsUserUseCase.finUser("User1")
+            finsUserUseCase.findUser("User1")
         }
     }
 

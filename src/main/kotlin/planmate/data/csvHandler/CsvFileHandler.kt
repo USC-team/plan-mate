@@ -4,9 +4,8 @@ import java.io.File
 import java.io.FileWriter
 import java.nio.file.Paths
 
-class CsvFileHandler(private val basePath: String,
-    private val fileName: String) {
-
+class CsvFileHandler(private val fileName: String) {
+    private val basePath: String="C:\\Users\\Alaa\\IdeaProjects\\plan-mate\\src\\main\\kotlin\\planmate\\data\\resources"
 
     init {
         val dir = File(basePath)
