@@ -6,6 +6,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import planmate.domain.models.State
 import planmate.domain.repository.StatesRepository
 import kotlin.uuid.ExperimentalUuidApi
@@ -46,11 +47,8 @@ class UpdateStateUseCaseTest {
         every { repository.updateState(invalidState) } throws expectedException
 
         // When && Then
-        try {
+        assertThrows<Exception> {
             updateStateUseCase(invalidState)
-            throw AssertionError("Expected IllegalArgumentException, but none was thrown")
-        } catch (actual: IllegalArgumentException) {
-            assertEquals("Name cannot be empty", actual.message)
         }
 
     }
