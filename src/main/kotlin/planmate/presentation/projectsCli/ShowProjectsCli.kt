@@ -1,7 +1,7 @@
 package planmate.presentation.projectsCli
 
-import planmate.domain.usecase.GetAllProjectsUseCase
-import planmate.presentation.ConsoleIO
+import planmate.domain.usecase.projectsUseCases.GetAllProjectsUseCase
+import planmate.presentation.console.ConsoleIO
 import kotlin.uuid.ExperimentalUuidApi
 
 class ShowProjectsCli(private val getAllProjectsUseCase: GetAllProjectsUseCase) {

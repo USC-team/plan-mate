@@ -1,4 +1,4 @@
-package planmate.domain.usecase
+package planmate.domain.usecase.projectsUseCases
 
 import planmate.domain.repository.ProjectRepository
 

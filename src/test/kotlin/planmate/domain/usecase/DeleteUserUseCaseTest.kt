@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import planmate.domain.repository.UsersRepository
+import planmate.domain.usecase.usersUseCases.DeleteUserUseCase
 
 class DeleteUserUseCaseTest {
     private var repository: UsersRepository = mockk(relaxed = true)

@@ -1,25 +1,9 @@
 package planmate
 
 import org.koin.core.context.startKoin
-import org.koin.core.module.Module
-import org.koin.java.KoinJavaComponent.getKoin
-import planmate.data.csvHandler.CsvFileHandler
-import planmate.data.datasource.UserDataSourceImp
-import planmate.data.repository.UsersRepositoryImp
-import planmate.data.repository.datasource.UsersDataSource
 import planmate.dependencyInjection.ModuleVar
 import planmate.dependencyInjection.appModule
-import planmate.domain.repository.UsersRepository
-import planmate.domain.usecase.CreateProjectUseCase
-import planmate.domain.usecase.DeleteProjectUseCase
-import planmate.domain.usecase.FindUserUseCase
-import planmate.domain.usecase.GetAllProjectsUseCase
-import planmate.domain.usecase.UpdateProjectUseCase
-import planmate.presentation.ConsoleIO
-import planmate.presentation.projectsCli.CreateProjectsCli
-import planmate.presentation.projectsCli.DeleteProjectCli
-import planmate.presentation.projectsCli.MainProjectsCli
-import planmate.presentation.projectsCli.UpdateProjectCli
+import planmate.presentation.console.ConsoleIO
 
 private lateinit var choice: String
 private const val USERS_FILE="users.csv"

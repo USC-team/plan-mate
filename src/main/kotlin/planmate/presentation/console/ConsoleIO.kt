@@ -1,6 +1,4 @@
-package planmate.presentation
-
-import org.koin.core.logger.MESSAGE
+package planmate.presentation.console
 
 class ConsoleIO {
     companion object {

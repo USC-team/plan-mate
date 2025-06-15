@@ -1,4 +1,4 @@
-package planmate.domain.usecase
+package planmate.domain.usecase.usersUseCases
 
 import planmate.domain.models.Role
 import planmate.domain.models.User

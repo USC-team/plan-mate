@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import planmate.domain.repository.TasksRepository
+import planmate.domain.usecase.tasksUseCases.DeleteTaskUseCase
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid.Companion.random
 

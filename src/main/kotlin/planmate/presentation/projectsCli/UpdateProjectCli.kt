@@ -1,9 +1,9 @@
 package planmate.presentation.projectsCli
 
 import planmate.domain.models.Project
-import planmate.domain.usecase.GetAllProjectsUseCase
-import planmate.domain.usecase.UpdateProjectUseCase
-import planmate.presentation.ConsoleIO
+import planmate.domain.usecase.projectsUseCases.GetAllProjectsUseCase
+import planmate.domain.usecase.projectsUseCases.UpdateProjectUseCase
+import planmate.presentation.console.ConsoleIO
 
 class UpdateProjectCli(private val updateProjectUseCase: UpdateProjectUseCase,
                        private val getAllProjectsUseCase: GetAllProjectsUseCase) {

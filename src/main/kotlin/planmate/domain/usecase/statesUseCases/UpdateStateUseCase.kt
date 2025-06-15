@@ -1,4 +1,4 @@
-package planmate.domain.usecase
+package planmate.domain.usecase.statesUseCases
 
 import planmate.domain.models.State
 import planmate.domain.repository.StatesRepository

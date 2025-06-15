@@ -1,8 +1,8 @@
 package planmate.presentation.loginCli
 
 import planmate.domain.models.User
-import planmate.domain.usecase.FindUserUseCase
-import planmate.presentation.ConsoleIO
+import planmate.domain.usecase.usersUseCases.FindUserUseCase
+import planmate.presentation.console.ConsoleIO
 
 class LoginCLI (private val findUserUseCase: FindUserUseCase){
     private lateinit var userName: String

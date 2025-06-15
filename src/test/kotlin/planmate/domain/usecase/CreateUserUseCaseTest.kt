@@ -10,6 +10,7 @@ import planmate.domain.models.User
 import planmate.domain.models.Role
 import planmate.domain.repository.UsersRepository
 import planmate.domain.usecase.exceptions.InvalidRoleException
+import planmate.domain.usecase.usersUseCases.CreateUserUseCase
 
 class CreateUserUseCaseTest {
     private var repository: UsersRepository = mockk(relaxed = true)

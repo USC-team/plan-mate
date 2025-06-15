@@ -7,7 +7,7 @@ import planmate.data.datasource.UserDataSourceImp
 import planmate.data.repository.UsersRepositoryImp
 import planmate.data.repository.datasource.UsersDataSource
 import planmate.domain.repository.UsersRepository
-import planmate.domain.usecase.FindUserUseCase
+import planmate.domain.usecase.usersUseCases.FindUserUseCase
 import planmate.presentation.loginCli.LoginCLI
 
 object ModuleVar{

@@ -1,4 +1,4 @@
-package planmate.domain.usecase
+package planmate.domain.usecase.tasksUseCases
 
 import planmate.domain.repository.TasksRepository
 import kotlin.uuid.ExperimentalUuidApi

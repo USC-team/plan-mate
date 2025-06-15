@@ -9,6 +9,7 @@ import org.junit.jupiter.api.assertThrows
 import planmate.domain.models.Role
 import planmate.domain.models.User
 import planmate.domain.repository.UsersRepository
+import planmate.domain.usecase.usersUseCases.UpdateUserUseCase
 
 class UpdateUserUseCaseTest {
     private var repository: UsersRepository = mockk(relaxed = true)

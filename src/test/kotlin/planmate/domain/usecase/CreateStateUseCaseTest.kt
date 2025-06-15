@@ -2,12 +2,12 @@ package planmate.domain.usecase
 
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import planmate.domain.models.State
 import planmate.domain.repository.StatesRepository
 import io.mockk.verify
+import planmate.domain.usecase.statesUseCases.CreateStateUseCase
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid.Companion.random
 

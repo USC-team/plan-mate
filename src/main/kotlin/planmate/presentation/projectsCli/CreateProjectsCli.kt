@@ -2,8 +2,8 @@ package planmate.presentation.projectsCli
 
 import planmate.domain.models.Project
 import planmate.domain.models.User
-import planmate.domain.usecase.CreateProjectUseCase
-import planmate.presentation.ConsoleIO
+import planmate.domain.usecase.projectsUseCases.CreateProjectUseCase
+import planmate.presentation.console.ConsoleIO
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 

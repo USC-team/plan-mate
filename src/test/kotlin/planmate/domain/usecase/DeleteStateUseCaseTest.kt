@@ -6,6 +6,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.assertThrows
 import planmate.domain.repository.StatesRepository
+import planmate.domain.usecase.statesUseCases.DeleteStateUseCase
 import kotlin.test.Test
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid.Companion.random

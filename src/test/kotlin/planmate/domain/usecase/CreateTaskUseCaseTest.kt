@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import planmate.domain.models.Task
 import planmate.domain.repository.TasksRepository
+import planmate.domain.usecase.tasksUseCases.CreateTaskUseCase
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid.Companion.random
 

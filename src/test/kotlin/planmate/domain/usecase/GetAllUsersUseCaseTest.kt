@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 import planmate.domain.models.Role
 import planmate.domain.models.User
 import planmate.domain.repository.UsersRepository
+import planmate.domain.usecase.usersUseCases.GetAllUsersUseCase
 import kotlin.test.assertEquals
 
 class GetAllUsersUseCaseTest {

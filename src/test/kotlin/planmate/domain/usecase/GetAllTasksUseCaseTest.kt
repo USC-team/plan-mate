@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import planmate.domain.models.Task
 import planmate.domain.repository.TasksRepository
+import planmate.domain.usecase.tasksUseCases.GetAllTasksUseCase
 import kotlin.test.assertEquals
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid.Companion.random

@@ -1,6 +1,6 @@
 package planmate.presentation.projectsCli
 
-import planmate.presentation.ConsoleIO
+import planmate.presentation.console.ConsoleIO
 
 class MainProjectsCli(
     private val showProjectsCli: ShowProjectsCli, private val createProjectsCli: CreateProjectsCli,
@@ -15,9 +15,9 @@ class MainProjectsCli(
         when (choice) {
             "0" -> return
             "1" -> showProjectsCli.showProjects()
-            "2" -> createProject()
-            "3" -> updateProject()
-            "4" -> deleteProject()
+            "2" -> createProjectsCli.createProject()
+            "3" -> updateProjectCli.updateProject()
+            "4" -> deleteProjectCli.deleteProject()
 
             else -> ConsoleIO.writeError("Invalid choice!\n Try again")
         }
@@ -38,18 +38,5 @@ class MainProjectsCli(
 
     private fun enterUserChoice():String {
         return ConsoleIO.read()
-    }
-
-
-    private fun createProject() {
-        createProjectsCli.createProject()
-    }
-
-    private fun updateProject() {
-        updateProjectCli.updateProject()
-    }
-
-    private fun deleteProject() {
-        deleteProjectCli.deleteProject()
     }
 }

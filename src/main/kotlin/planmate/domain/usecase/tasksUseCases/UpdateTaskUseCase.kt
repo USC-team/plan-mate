@@ -1,4 +1,4 @@
-package planmate.domain.usecase
+package planmate.domain.usecase.tasksUseCases
 
 import planmate.domain.models.Task
 import planmate.domain.repository.TasksRepository

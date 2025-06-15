@@ -1,4 +1,4 @@
-package planmate.presentation
+package planmate.presentation.console
 
 class ConsoleColors {
     companion object {

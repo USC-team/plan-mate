@@ -15,6 +15,7 @@ import planmate.domain.usecase.exceptions.NameCantBeNullException
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid.Companion.random
 import org.junit.jupiter.api.assertThrows
+import planmate.domain.usecase.projectsUseCases.CreateProjectUseCase
 
 class CreateProjectUseCaseTest {
     private var repository: ProjectRepository = mockk(relaxed = true)

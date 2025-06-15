@@ -1,10 +1,9 @@
 package planmate.presentation.projectsCli
 
 import planmate.domain.models.Project
-import planmate.domain.usecase.DeleteProjectUseCase
-import planmate.domain.usecase.GetAllProjectsUseCase
-import planmate.domain.usecase.UpdateProjectUseCase
-import planmate.presentation.ConsoleIO
+import planmate.domain.usecase.projectsUseCases.DeleteProjectUseCase
+import planmate.domain.usecase.projectsUseCases.GetAllProjectsUseCase
+import planmate.presentation.console.ConsoleIO
 import kotlin.uuid.ExperimentalUuidApi
 
 class DeleteProjectCli(private val deleteProjectUseCase: DeleteProjectUseCase,
