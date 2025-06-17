@@ -6,7 +6,7 @@ class MainUsersCli(
     private val showUsersCli: ShowUsersCli, private val createUsersCli: CreateUserCli,
     private val updateUserCli: UpdateUserCli, private val deleteUserCli: DeleteUserCli
 ) {
-    private lateinit var choice: String
+    private var choice: String="0"
 
     fun enterChoice() {
         choices()

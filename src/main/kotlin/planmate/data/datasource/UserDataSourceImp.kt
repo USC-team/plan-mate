@@ -9,7 +9,6 @@ class UserDataSourceImp (
 ) : UsersDataSource {
 
     private val header = arrayOf("id", "name", "role")
-    private val filename = "users.csv"
 
     override fun getAllUsers(): List<UserDto> {
         return csvFileHandler.readAllLines()

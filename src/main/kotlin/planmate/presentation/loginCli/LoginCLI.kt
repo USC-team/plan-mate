@@ -14,6 +14,7 @@ class LoginCLI (private val findUserUseCase: FindUserUseCase){
         }
         catch(e: Exception){
            throw Exception("User not Valid!")
+            login()
         }
     }
     private fun enterUserName(){
