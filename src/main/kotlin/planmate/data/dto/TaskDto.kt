@@ -18,7 +18,7 @@ data class TaskDto(
         id = Uuid.parse(id),
         title = title,
         description = description,
-        userId = Uuid.parse(userId),
+        userId = userId,
         stateId = Uuid.parse(stateId),
         projectId = Uuid.parse(projectId)
     )

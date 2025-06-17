@@ -1,9 +1,13 @@
 package planmate
 
 import org.koin.core.context.startKoin
-import planmate.dependencyInjection.ModuleVar
+import org.koin.java.KoinJavaComponent.getKoin
 import planmate.dependencyInjection.appModule
 import planmate.presentation.console.ConsoleIO
+import planmate.presentation.projectsCli.MainProjectsCli
+import planmate.presentation.statesCli.MainStatesCli
+import planmate.presentation.tasksCli.MainTasksCli
+import planmate.presentation.usersCli.MainUsersCli
 
 private lateinit var choice: String
 private const val USERS_FILE="users.csv"
@@ -13,6 +17,7 @@ fun main() {
     startKoin {
         modules(appModule)
     }
+    ConsoleIO.writeWelcome("WELCOME TO PLANMATE")
     enterChoice()
 }
 
@@ -22,8 +27,26 @@ fun enterChoice(){
 
     when (choice){
         "0"-> return
-        "1"-> ModuleVar.fileName=USERS_FILE
-
+        "1"-> {
+            ConsoleIO.writeWelcome("USERS")
+            val mainUsersCli: MainUsersCli=  getKoin().get()
+            mainUsersCli.enterChoice()
+        }
+        "2"-> {
+            ConsoleIO.writeWelcome("PROJECTS")
+            val mainProjectsCli: MainProjectsCli=  getKoin().get()
+            mainProjectsCli.enterChoice()
+        }
+        "3"-> {
+            ConsoleIO.writeWelcome("STATES")
+            val mainStatesCli: MainStatesCli=  getKoin().get()
+            mainStatesCli.enterChoice()
+        }
+        "4"-> {
+            ConsoleIO.writeWelcome("TASKS")
+            val mainTasksCli: MainTasksCli=  getKoin().get()
+            mainTasksCli.enterChoice()
+        }
 
         else -> ConsoleIO.writeError("Invalid choice!\n Try again")
     }
