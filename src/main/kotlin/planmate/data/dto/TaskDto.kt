@@ -1,7 +1,6 @@
 package planmate.data.dto
 
 import planmate.domain.models.Task
-import java.util.UUID
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 

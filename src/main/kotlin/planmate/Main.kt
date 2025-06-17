@@ -13,6 +13,7 @@ fun main() {
     startKoin {
         modules(appModule)
     }
+    enterChoice()
 }
 
 fun enterChoice(){
