@@ -25,6 +25,7 @@ class ShowTasksCli(private val getAllTasksUseCase: GetAllTasksUseCase) {
 
     @OptIn(ExperimentalUuidApi::class)
     private fun enterProjectId(){
+        ConsoleIO.write("Enter project id:")
         projectId= Uuid.parse(ConsoleIO.read())
     }
 }

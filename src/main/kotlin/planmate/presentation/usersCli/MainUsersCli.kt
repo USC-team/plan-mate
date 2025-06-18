@@ -6,7 +6,7 @@ class MainUsersCli(
     private val showUsersCli: ShowUsersCli, private val createUsersCli: CreateUserCli,
     private val updateUserCli: UpdateUserCli, private val deleteUserCli: DeleteUserCli
 ) {
-    private var choice: String="0"
+    private var choice: String=""
 
     fun enterChoice() {
         choices()
@@ -36,7 +36,7 @@ class MainUsersCli(
         )
     }
 
-    private fun enterUserChoice():String {
-        return ConsoleIO.read()
+    private fun enterUserChoice() {
+        choice= ConsoleIO.read()
     }
 }

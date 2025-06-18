@@ -25,6 +25,7 @@ class UpdateProjectCli(private val updateProjectUseCase: UpdateProjectUseCase,
     }
 
     private fun enterProjectName(){
+        ConsoleIO.write("Enter project name:")
         projectName= ConsoleIO.read()
     }
 

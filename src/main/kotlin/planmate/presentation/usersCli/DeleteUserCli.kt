@@ -26,6 +26,7 @@ class DeleteUserCli(private val deleteUserUseCase: DeleteUserUseCase,
     }
 
     private fun enterUserName(){
+        ConsoleIO.write("Enter User name:")
         userName= ConsoleIO.read()
     }
 

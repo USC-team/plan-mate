@@ -24,6 +24,7 @@ class ShowStatesCli(private val getAllStatesUseCase: GetAllStatesUseCase) {
 
     @OptIn(ExperimentalUuidApi::class)
     private fun enterProjectId(){
+        ConsoleIO.write("Enter project id:")
         projectId= Uuid.parse(ConsoleIO.read())
     }
 }

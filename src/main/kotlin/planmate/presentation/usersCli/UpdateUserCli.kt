@@ -25,6 +25,7 @@ class UpdateUserCli(private val updateUserUseCase: UpdateUserUseCase,
     }
 
     private fun enterUserName(){
+        ConsoleIO.write("Enter User name:")
         userName= ConsoleIO.read()
     }
 

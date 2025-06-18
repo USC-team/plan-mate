@@ -26,6 +26,7 @@ class DeleteProjectCli(private val deleteProjectUseCase: DeleteProjectUseCase,
     }
 
     private fun enterProjectName(){
+        ConsoleIO.write("Enter project name:")
         projectName= ConsoleIO.read()
     }
 

@@ -6,7 +6,7 @@ class MainProjectsCli(
     private val showProjectsCli: ShowProjectsCli, private val createProjectsCli: CreateProjectsCli,
     private val updateProjectCli: UpdateProjectCli, private val deleteProjectCli: DeleteProjectCli
 ) {
-    private lateinit var choice: String
+    private var choice: String=""
 
     fun enterChoice() {
         choices()
@@ -36,7 +36,7 @@ class MainProjectsCli(
         )
     }
 
-    private fun enterUserChoice():String {
-        return ConsoleIO.read()
+    private fun enterUserChoice() {
+        choice=  ConsoleIO.read()
     }
 }

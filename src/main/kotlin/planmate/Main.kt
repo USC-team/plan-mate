@@ -11,7 +11,7 @@ import planmate.presentation.tasksCli.MainTasksCli
 import planmate.presentation.usersCli.MainUsersCli
 import kotlin.math.log
 
-private lateinit var choice: String
+private var choice: String=""
 private const val USERS_FILE="users.csv"
 private const val PROJECTS_FILE="projects.csv"
 
