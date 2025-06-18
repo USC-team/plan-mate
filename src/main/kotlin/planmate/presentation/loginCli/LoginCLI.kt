@@ -13,7 +13,7 @@ class LoginCLI (private val findUserUseCase: FindUserUseCase){
             findUser()
         }
         catch(e: Exception){
-           throw Exception("User not Valid!")
+           throw Exception("User not Valid! ${e.message}")
             login()
         }
     }

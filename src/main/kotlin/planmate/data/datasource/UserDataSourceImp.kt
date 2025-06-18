@@ -3,6 +3,8 @@ package planmate.data.datasource
 import planmate.data.csvHandler.CsvFileHandler
 import planmate.data.dto.UserDto
 import planmate.data.repository.datasource.UsersDataSource
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class UserDataSourceImp (
     private val csvFileHandler: CsvFileHandler,
@@ -34,10 +36,11 @@ class UserDataSourceImp (
         )
     }
 
-    override fun deleteUser(userId: String) {
+    @OptIn(ExperimentalUuidApi::class)
+    override fun deleteUser(userId: Uuid) {
         csvFileHandler.deleteLine(
             headerColumns = header,
-            rowIdToDelete = userId
+            rowIdToDelete = userId.toString()
         )
     }
 }

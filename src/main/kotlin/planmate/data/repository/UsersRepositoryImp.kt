@@ -5,6 +5,8 @@ import planmate.data.repository.datasource.UsersDataSource
 import planmate.domain.models.User
 import planmate.domain.repository.UsersRepository
 import planmate.domain.usecase.exceptions.NameCantBeNullException
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class UsersRepositoryImp (
     private val usersDataSource: UsersDataSource,
@@ -41,7 +43,8 @@ class UsersRepositoryImp (
         }
     }
 
-    override fun deleteUser(userId: String) {
+    @OptIn(ExperimentalUuidApi::class)
+    override fun deleteUser(userId: Uuid) {
         try {
            usersDataSource.deleteUser(userId)
         }

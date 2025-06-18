@@ -1,6 +1,8 @@
 package planmate.data.repository.datasource
 
 import planmate.data.dto.UserDto
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 interface UsersDataSource {
     fun getAllUsers(): List<UserDto>
@@ -9,5 +11,6 @@ interface UsersDataSource {
 
     fun updateUser(user: UserDto)
 
-    fun deleteUser(userId: String)
+    @OptIn(ExperimentalUuidApi::class)
+    fun deleteUser(userId: Uuid)
 }

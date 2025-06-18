@@ -60,13 +60,16 @@ import planmate.presentation.usersCli.DeleteUserCli
 import planmate.presentation.usersCli.MainUsersCli
 import planmate.presentation.usersCli.ShowUsersCli
 import planmate.presentation.usersCli.UpdateUserCli
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 private const val BASE_BATH= "src/main/resources/"
 private const val USERS_FILE : String= "users.csv"
 private const val PROJECTS_FILE : String= "projects.csv"
 private const val STATES_FILE : String= "states.csv"
 private const val TASKS_FILE : String= "tasks.csv"
-private val user= /*LoginCLI.USER?: */User("1", "Ala", Role.ADMIN)
+@OptIn(ExperimentalUuidApi::class)
+private val user= /*LoginCLI.USER?: */User(Uuid.random(), "Ala", Role.ADMIN)
 
 val appModule = module {
     single(named("users file")) { CsvFileHandler(USERS_FILE) }

@@ -3,7 +3,6 @@ package planmate.presentation.tasksCli
 import planmate.domain.models.Task
 import planmate.domain.usecase.tasksUseCases.CreateTaskUseCase
 import planmate.presentation.console.ConsoleIO
-import planmate.presentation.loginCli.LoginCLI
 import planmate.presentation.projectsCli.ShowProjectsCli
 import planmate.presentation.statesCli.ShowStatesCli
 import kotlin.uuid.ExperimentalUuidApi
@@ -73,6 +72,6 @@ class CreateTaskCli(private val createTaskUseCase:CreateTaskUseCase,
 
     @OptIn(ExperimentalUuidApi::class)
     private fun buildTask() {
-        task = Task(Uuid.random(), taskTitle, taskDescription, LoginCLI.USER.id , stateId, projectId)
+        task = Task(Uuid.random(), taskTitle, taskDescription, stateId, projectId)
     }
 }

@@ -1,7 +1,10 @@
 package planmate.domain.usecase.usersUseCases
 
 import planmate.domain.repository.UsersRepository
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class DeleteUserUseCase(private val repo: UsersRepository) {
-    fun deleteUser(userId: String)= repo.deleteUser(userId)
+    @OptIn(ExperimentalUuidApi::class)
+    fun deleteUser(userId: Uuid)= repo.deleteUser(userId)
 }

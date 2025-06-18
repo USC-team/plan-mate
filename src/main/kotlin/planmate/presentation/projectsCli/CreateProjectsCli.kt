@@ -4,6 +4,7 @@ import planmate.domain.models.Project
 import planmate.domain.models.User
 import planmate.domain.usecase.projectsUseCases.CreateProjectUseCase
 import planmate.presentation.console.ConsoleIO
+import planmate.presentation.loginCli.LoginCLI
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -30,6 +31,6 @@ class CreateProjectsCli(private val createProjectUseCase:CreateProjectUseCase, p
 
     @OptIn(ExperimentalUuidApi::class)
     private fun buildProject() {
-        project = Project(Uuid.random(), projectName)
+        project = Project(Uuid.random(), projectName, LoginCLI.USER.id)
     }
 }

@@ -44,6 +44,6 @@ class CreateUserCli(private val createUserUseCase:CreateUserUseCase, private val
 
     @OptIn(ExperimentalUuidApi::class)
     private fun buildUser() {
-        user = User(Uuid.random().toString(), userName,userRole)
+        user = User(Uuid.random(), userName,userRole)
     }
 }

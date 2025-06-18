@@ -2,7 +2,6 @@ package planmate.presentation.tasksCli
 
 import planmate.domain.usecase.tasksUseCases.GetAllTasksUseCase
 import planmate.presentation.console.ConsoleIO
-import planmate.presentation.loginCli.LoginCLI
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -15,9 +14,9 @@ class ShowTasksCli(private val getAllTasksUseCase: GetAllTasksUseCase) {
     fun showTasks(){
         try {
             enterProjectId()
-            getAllTasksUseCase.invoke(projectId).filter { it.userId== LoginCLI.USER.id }
+            getAllTasksUseCase.invoke(projectId)
                 .forEach { ConsoleIO.writeSuccess("${it.id}\t ${it.title}\t ${it.description}\t " +
-                        "${it.userId}\t ${it.stateId}\t ${it.projectId}") }
+                        "${it.stateId}\t ${it.projectId}") }
         }
         catch (e: Exception){
             ConsoleIO.writeError("No tasks to show\n ${e.message}")
