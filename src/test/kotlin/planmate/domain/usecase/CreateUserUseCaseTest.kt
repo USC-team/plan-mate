@@ -10,6 +10,8 @@ import planmate.domain.models.User
 import planmate.domain.models.Role
 import planmate.domain.repository.UsersRepository
 import planmate.domain.usecase.exceptions.InvalidRoleException
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class CreateUserUseCaseTest {
     private var repository: UsersRepository = mockk(relaxed = true)
@@ -20,11 +22,12 @@ class CreateUserUseCaseTest {
         createUserUseCase = CreateUserUseCase(repository)
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `createUser should succeed when user is admin and name is not empty`() {
         // Given
-        val creator = User(id = "1",name="Ala", role = Role.ADMIN)
-        val user = User(id = "2", name = "New User", role = Role.MATE)
+        val creator = User(id = Uuid.random(),name="Ala", role = Role.ADMIN)
+        val user = User(id =  Uuid.random(), name = "New User", role = Role.MATE)
 
         every { repository.createUser(user) } returns Unit
 
@@ -35,11 +38,12 @@ class CreateUserUseCaseTest {
         verify(exactly = 1) { repository.createUser(user) }
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `createUser should throw InvalidRoleException when user is not admin`() {
         // Given
-        val creator = User(id = "1",name="Ala", role = Role.MATE)
-        val user = User(id = "2", name = "New User", role = Role.MATE)
+        val creator = User(id =  Uuid.random(),name="Ala", role = Role.MATE)
+        val user = User(id =  Uuid.random(), name = "New User", role = Role.MATE)
 
         // When & Then
         assertThrows<InvalidRoleException> {

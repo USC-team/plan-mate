@@ -8,7 +8,6 @@ data class Task(
     val id: Uuid,
     val title: String,
     val description: String,
-    val userId: Uuid,
     val stateId: Uuid,
     val projectId: Uuid
 )

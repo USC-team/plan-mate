@@ -23,7 +23,7 @@ class UserDataSourceImp (
     }
 
     override fun createUser(user: UserDto) {
-        val userRow = arrayOf(user.id.toString(), user.name, user.role)
+        val userRow = arrayOf(user.id, user.name, user.role)
 
         csvFileHandler.appendLine(headerColumns = header, newRow = userRow)
     }

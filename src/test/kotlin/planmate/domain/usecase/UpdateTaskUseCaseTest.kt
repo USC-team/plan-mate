@@ -31,7 +31,6 @@ class UpdateTaskUseCaseTest {
             id = random(),
             title = "task",
             description = "details",
-            userId = random(),
             stateId = random(),
             projectId = projectId
         )
@@ -51,15 +50,14 @@ class UpdateTaskUseCaseTest {
         // Given
         val invalidTask = Task(
             id = random(),
-            title = "",
+            title = " ",
             description = "details",
-            userId = random(),
             stateId = random(),
             projectId = random()
         )
-        val expectedException = IllegalArgumentException("title cannot be empty")
+        val expectedException = Exception("title cannot be empty")
 
-        every { repository.createTask(invalidTask) } throws expectedException
+        every { repository.updateTask(invalidTask) } throws expectedException
 
         // When && Then
         assertThrows<Exception> {

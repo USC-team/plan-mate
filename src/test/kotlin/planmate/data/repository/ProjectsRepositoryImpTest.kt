@@ -20,13 +20,16 @@ class ProjectsRepositoryImpTest {
     @Test
     fun `getAllProjects should return all projects when data source returns DTOs`() {
         // Given
+        val userId = random().toString();
         val dto1 = ProjectDto(
             id = random().toString(),
             name = "Project1",
+            userId = userId,
         )
         val dto2 = ProjectDto(
             id = random().toString(),
             name = "Project2",
+            userId = userId,
         )
         every { mockProjectsDataSource.getAllProjects() } returns listOf(dto1, dto2)
 
@@ -51,7 +54,8 @@ class ProjectsRepositoryImpTest {
     fun `createProject should delegate to data source with correct DTO`() {
         // Given
         val projectId = random()
-        val project = Project(id = projectId, name = "Project1")
+        val userId = random()
+        val project = Project(id = projectId, name = "Project1", userId = userId)
 
         // When
         repo.createProject(project)
@@ -71,7 +75,8 @@ class ProjectsRepositoryImpTest {
     @Test
     fun `createProject should wrap exception when data source fails`() {
         // Given
-        val project = Project(id = random(), name = "Project1")
+        val userId = random()
+        val project = Project(id = random(), name = "Project1", userId = userId)
         every { mockProjectsDataSource.createProject(any()) } throws RuntimeException("Disk full")
 
         // When & Then
@@ -83,7 +88,8 @@ class ProjectsRepositoryImpTest {
     fun `updateProject should delegate to data source with correct DTO`() {
         // Given
         val projectId = random()
-        val project = Project(id = projectId, name = "Project1")
+        val userId = random()
+        val project = Project(id = projectId, name = "Project1", userId = userId)
 
         // When
         repo.updateProject(project)
@@ -103,7 +109,7 @@ class ProjectsRepositoryImpTest {
     @Test
     fun `updateProject should wrap exception when data source fails`() {
         // Given
-        val project = Project(id = random(), name = "Project1")
+        val project = Project(id = random(), name = "Project1", random())
         every { mockProjectsDataSource.updateProject(any()) } throws RuntimeException("Error")
 
         // When & Then

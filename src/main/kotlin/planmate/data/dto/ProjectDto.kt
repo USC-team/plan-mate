@@ -7,11 +7,13 @@ import kotlin.uuid.Uuid
 data class ProjectDto(
     val id: String,
     val name: String,
+    val userId: String,
 ) {
     @OptIn(ExperimentalUuidApi::class)
     fun toDomain() = Project(
         id = Uuid.parse(id),
-        name = name
+        name = name,
+        userId = Uuid.parse(userId)
     )
 
     companion object {
@@ -19,7 +21,8 @@ data class ProjectDto(
         fun fromDomain(project: Project) =
             ProjectDto(
                 id = project.id.toString(),
-                name = project.name
+                name = project.name,
+                userId = project.userId.toString()
             )
     }
 }
