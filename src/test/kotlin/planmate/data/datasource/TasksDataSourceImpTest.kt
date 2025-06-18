@@ -16,7 +16,7 @@ class TasksDataSourceImpTest {
     private val mockCsvHandler = mockk<CsvFileHandler>(relaxed = true)
     private val dataSource = TasksDataSourceImp(mockCsvHandler)
 
-    private val header = arrayOf("id", "title", "description", "userId", "stateId", "projectId")
+    private val header = arrayOf("id", "title", "description", "stateId", "projectId")
 
 
     @Test
@@ -27,8 +27,8 @@ class TasksDataSourceImpTest {
         val taskId2 = UUID.randomUUID().toString()
         val csvLines: List<Array<String>> = listOf(
             header,
-            arrayOf(taskId1, "T1", "Desc1", "userA", "stateX", projectId),
-            arrayOf(taskId2, "T2", "Desc2", "userB", "stateY", "other-proj")
+            arrayOf(taskId1, "T1", "Desc1", "stateX", projectId),
+            arrayOf(taskId2, "T2", "Desc2", "stateY", "other-proj")
         )
         every { mockCsvHandler.readAllLines() } returns csvLines
 
@@ -61,9 +61,9 @@ class TasksDataSourceImpTest {
         val taskId3 = UUID.randomUUID().toString()
         val csvLines: List<Array<String>> = listOf(
             header,
-            arrayOf(taskId1, "T1", "Desc1", "user1", stateMatch, projectId),
-            arrayOf(taskId2, "T2", "Desc2", "user2", stateOther, projectId),
-            arrayOf(taskId3, "T3", "Desc3", "user3", stateMatch, "other-proj")
+            arrayOf(taskId1, "T1", "Desc1", stateMatch, projectId),
+            arrayOf(taskId2, "T2", "Desc2", stateOther, projectId),
+            arrayOf(taskId3, "T3", "Desc3", stateMatch, "other-proj")
         )
         every { mockCsvHandler.readAllLines() } returns csvLines
 
@@ -94,12 +94,11 @@ class TasksDataSourceImpTest {
             id = UUID.randomUUID().toString(),
             title = "Fix bug",
             description = "Details",
-            userId = "user1",
             stateId = "state1",
             projectId = "proj-42"
         )
         dataSource.createTask(dto)
-        val expectedRow = arrayOf(dto.id, dto.title, dto.description, dto.userId, dto.stateId, dto.projectId)
+        val expectedRow = arrayOf(dto.id, dto.title, dto.description, dto.stateId, dto.projectId)
         verify(exactly = 1) {
             mockCsvHandler.appendLine(headerColumns = header, newRow = expectedRow)
         }
@@ -112,14 +111,13 @@ class TasksDataSourceImpTest {
             id = UUID.randomUUID().toString(),
             title = "Fix bug",
             description = "Details",
-            userId = "user1",
             stateId = "state1",
             projectId = "proj-42"
         )
         every {
             mockCsvHandler.appendLine(
                 headerColumns = header,
-                newRow = arrayOf(dto.id, dto.title, dto.description, dto.userId, dto.stateId, dto.projectId)
+                newRow = arrayOf(dto.id, dto.title, dto.description, dto.stateId, dto.projectId)
             )
         } throws Exception("Error")
 
@@ -136,7 +134,6 @@ class TasksDataSourceImpTest {
             id = UUID.randomUUID().toString(),
             title = "InProgress",
             description = "Working",
-            userId = "user2",
             stateId = "state2",
             projectId = "proj-99"
         )
@@ -144,7 +141,7 @@ class TasksDataSourceImpTest {
         // When
         dataSource.updateTask(taskDto)
         val expectedRow =
-            arrayOf(taskDto.id, taskDto.title, taskDto.description, taskDto.userId, taskDto.stateId, taskDto.projectId)
+            arrayOf(taskDto.id, taskDto.title, taskDto.description, taskDto.stateId, taskDto.projectId)
 
         // Then
         verify(exactly = 1) {
@@ -159,7 +156,6 @@ class TasksDataSourceImpTest {
             id = UUID.randomUUID().toString(),
             title = "InProgress",
             description = "Working",
-            userId = "user2",
             stateId = "state2",
             projectId = "proj-99"
         )
@@ -170,7 +166,6 @@ class TasksDataSourceImpTest {
                     taskDto.id,
                     taskDto.title,
                     taskDto.description,
-                    taskDto.userId,
                     taskDto.stateId,
                     taskDto.projectId
                 )

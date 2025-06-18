@@ -56,13 +56,13 @@ class TasksRepositoryImp(
     @OptIn(ExperimentalUuidApi::class)
     override fun updateTask(task: Task) {
         try {
-            if (task.title.isBlank()) throw IllegalArgumentException("Task.title must not be blank")
-            if (task.description.isBlank()) throw IllegalArgumentException("Task.description must not be blank")
+            if (task.title.isBlank()) throw Exception("Task.title must not be blank")
+            if (task.description.isBlank()) throw Exception("Task.description must not be blank")
 
             if (tasksDataSource.getAllTasks(task.projectId.toString())
                     .none { it.id == task.id.toString() }
             ) {
-                throw IllegalArgumentException("Task ID ${task.id} not found in project ${task.projectId}")
+                throw Exception("Task ID ${task.id} not found in project ${task.projectId}")
             }
 
             val dto = TaskDto.fromDomain(task)

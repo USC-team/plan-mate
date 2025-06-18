@@ -9,7 +9,6 @@ data class TaskDto(
     val id: String,
     val title: String,
     val description: String,
-    val userId: String,
     val stateId: String,
     val projectId: String
 ) {
@@ -18,7 +17,6 @@ data class TaskDto(
         id = Uuid.parse(id),
         title = title,
         description = description,
-        userId = userId,
         stateId = Uuid.parse(stateId),
         projectId = Uuid.parse(projectId)
     )
@@ -30,7 +28,6 @@ data class TaskDto(
                 id = task.id.toString(),
                 title = task.title,
                 description = task.description,
-                userId = task.userId.toString(),
                 stateId = task.stateId.toString(),
                 projectId = task.projectId.toString()
             )

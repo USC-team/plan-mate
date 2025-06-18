@@ -30,7 +30,6 @@ class GetAllTasksUseCaseTest {
                 id = random(),
                 title = "task1",
                 description = "details",
-                userId = random(),
                 stateId = random(),
                 projectId = projectId
             ),
@@ -38,7 +37,6 @@ class GetAllTasksUseCaseTest {
                 id = random(),
                 title = "task2",
                 description = "details",
-                userId = random(),
                 stateId = random(),
                 projectId = projectId
             ),
@@ -46,7 +44,6 @@ class GetAllTasksUseCaseTest {
                 id = random(),
                 title = "task3",
                 description = "details",
-                userId = random(),
                 stateId = random(),
                 projectId = projectId
             )

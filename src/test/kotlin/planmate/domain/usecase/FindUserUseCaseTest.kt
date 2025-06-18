@@ -10,6 +10,8 @@ import planmate.domain.models.User
 import planmate.domain.repository.UsersRepository
 import planmate.domain.usecase.usersUseCases.FindUserUseCase
 import kotlin.test.assertEquals
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class FindUserUseCaseTest {
     private var repository: UsersRepository = mockk(relaxed = true)
@@ -20,13 +22,14 @@ class FindUserUseCaseTest {
         finsUserUseCase = FindUserUseCase(repository)
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `findUser should return user when found`() {
         // Given
         val users = listOf(
-            User("1", "User1", Role.ADMIN),
-            User("2", "User2", Role.MATE),
-            User("3", "User3", Role.MATE)
+            User( Uuid.random(), "User1", Role.ADMIN),
+            User( Uuid.random(), "User2", Role.MATE),
+            User( Uuid.random(), "User3", Role.MATE)
         )
 
         every { repository.getAllUsers() } returns users
@@ -38,13 +41,14 @@ class FindUserUseCaseTest {
         assertEquals(users[0], actual, "UseCase must return exactly what the repository returns")
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `findUsers should throw an exception when user is not found`() {
         // Given
         val users = listOf(
-            User("1", "User1", Role.ADMIN),
-            User("2", "User2", Role.MATE),
-            User("3", "User3", Role.MATE)
+            User( Uuid.random(), "User1", Role.ADMIN),
+            User( Uuid.random(), "User2", Role.MATE),
+            User( Uuid.random(), "User3", Role.MATE)
         )
 
         every { repository.getAllUsers() } returns users

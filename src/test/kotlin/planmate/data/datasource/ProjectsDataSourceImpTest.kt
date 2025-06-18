@@ -16,7 +16,7 @@ class ProjectsDataSourceImpTest {
     private val mockCsvHandler = mockk<CsvFileHandler>(relaxed = true)
     private val dataSource = ProjectsDataSourceImp(mockCsvHandler)
 
-    private val header = arrayOf("id", "name")
+    private val header = arrayOf("id", "name", "userId")
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
@@ -24,20 +24,21 @@ class ProjectsDataSourceImpTest {
         //Given
         val id1 = Uuid.random().toString()
         val id2 = Uuid.random().toString()
+        val userId = Uuid.random().toString()
 
-        val project1 = arrayOf(id1, "project1")
-        val project2 = arrayOf(id2, "project2")
+        val project1 = arrayOf(id1, "project1", userId)
+        val project2 = arrayOf(id2, "project2", userId)
         val csvLines = listOf(header, project1, project2)
 
         every { mockCsvHandler.readAllLines() } returns csvLines
 
         val expected = listOf(
-            ProjectDto(id1, "project1"),
-            ProjectDto(id2, "project2")
+            ProjectDto(id1, "project1", userId),
+            ProjectDto(id2, "project2", userId)
         )
 
         //When
-        val result = dataSource.getAllProjects().drop(1).map { ProjectDto(it.id, it.name) }
+        val result = dataSource.getAllProjects().drop(1).map { ProjectDto(it.id, it.name, it.userId) }
 
         //Then
         assertThat(result).containsExactlyElementsIn(expected)
@@ -59,7 +60,9 @@ class ProjectsDataSourceImpTest {
         // Given
         val projectDto = ProjectDto(
             toString(),
-            "Project1"
+            "Project1",
+            toString()
+
         )
 
         // When
@@ -80,7 +83,8 @@ class ProjectsDataSourceImpTest {
         // Given
         val projectDto = ProjectDto(
             toString(),
-            "Project1"
+            "Project1",
+            toString(),
         )
         every {
             mockCsvHandler.appendLine(
@@ -98,7 +102,8 @@ class ProjectsDataSourceImpTest {
         // Given
         val projectDto = ProjectDto(
             toString(),
-            "Project1"
+            "Project1",
+            toString(),
         )
 
         // When
@@ -119,7 +124,8 @@ class ProjectsDataSourceImpTest {
         // Given
         val projectDto = ProjectDto(
             toString(),
-            "Project1"
+            "Project1",
+            toString(),
         )
         every {
             mockCsvHandler.updateLine(

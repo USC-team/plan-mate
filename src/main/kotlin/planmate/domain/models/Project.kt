@@ -6,5 +6,6 @@ import kotlin.uuid.Uuid
 @OptIn(ExperimentalUuidApi::class)
 data class Project(
     val id: Uuid,
-    val name: String
+    val name: String,
+    val userId: Uuid,
 )

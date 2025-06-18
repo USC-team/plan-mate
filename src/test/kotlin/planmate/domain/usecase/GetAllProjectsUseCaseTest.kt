@@ -24,10 +24,11 @@ class GetAllProjectsUseCaseTest {
     @Test
     fun `getAllProjects should delegate to repository and return list of projects`() {
         // Given
+        val userId = random();
         val expectedProjects = listOf(
-            Project(random(), "Project1"),
-            Project(random(), "Project2"),
-            Project(random(), "Project3")
+            Project(random(), "Project1", userId),
+            Project(random(), "Project2", userId),
+            Project(random(), "Project3", userId)
         )
 
         every { repository.getAllProjects() } returns expectedProjects

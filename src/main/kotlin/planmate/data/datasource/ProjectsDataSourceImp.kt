@@ -5,11 +5,11 @@ import planmate.data.dto.ProjectDto
 import planmate.data.repository.datasource.ProjectsDataSource
 
 
-class ProjectsDataSourceImp (
+class ProjectsDataSourceImp(
     private val csvFileHandler: CsvFileHandler,
 ) : ProjectsDataSource {
 
-    private val header = arrayOf("id", "name")
+    private val header = arrayOf("id", "name", "userId")
     private val filename = "projects.csv"
 
     override fun getAllProjects(): List<ProjectDto> {
@@ -18,6 +18,7 @@ class ProjectsDataSourceImp (
                 ProjectDto(
                     id = line[0],
                     name = line[1],
+                    userId = line[2]
                 )
             }
     }

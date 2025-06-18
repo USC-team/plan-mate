@@ -27,7 +27,6 @@ class TasksRepositoryImpTest {
             id = UUID.randomUUID().toString(),
             title = "Task1",
             description = "Desc1",
-            userId = UUID.randomUUID().toString(),
             stateId = UUID.randomUUID().toString(),
             projectId = projectId.toString()
         )
@@ -35,7 +34,6 @@ class TasksRepositoryImpTest {
             id = UUID.randomUUID().toString(),
             title = "Task2",
             description = "Desc2",
-            userId = UUID.randomUUID().toString(),
             stateId = UUID.randomUUID().toString(),
             projectId = projectId.toString()
         )
@@ -71,7 +69,6 @@ class TasksRepositoryImpTest {
             id = UUID.randomUUID().toString(),
             title = "Task1",
             description = "Desc1",
-            userId = UUID.randomUUID().toString(),
             stateId = stateId.toString(),
             projectId = projectId.toString()
         )
@@ -112,7 +109,6 @@ class TasksRepositoryImpTest {
             id = taskId,
             title = "NewTask",
             description = "Details",
-            userId = Uuid.random(),
             stateId = Uuid.random(),
             projectId = projectId
         )
@@ -143,7 +139,6 @@ class TasksRepositoryImpTest {
             id = Uuid.random(),
             title = "",
             description = "Desc",
-            userId = Uuid.random(),
             stateId = Uuid.random(),
             projectId = projectId
         )
@@ -163,7 +158,6 @@ class TasksRepositoryImpTest {
             id = Uuid.random(),
             title = "T",
             description = "",
-            userId = Uuid.random(),
             stateId = Uuid.random(),
             projectId = projectId
         )
@@ -183,7 +177,6 @@ class TasksRepositoryImpTest {
             id = taskId,
             title = "NewTask",
             description = "Details",
-            userId = Uuid.random(),
             stateId = Uuid.random(),
             projectId = projectId
         )
@@ -205,7 +198,6 @@ class TasksRepositoryImpTest {
             id = Uuid.random(),
             title = "NewTask",
             description = "Details",
-            userId = Uuid.random(),
             stateId = Uuid.random(),
             projectId = projectId
         )
@@ -228,7 +220,6 @@ class TasksRepositoryImpTest {
             id = taskId,
             title = "UpdateTask",
             description = "NewDesc",
-            userId = Uuid.random(),
             stateId = Uuid.random(),
             projectId = projectId
         )
@@ -260,7 +251,6 @@ class TasksRepositoryImpTest {
             id = Uuid.random(),
             title = "",
             description = "Desc",
-            userId = Uuid.random(),
             stateId = Uuid.random(),
             projectId = projectId
         )
@@ -279,7 +269,6 @@ class TasksRepositoryImpTest {
             id = Uuid.random(),
             title = "T",
             description = "",
-            userId = Uuid.random(),
             stateId = Uuid.random(),
             projectId = projectId
         )
@@ -299,7 +288,6 @@ class TasksRepositoryImpTest {
             id = Uuid.random(),
             title = "T",
             description = "Desc",
-            userId = Uuid.random(),
             stateId = Uuid.random(),
             projectId = projectId
         )
@@ -320,7 +308,6 @@ class TasksRepositoryImpTest {
             id = Uuid.random(),
             title = "T",
             description = "Desc",
-            userId = Uuid.random(),
             stateId = Uuid.random(),
             projectId = projectId
         )

@@ -32,7 +32,6 @@ class CreateTaskUseCaseTest {
             id = random(),
             title = "NewTask",
             description = "details",
-            userId = random(),
             stateId = random(),
             projectId = projectId
         )
@@ -54,11 +53,10 @@ class CreateTaskUseCaseTest {
             id = random(),
             title = "",
             description = "details",
-            userId = random(),
             stateId = random(),
             projectId = random()
         )
-        every { repository.updateTask(invalidTask) } throws Exception("Title cannot be empty")
+        every { repository.createTask(invalidTask) } throws Exception("Title cannot be empty")
 
         // When && Then
         assertThrows<Exception> {
@@ -75,7 +73,6 @@ class CreateTaskUseCaseTest {
             id = random(),
             title = "NewTask",
             description = "",
-            userId = random(),
             stateId = random(),
             projectId = random()
         )
