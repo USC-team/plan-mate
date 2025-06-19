@@ -24,7 +24,7 @@ class ProjectsDataSourceImp(
     }
 
     override fun createProject(project: ProjectDto) {
-        val projectRow = arrayOf(project.id.toString(), project.name)
+        val projectRow = arrayOf(project.id.toString(), project.name, project.userId)
 
         csvFileHandler.appendLine(headerColumns = header, newRow = projectRow)
     }
@@ -32,7 +32,7 @@ class ProjectsDataSourceImp(
     override fun updateProject(project: ProjectDto) {
         csvFileHandler.updateLine(
             headerColumns = header,
-            updatedRow = arrayOf(project.id.toString(), project.name)
+            updatedRow = arrayOf(project.id.toString(), project.name, project.userId)
         )
     }
 

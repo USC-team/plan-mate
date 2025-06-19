@@ -45,6 +45,7 @@ class DeleteStateCli(private val deleteStateUseCase: DeleteStateUseCase,
     }
 
     private fun enterStateName(){
+        ConsoleIO.write("Enter state name: ")
         stateName= ConsoleIO.read()
     }
 

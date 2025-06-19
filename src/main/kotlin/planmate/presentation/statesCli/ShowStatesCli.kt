@@ -12,13 +12,17 @@ class ShowStatesCli(private val getAllStatesUseCase: GetAllStatesUseCase) {
 
     @OptIn(ExperimentalUuidApi::class)
     fun showStates(){
-        try {
+        runCatching {
             enterProjectId()
-            getAllStatesUseCase.invoke(projectId)
-                .forEach { ConsoleIO.writeSuccess("${it.id}\t ${it.name}\t ${it.projectId}") }
-        }
-        catch (e: Exception){
-            ConsoleIO.writeError("No states to show\n ${e.message}")
+            getAllStatesUseCase(projectId)
+                .takeIf { it.isNotEmpty() }
+                ?: throw Exception("")
+        }.onSuccess { states ->
+            states.forEach {
+                ConsoleIO.writeSuccess("${it.id}\t${it.name}\t${it.projectId}")
+            }
+        }.onFailure { e ->
+            ConsoleIO.writeError("No states to show\n${e.message}")
         }
     }
 

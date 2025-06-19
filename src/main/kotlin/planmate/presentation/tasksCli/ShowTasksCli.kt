@@ -12,14 +12,16 @@ class ShowTasksCli(private val getAllTasksUseCase: GetAllTasksUseCase) {
 
     @OptIn(ExperimentalUuidApi::class)
     fun showTasks(){
-        try {
+        runCatching {
             enterProjectId()
-            getAllTasksUseCase.invoke(projectId)
-                .forEach { ConsoleIO.writeSuccess("${it.id}\t ${it.title}\t ${it.description}\t " +
-                        "${it.stateId}\t ${it.projectId}") }
-        }
-        catch (e: Exception){
-            ConsoleIO.writeError("No tasks to show\n ${e.message}")
+            getAllTasksUseCase(projectId).takeIf { it.isNotEmpty() }
+                ?: throw Exception("")
+        }.onSuccess { tasks ->
+            tasks.forEach {
+                ConsoleIO.writeSuccess("${it.id}\t${it.title}\t${it.description}\t${it.stateId}\t${it.projectId}")
+            }
+        }.onFailure { e ->
+            ConsoleIO.writeError("No tasks to show\n${e.message}")
         }
     }
 

@@ -59,7 +59,7 @@ class CsvFileHandler(private val fileName: String) {
     fun updateLine(updatedRow: Array<String>, headerColumns: Array<String>) {
         val predicate: (Array<String>) -> Boolean = { it[0] == updatedRow[0] }
 
-        val allLines = readAllLines()
+        val allLines = readAllLines().drop(1)
         val newLines = allLines.map { row ->
             if (predicate(row)) updatedRow else row
         }
@@ -70,7 +70,7 @@ class CsvFileHandler(private val fileName: String) {
     fun deleteLine(rowIdToDelete: String, headerColumns: Array<String>) {
         val predicate: (Array<String>) -> Boolean = { it[0] == rowIdToDelete }
 
-        val allLines = readAllLines()
+        val allLines = readAllLines().drop(1)
         val newLines = allLines.filterNot { row -> predicate(row) }
 
         writeAllLines(headerColumns, newLines)

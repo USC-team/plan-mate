@@ -13,9 +13,13 @@ class UpdateStateCli(private val updateStateUseCase: UpdateStateUseCase,
                      private val showProjectsCli: ShowProjectsCli) {
 
     private lateinit var state: State
-    private lateinit var stateName: String
+    private var stateName: String=""
+    private lateinit var newState: State
+    private var newStateName: String=""
     @OptIn(ExperimentalUuidApi::class)
     private lateinit var projectId: Uuid
+    @OptIn(ExperimentalUuidApi::class)
+    private lateinit var newProjectId: Uuid
 
     fun updateState(){
         try {
@@ -23,8 +27,11 @@ class UpdateStateCli(private val updateStateUseCase: UpdateStateUseCase,
             enterProjectId()
             enterStateName()
             findState()
+            enterNewProjectId()
+            enterNewStateName()
+            buildUpdatedState()
 
-            updateStateUseCase.invoke(state)
+            updateStateUseCase.invoke(newState)
 
             ConsoleIO.writeSuccess("updated successfully!")
         }
@@ -45,11 +52,28 @@ class UpdateStateCli(private val updateStateUseCase: UpdateStateUseCase,
     }
 
     private fun enterStateName(){
+        ConsoleIO.write("Enter state name: ")
         stateName= ConsoleIO.read()
     }
 
     @OptIn(ExperimentalUuidApi::class)
     private fun findState(){
         state = getAllStatesUseCase.invoke(projectId).first { it.name == stateName }
+    }
+
+    @OptIn(ExperimentalUuidApi::class)
+    private fun enterNewProjectId(){
+        ConsoleIO.write("Enter new project id: ")
+        newProjectId = Uuid.parse(ConsoleIO.read())
+    }
+
+    private fun enterNewStateName(){
+        ConsoleIO.write("Enter new state name: ")
+        newStateName= ConsoleIO.read()
+    }
+
+    @OptIn(ExperimentalUuidApi::class)
+    private fun buildUpdatedState(){
+        newState= State(state.id, newStateName, newProjectId)
     }
 }

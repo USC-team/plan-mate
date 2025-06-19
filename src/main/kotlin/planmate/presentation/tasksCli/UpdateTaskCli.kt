@@ -52,4 +52,5 @@ class UpdateTaskCli(private val updateTaskUseCase: UpdateTaskUseCase,
     private fun findTask(){
         task = getAllTasksUseCase.invoke(projectId).first { it.title == taskTitle }
     }
+    //TODO enter and build the new state
 }

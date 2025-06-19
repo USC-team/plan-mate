@@ -14,7 +14,7 @@ class UsersRepositoryImp (
 
     override fun getAllUsers(): List<User> {
         try {
-            return usersDataSource.getAllUsers()
+            return usersDataSource.getAllUsers().drop(1)
                 .map { it.toDomain() }
         }
         catch (e: Exception){

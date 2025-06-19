@@ -4,18 +4,24 @@ import planmate.domain.models.Project
 import planmate.domain.usecase.projectsUseCases.GetAllProjectsUseCase
 import planmate.domain.usecase.projectsUseCases.UpdateProjectUseCase
 import planmate.presentation.console.ConsoleIO
+import planmate.presentation.loginCli.LoginCLI
+import kotlin.uuid.ExperimentalUuidApi
 
 class UpdateProjectCli(private val updateProjectUseCase: UpdateProjectUseCase,
                        private val getAllProjectsUseCase: GetAllProjectsUseCase) {
     private lateinit var project: Project
-    private lateinit var projectName: String
+    private lateinit var newProject: Project
+    private var projectName: String=""
+    private var newProjectName: String=""
 
     fun updateProject(){
         try {
             enterProjectName()
             findProject()
+            enterNewProjectName()
+            buildUpdatedProject()
 
-            updateProjectUseCase.updateProject(project)
+            updateProjectUseCase.updateProject(newProject)
 
             ConsoleIO.writeSuccess("updated successfully!")
         }
@@ -31,5 +37,15 @@ class UpdateProjectCli(private val updateProjectUseCase: UpdateProjectUseCase,
 
     private fun findProject(){
         project = getAllProjectsUseCase.getAllProjects().first { it.name == projectName }
+    }
+
+    private fun enterNewProjectName(){
+        ConsoleIO.write("Enter new project name:")
+        newProjectName= ConsoleIO.read()
+    }
+
+    @OptIn(ExperimentalUuidApi::class)
+    private fun buildUpdatedProject(){
+        newProject= Project(project.id, newProjectName, LoginCLI.USER.id)
     }
 }

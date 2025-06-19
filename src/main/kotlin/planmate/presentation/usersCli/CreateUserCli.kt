@@ -7,7 +7,7 @@ import planmate.presentation.console.ConsoleIO
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-class CreateUserCli(private val createUserUseCase:CreateUserUseCase, private val creator: User) {
+class CreateUserCli(private val createUserUseCase:CreateUserUseCase) {
     private lateinit var userName: String
     private lateinit var userRole: Role
     private lateinit var user: User
@@ -17,7 +17,7 @@ class CreateUserCli(private val createUserUseCase:CreateUserUseCase, private val
             enterUserName()
             enterUserRole()
             buildUser()
-            createUserUseCase.createUser(user, creator)
+            createUserUseCase.createUser(user)
             ConsoleIO.writeSuccess("created successfully!")
         }
         catch (e: Exception){
@@ -32,10 +32,11 @@ class CreateUserCli(private val createUserUseCase:CreateUserUseCase, private val
 
     private fun enterUserRole() {
         ConsoleIO.write("Enter user role (admin, mate): ")
-        if(ConsoleIO.read().equals("admin", ignoreCase = true))
-            userRole = Role.ADMIN
-        else if(ConsoleIO.read().equals("mate", ignoreCase = true))
-            userRole = Role.MATE
+        val userRole=ConsoleIO.read()
+        if(userRole.equals("admin", ignoreCase = true))
+            this.userRole = Role.ADMIN
+        else if(userRole.equals("mate", ignoreCase = true))
+            this.userRole = Role.MATE
         else {
             ConsoleIO.writeError("Wrong Entry")
             enterUserRole()

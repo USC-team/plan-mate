@@ -20,8 +20,8 @@ fun main() {
         modules(appModule)
     }
     ConsoleIO.writeWelcome("WELCOME TO PLANMATE")
-    /*val login: LoginCLI=getKoin().get()
-    login.login()*/
+    val login: LoginCLI=getKoin().get()
+    login.login()
     enterChoice()
 }
 

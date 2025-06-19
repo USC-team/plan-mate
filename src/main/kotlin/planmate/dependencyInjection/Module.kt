@@ -16,8 +16,6 @@ import planmate.data.repository.datasource.ProjectsDataSource
 import planmate.data.repository.datasource.StatesDataSource
 import planmate.data.repository.datasource.TasksDataSource
 import planmate.data.repository.datasource.UsersDataSource
-import planmate.domain.models.Role
-import planmate.domain.models.User
 import planmate.domain.repository.ProjectRepository
 import planmate.domain.repository.StatesRepository
 import planmate.domain.repository.TasksRepository
@@ -60,16 +58,12 @@ import planmate.presentation.usersCli.DeleteUserCli
 import planmate.presentation.usersCli.MainUsersCli
 import planmate.presentation.usersCli.ShowUsersCli
 import planmate.presentation.usersCli.UpdateUserCli
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 private const val BASE_BATH= "src/main/resources/"
 private const val USERS_FILE : String= "users.csv"
 private const val PROJECTS_FILE : String= "projects.csv"
 private const val STATES_FILE : String= "states.csv"
 private const val TASKS_FILE : String= "tasks.csv"
-@OptIn(ExperimentalUuidApi::class)
-private val user= /*LoginCLI.USER?: */User(Uuid.random(), "Ala", Role.ADMIN)
 
 val appModule = module {
     single(named("users file")) { CsvFileHandler(USERS_FILE) }
@@ -89,7 +83,7 @@ val appModule = module {
 
     single { LoginCLI(get()) }
     single { ShowUsersCli(get()) }
-    single { CreateUserCli(get(), user) }
+    single { CreateUserCli(get()) }
     single { UpdateUserCli(get(), get()) }
     single { DeleteUserCli(get(), get()) }
     single { MainUsersCli(get(), get(), get(), get()) }
@@ -99,12 +93,12 @@ val appModule = module {
     single<ProjectRepository> { ProjectsRepositoryImp(get()) }
 
     single { GetAllProjectsUseCase(get()) }
-    single { CreateProjectUseCase(get()) }
+    single { CreateProjectUseCase(get(), get()) }
     single { UpdateProjectUseCase(get()) }
     single { DeleteProjectUseCase(get()) }
 
     single { ShowProjectsCli(get()) }
-    single { CreateProjectsCli(get(), user) }
+    single { CreateProjectsCli(get()) }
     single { UpdateProjectCli(get(), get()) }
     single { DeleteProjectCli(get(), get()) }
     single { MainProjectsCli(get(), get(), get(), get()) }

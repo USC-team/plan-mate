@@ -14,7 +14,7 @@ class ProjectsRepositoryImp(
 
     override fun getAllProjects(): List<Project> {
         try {
-            return projectsDataSource.getAllProjects()
+            return projectsDataSource.getAllProjects().drop(1)
                 .map { it.toDomain() }
         }
         catch (e: Exception){

@@ -11,9 +11,8 @@ class StatesDataSourceImp(
 
     private val header = arrayOf("id", "name", "projectId")
 
-    override fun getAllStates(projectId: String): List<StateDto> = try {
-        csvFileHandler.readAllLines()
-            .drop(1)
+    override fun getAllStates(projectId: String): List<StateDto> {
+        return csvFileHandler.readAllLines()
             .filter { cols ->
                 cols.size >= 3 && cols[2] == projectId
             }
@@ -24,8 +23,6 @@ class StatesDataSourceImp(
                     projectId = cols[2]
                 )
             }
-    } catch (e: Exception) {
-        throw Exception("Failed to read states CSV for project $projectId", e)
     }
 
     @OptIn(ExperimentalUuidApi::class)
