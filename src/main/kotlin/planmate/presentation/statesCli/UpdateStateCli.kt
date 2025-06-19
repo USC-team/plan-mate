@@ -23,12 +23,7 @@ class UpdateStateCli(private val updateStateUseCase: UpdateStateUseCase,
 
     fun updateState(){
         try {
-            showProjects()
-            enterProjectId()
-            enterStateName()
             findState()
-            enterNewProjectId()
-            enterNewStateName()
             buildUpdatedState()
 
             updateStateUseCase.invoke(newState)
@@ -38,6 +33,14 @@ class UpdateStateCli(private val updateStateUseCase: UpdateStateUseCase,
         catch (e: Exception){
             ConsoleIO.writeError("State is not valid!\n${e.message}")
         }
+    }
+
+    @OptIn(ExperimentalUuidApi::class)
+    private fun findState(){
+        showProjects()
+        enterProjectId()
+        enterStateName()
+        state = getAllStatesUseCase.invoke(projectId).first { it.name == stateName }
     }
 
     private fun showProjects(){
@@ -57,8 +60,10 @@ class UpdateStateCli(private val updateStateUseCase: UpdateStateUseCase,
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun findState(){
-        state = getAllStatesUseCase.invoke(projectId).first { it.name == stateName }
+    private fun buildUpdatedState(){
+        enterNewProjectId()
+        enterNewStateName()
+        newState= State(state.id, newStateName, newProjectId)
     }
 
     @OptIn(ExperimentalUuidApi::class)
@@ -70,10 +75,5 @@ class UpdateStateCli(private val updateStateUseCase: UpdateStateUseCase,
     private fun enterNewStateName(){
         ConsoleIO.write("Enter new state name: ")
         newStateName= ConsoleIO.read()
-    }
-
-    @OptIn(ExperimentalUuidApi::class)
-    private fun buildUpdatedState(){
-        newState= State(state.id, newStateName, newProjectId)
     }
 }

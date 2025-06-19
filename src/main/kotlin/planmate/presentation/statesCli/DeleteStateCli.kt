@@ -20,17 +20,21 @@ class DeleteStateCli(private val deleteStateUseCase: DeleteStateUseCase,
     @OptIn(ExperimentalUuidApi::class)
     fun deleteState(){
         try {
-            showProjects()
-            enterProjectId()
-            enterStateName()
             findState()
-
             deleteStateUseCase.invoke(state.id)
             ConsoleIO.writeSuccess("deleted successfully!")
         }
         catch (e: Exception){
             ConsoleIO.writeError("State is not valid!\n${e.message}")
         }
+    }
+
+    @OptIn(ExperimentalUuidApi::class)
+    private fun findState(){
+        showProjects()
+        enterProjectId()
+        enterStateName()
+        state = getAllStatesUseCase.invoke(projectId).first { it.name == stateName }
     }
 
     private fun showProjects(){
@@ -47,10 +51,5 @@ class DeleteStateCli(private val deleteStateUseCase: DeleteStateUseCase,
     private fun enterStateName(){
         ConsoleIO.write("Enter state name: ")
         stateName= ConsoleIO.read()
-    }
-
-    @OptIn(ExperimentalUuidApi::class)
-    private fun findState(){
-        state = getAllStatesUseCase.invoke(projectId).first { it.name == stateName }
     }
 }

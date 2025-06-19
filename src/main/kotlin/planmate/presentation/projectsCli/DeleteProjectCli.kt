@@ -14,9 +14,7 @@ class DeleteProjectCli(private val deleteProjectUseCase: DeleteProjectUseCase,
     @OptIn(ExperimentalUuidApi::class)
     fun deleteProject(){
         try {
-            enterProjectName()
             findProject()
-
             deleteProjectUseCase.deleteProject(project.id)
             ConsoleIO.writeSuccess("deleted successfully!")
         }
@@ -25,12 +23,13 @@ class DeleteProjectCli(private val deleteProjectUseCase: DeleteProjectUseCase,
         }
     }
 
+    private fun findProject(){
+        enterProjectName()
+        project = getAllProjectsUseCase.getAllProjects().first { it.name == projectName }
+    }
+
     private fun enterProjectName(){
         ConsoleIO.write("Enter project name:")
         projectName= ConsoleIO.read()
-    }
-
-    private fun findProject(){
-        project = getAllProjectsUseCase.getAllProjects().first { it.name == projectName }
     }
 }

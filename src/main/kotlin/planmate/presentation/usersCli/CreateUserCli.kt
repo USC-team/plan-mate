@@ -14,8 +14,6 @@ class CreateUserCli(private val createUserUseCase:CreateUserUseCase) {
 
     fun createUser() {
         try {
-            enterUserName()
-            enterUserRole()
             buildUser()
             createUserUseCase.createUser(user)
             ConsoleIO.writeSuccess("created successfully!")
@@ -23,6 +21,13 @@ class CreateUserCli(private val createUserUseCase:CreateUserUseCase) {
         catch (e: Exception){
             ConsoleIO.writeError("Couldn't create user!\n${e.message}")
         }
+    }
+
+    @OptIn(ExperimentalUuidApi::class)
+    private fun buildUser() {
+        enterUserName()
+        enterUserRole()
+        user = User(Uuid.random(), userName,userRole)
     }
 
     private fun enterUserName() {
@@ -41,10 +46,5 @@ class CreateUserCli(private val createUserUseCase:CreateUserUseCase) {
             ConsoleIO.writeError("Wrong Entry")
             enterUserRole()
         }
-    }
-
-    @OptIn(ExperimentalUuidApi::class)
-    private fun buildUser() {
-        user = User(Uuid.random(), userName,userRole)
     }
 }

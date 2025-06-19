@@ -17,10 +17,7 @@ class UpdateUserCli(private val updateUserUseCase: UpdateUserUseCase,
 
     fun updateUser(){
         try {
-            enterUserName()
             findUser()
-            enterNewUserName()
-            enterNewUserRole()
             buildUpdatedUser()
 
             updateUserUseCase.updateUser(newUser)
@@ -32,13 +29,21 @@ class UpdateUserCli(private val updateUserUseCase: UpdateUserUseCase,
         }
     }
 
+    private fun findUser(){
+        enterUserName()
+        user = getAllUsersUseCase.getAllUsers().first { it.name == userName }
+    }
+
     private fun enterUserName(){
         ConsoleIO.write("Enter User name:")
         userName= ConsoleIO.read()
     }
 
-    private fun findUser(){
-        user = getAllUsersUseCase.getAllUsers().first { it.name == userName }
+    @OptIn(ExperimentalUuidApi::class)
+    private fun buildUpdatedUser(){
+        enterNewUserName()
+        enterNewUserRole()
+        newUser= User (user.id, newUserName, newUserRole)
     }
 
     private fun enterNewUserName(){
@@ -58,10 +63,4 @@ class UpdateUserCli(private val updateUserUseCase: UpdateUserUseCase,
             enterNewUserRole()
         }
     }
-
-    @OptIn(ExperimentalUuidApi::class)
-    private fun buildUpdatedUser(){
-        newUser= User (user.id, newUserName, newUserRole)
-    }
-
 }

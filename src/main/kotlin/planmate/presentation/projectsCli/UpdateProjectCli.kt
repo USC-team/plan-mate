@@ -16,9 +16,7 @@ class UpdateProjectCli(private val updateProjectUseCase: UpdateProjectUseCase,
 
     fun updateProject(){
         try {
-            enterProjectName()
             findProject()
-            enterNewProjectName()
             buildUpdatedProject()
 
             updateProjectUseCase.updateProject(newProject)
@@ -30,13 +28,20 @@ class UpdateProjectCli(private val updateProjectUseCase: UpdateProjectUseCase,
         }
     }
 
+    private fun findProject(){
+        enterProjectName()
+        project = getAllProjectsUseCase.getAllProjects().first { it.name == projectName }
+    }
+
     private fun enterProjectName(){
         ConsoleIO.write("Enter project name:")
         projectName= ConsoleIO.read()
     }
 
-    private fun findProject(){
-        project = getAllProjectsUseCase.getAllProjects().first { it.name == projectName }
+    @OptIn(ExperimentalUuidApi::class)
+    private fun buildUpdatedProject(){
+        enterNewProjectName()
+        newProject= Project(project.id, newProjectName, LoginCLI.USER.id)
     }
 
     private fun enterNewProjectName(){
@@ -44,8 +49,4 @@ class UpdateProjectCli(private val updateProjectUseCase: UpdateProjectUseCase,
         newProjectName= ConsoleIO.read()
     }
 
-    @OptIn(ExperimentalUuidApi::class)
-    private fun buildUpdatedProject(){
-        newProject= Project(project.id, newProjectName, LoginCLI.USER.id)
-    }
 }

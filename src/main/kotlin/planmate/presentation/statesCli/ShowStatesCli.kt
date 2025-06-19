@@ -8,7 +8,7 @@ import kotlin.uuid.Uuid
 class ShowStatesCli(private val getAllStatesUseCase: GetAllStatesUseCase) {
 
     @OptIn(ExperimentalUuidApi::class)
-    private lateinit var projectId: Uuid
+    lateinit var projectId: Uuid
 
     @OptIn(ExperimentalUuidApi::class)
     fun showStates(){

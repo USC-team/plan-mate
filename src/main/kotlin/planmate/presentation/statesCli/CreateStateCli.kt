@@ -16,9 +16,6 @@ class CreateStateCli(private val createStateUseCase:CreateStateUseCase,
 
     fun createState() {
         try {
-            enterStateName()
-            showProjects()
-            enterProjectId()
             buildState()
             createStateUseCase.invoke(state)
             ConsoleIO.writeSuccess("created successfully!")
@@ -26,6 +23,14 @@ class CreateStateCli(private val createStateUseCase:CreateStateUseCase,
         catch (e: Exception){
             ConsoleIO.writeError("Couldn't create state!\n${e.message}")
         }
+    }
+
+    @OptIn(ExperimentalUuidApi::class)
+    private fun buildState() {
+        enterStateName()
+        showProjects()
+        enterProjectId()
+        state = State(Uuid.random(), stateName, projectId)
     }
 
     private fun enterStateName() {
@@ -44,8 +49,4 @@ class CreateStateCli(private val createStateUseCase:CreateStateUseCase,
         projectId = Uuid.parse(ConsoleIO.read())
     }
 
-    @OptIn(ExperimentalUuidApi::class)
-    private fun buildState() {
-        state = State(Uuid.random(), stateName, projectId)
-    }
 }

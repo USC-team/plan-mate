@@ -14,7 +14,6 @@ class DeleteUserCli(private val deleteUserUseCase: DeleteUserUseCase,
     @OptIn(ExperimentalUuidApi::class)
     fun deleteUser(){
         try {
-            enterUserName()
             findUser()
 
             deleteUserUseCase.deleteUser(user.id)
@@ -25,12 +24,13 @@ class DeleteUserCli(private val deleteUserUseCase: DeleteUserUseCase,
         }
     }
 
+    private fun findUser(){
+        enterUserName()
+        user = getAllUsersUseCase.getAllUsers().first { it.name == userName }
+    }
+
     private fun enterUserName(){
         ConsoleIO.write("Enter User name:")
         userName= ConsoleIO.read()
-    }
-
-    private fun findUser(){
-        user = getAllUsersUseCase.getAllUsers().first { it.name == userName }
     }
 }

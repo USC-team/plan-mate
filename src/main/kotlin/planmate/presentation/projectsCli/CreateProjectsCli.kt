@@ -13,7 +13,6 @@ class CreateProjectsCli(private val createProjectUseCase:CreateProjectUseCase) {
 
     fun createProject() {
         try {
-            enterProjectName()
             buildProject()
             createProjectUseCase.createProject(project)
             ConsoleIO.writeSuccess("created successfully!")
@@ -23,13 +22,14 @@ class CreateProjectsCli(private val createProjectUseCase:CreateProjectUseCase) {
         }
     }
 
+    @OptIn(ExperimentalUuidApi::class)
+    private fun buildProject() {
+        enterProjectName()
+        project = Project(Uuid.random(), projectName, LoginCLI.USER.id)
+    }
+
     private fun enterProjectName() {
         ConsoleIO.write("Enter project name: ")
         projectName = ConsoleIO.read()
-    }
-
-    @OptIn(ExperimentalUuidApi::class)
-    private fun buildProject() {
-        project = Project(Uuid.random(), projectName, LoginCLI.USER.id)
     }
 }

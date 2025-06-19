@@ -128,7 +128,7 @@ val appModule = module {
     single { DeleteTaskUseCase(get()) }
 
     single { ShowTasksCli(get()) }
-    single { CreateTaskCli(get(), get(), get()) }
+    single { CreateTaskCli(get(), get()) }
     single { UpdateTaskCli(get(), get(), get()) }
     single { DeleteTaskCli(get(), get(), get()) }
     single { MainTasksCli(get(), get(), get(), get()) }

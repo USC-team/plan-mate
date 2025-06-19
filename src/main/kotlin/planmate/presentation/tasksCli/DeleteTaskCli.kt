@@ -20,9 +20,6 @@ class DeleteTaskCli(private val deleteTaskUseCase: DeleteTaskUseCase,
     @OptIn(ExperimentalUuidApi::class)
     fun deleteTask(){
         try {
-            showProjects()
-            enterProjectId()
-            enterTaskTitle()
             findTask()
 
             deleteTaskUseCase.invoke(task.id)
@@ -45,11 +42,15 @@ class DeleteTaskCli(private val deleteTaskUseCase: DeleteTaskUseCase,
     }
 
     private fun enterTaskTitle(){
+        ConsoleIO.write("Enter task title: ")
         taskTitle= ConsoleIO.read()
     }
 
     @OptIn(ExperimentalUuidApi::class)
     private fun findTask(){
+        showProjects()
+        enterProjectId()
+        enterTaskTitle()
         task = getAllTasksUseCase.invoke(projectId).first { it.title == taskTitle }
     }
 }
