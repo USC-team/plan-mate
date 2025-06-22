@@ -4,7 +4,8 @@ import planmate.presentation.console.ConsoleIO
 
 class MainProjectsCli(
     private val showProjectsCli: ShowProjectsCli, private val createProjectsCli: CreateProjectsCli,
-    private val updateProjectCli: UpdateProjectCli, private val deleteProjectCli: DeleteProjectCli
+    private val updateProjectCli: UpdateProjectCli, private val deleteProjectCli: DeleteProjectCli,
+    private val showProjectsSwimlanes : ShowProjectsSwimlanes
 ) {
     private var choice: String=""
 
@@ -18,6 +19,7 @@ class MainProjectsCli(
             "2" -> createProjectsCli.createProject()
             "3" -> updateProjectCli.updateProject()
             "4" -> deleteProjectCli.deleteProject()
+            "5" -> showProjectsSwimlanes.showProjects()
 
             else -> ConsoleIO.writeError("Invalid choice!\n Try again")
         }
@@ -32,6 +34,7 @@ class MainProjectsCli(
                     "2) create a new project\n" +
                     "3) update an existing project\n" +
                     "4) delete a project\n" +
+                    "5) show projects swimlanes\n" +
                     "0) back to main menu\n"
         )
     }

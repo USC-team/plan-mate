@@ -42,6 +42,7 @@ import planmate.presentation.projectsCli.CreateProjectsCli
 import planmate.presentation.projectsCli.DeleteProjectCli
 import planmate.presentation.projectsCli.MainProjectsCli
 import planmate.presentation.projectsCli.ShowProjectsCli
+import planmate.presentation.projectsCli.ShowProjectsSwimlanes
 import planmate.presentation.projectsCli.UpdateProjectCli
 import planmate.presentation.statesCli.CreateStateCli
 import planmate.presentation.statesCli.DeleteStateCli
@@ -59,7 +60,6 @@ import planmate.presentation.usersCli.MainUsersCli
 import planmate.presentation.usersCli.ShowUsersCli
 import planmate.presentation.usersCli.UpdateUserCli
 
-private const val BASE_BATH= "src/main/resources/"
 private const val USERS_FILE : String= "users.csv"
 private const val PROJECTS_FILE : String= "projects.csv"
 private const val STATES_FILE : String= "states.csv"
@@ -101,7 +101,8 @@ val appModule = module {
     single { CreateProjectsCli(get()) }
     single { UpdateProjectCli(get(), get()) }
     single { DeleteProjectCli(get(), get()) }
-    single { MainProjectsCli(get(), get(), get(), get()) }
+    single { ShowProjectsSwimlanes(get(), get(), get()) }
+    single { MainProjectsCli(get(), get(), get(), get(), get()) }
 
     // States
     single<StatesDataSource> { StatesDataSourceImp(get(named("states file"))) }
