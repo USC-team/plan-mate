@@ -13,43 +13,23 @@ class UsersRepositoryImp (
 ) : UsersRepository {
 
     override fun getAllUsers(): List<User> {
-        try {
-            return usersDataSource.getAllUsers().drop(1)
-                .map { it.toDomain() }
-        }
-        catch (e: Exception){
-            throw Exception("Could not get users", e)
-        }
+        return usersDataSource.getAllUsers().drop(1)
+            .map { it.toDomain() }
     }
 
     override fun createUser(user: User) {
-        try {
-            if (user.name.isNotEmpty()) {
-                usersDataSource.createUser(UserDto.fromDomain(user))
-            } else
-                throw NameCantBeNullException()
-        }
-        catch (e: Exception){
-            throw Exception("Could not create user", e)
-        }
+        if (user.name.isNotEmpty()) {
+            usersDataSource.createUser(UserDto.fromDomain(user))
+        } else
+            throw NameCantBeNullException()
     }
 
     override fun updateUser(user: User) {
-        try {
-            usersDataSource.updateUser(UserDto.fromDomain(user))
-        }
-        catch(e: Exception) {
-            throw Exception("Could not update user", e)
-        }
+        usersDataSource.updateUser(UserDto.fromDomain(user))
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun deleteUser(userId: Uuid) {
-        try {
-           usersDataSource.deleteUser(userId)
-        }
-        catch(e: Exception) {
-            throw Exception("Could not delete user", e)
-        }
+       usersDataSource.deleteUser(userId)
     }
 }

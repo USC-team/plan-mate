@@ -1,7 +1,6 @@
 package planmate.domain.usecase.projectsUseCases
 
 import planmate.domain.models.Project
-import planmate.domain.models.Role
 import planmate.domain.models.User
 import planmate.domain.repository.ProjectRepository
 import planmate.domain.usecase.exceptions.InvalidRoleException
@@ -28,6 +27,6 @@ class CreateProjectUseCase(private val repo: ProjectRepository, private val getA
         user = getAllUsersUseCase.getAllUsers().first { it.id == project.userId }
     }
     companion object{
-        private val ADMIN= Role.ADMIN
+        private val ADMIN= User.Role.ADMIN
     }
 }

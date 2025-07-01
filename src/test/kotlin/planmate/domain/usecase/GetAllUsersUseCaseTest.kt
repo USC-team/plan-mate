@@ -4,7 +4,6 @@ import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import planmate.domain.models.Role
 import planmate.domain.models.User
 import planmate.domain.repository.UsersRepository
 import planmate.domain.usecase.usersUseCases.GetAllUsersUseCase
@@ -26,9 +25,9 @@ class GetAllUsersUseCaseTest {
     fun `getAllUsers should delegate to repository and return list of users`() {
         // Given
         val expectedUsers = listOf(
-            User(Uuid.random(), "User1", Role.ADMIN),
-            User(Uuid.random(), "User2", Role.MATE),
-            User(Uuid.random(), "User3", Role.MATE)
+            User(Uuid.random(), "User1", `User.Role`.ADMIN),
+            User(Uuid.random(), "User2", `User.Role`.MATE),
+            User(Uuid.random(), "User3", `User.Role`.MATE)
         )
 
         every { repository.getAllUsers() } returns expectedUsers

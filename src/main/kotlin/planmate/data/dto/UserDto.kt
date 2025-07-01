@@ -1,6 +1,5 @@
 package planmate.data.dto
 
-import planmate.domain.models.Role
 import planmate.domain.models.User
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -15,8 +14,8 @@ data class UserDto(
     fun toDomain() = User(
         id = Uuid.parse(id),
         name = name,
-        role = if (role == "ADMIN") Role.ADMIN
-        else Role.MATE
+        role = if (role == "ADMIN") User.Role.ADMIN
+        else User.Role.MATE
     )
 
     companion object {

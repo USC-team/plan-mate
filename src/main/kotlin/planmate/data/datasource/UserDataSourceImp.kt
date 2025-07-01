@@ -16,9 +16,9 @@ class UserDataSourceImp (
         return csvFileHandler.readAllLines()
             .map { line ->
                 UserDto(
-                    id = line[0],
-                    name = line[1],
-                    role = line[2]
+                    id = line[ID_INDEX],
+                    name = line[NAME_INDEX],
+                    role = line[ROLE_INDEX]
                 )
             }
     }
@@ -42,5 +42,11 @@ class UserDataSourceImp (
             headerColumns = header,
             rowIdToDelete = userId.toString()
         )
+    }
+
+    companion object{
+        private const val ID_INDEX=0
+        private const val NAME_INDEX=1
+        private const val ROLE_INDEX=2
     }
 }

@@ -1,6 +1,5 @@
 package planmate.presentation.usersCli
 
-import planmate.domain.models.Role
 import planmate.domain.models.User
 import planmate.domain.usecase.usersUseCases.GetAllUsersUseCase
 import planmate.domain.usecase.usersUseCases.UpdateUserUseCase
@@ -9,16 +8,10 @@ import kotlin.uuid.ExperimentalUuidApi
 
 class UpdateUserCli(private val updateUserUseCase: UpdateUserUseCase,
                     private val getAllUsersUseCase: GetAllUsersUseCase) {
-    private lateinit var user: User
-    private lateinit var newUser: User
-    private var newUserName: String=""
-    private var userName: String=""
-    private var newUserRole: Role= Role.MATE
-
     fun updateUser(){
         try {
-            findUser()
-            buildUpdatedUser()
+            val user= findUser()
+            val newUser= buildUpdatedUser(user)
 
             updateUserUseCase.updateUser(newUser)
 
@@ -29,38 +22,36 @@ class UpdateUserCli(private val updateUserUseCase: UpdateUserUseCase,
         }
     }
 
-    private fun findUser(){
-        enterUserName()
-        user = getAllUsersUseCase.getAllUsers().first { it.name == userName }
+    private fun findUser(): User{
+        val userName= enterUserName()
+       return getAllUsersUseCase.getAllUsers().first { it.name == userName }
     }
 
-    private fun enterUserName(){
+    private fun enterUserName(): String{
         ConsoleIO.write("Enter User name:")
-        userName= ConsoleIO.read()
+       return ConsoleIO.read()
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun buildUpdatedUser(){
-        enterNewUserName()
-        enterNewUserRole()
-        newUser= User (user.id, newUserName, newUserRole)
+    private fun buildUpdatedUser(user : User): User{
+        val newUserName= enterNewUserName()
+        val newUserRole= enterNewUserRole()
+        return User (user.id, newUserName, newUserRole)
     }
 
-    private fun enterNewUserName(){
+    private fun enterNewUserName():String{
         ConsoleIO.write("Enter new User name:")
-        newUserName = ConsoleIO.read()
+       return ConsoleIO.read()
     }
 
-    private fun enterNewUserRole() {
+    private fun enterNewUserRole(): User.Role {
         ConsoleIO.write("Enter user role (admin, mate): ")
         val userRole= ConsoleIO.read()
         if(userRole.equals("admin", ignoreCase = true))
-            newUserRole = Role.ADMIN
-        else if(userRole.equals("mate", ignoreCase = true))
-            newUserRole = Role.MATE
-        else {
-            ConsoleIO.writeError("Wrong Entry")
-            enterNewUserRole()
-        }
+           return User.Role.ADMIN
+        if(userRole.equals("mate", ignoreCase = true))
+            return User.Role.MATE
+        ConsoleIO.writeError("Wrong Entry")
+        return enterNewUserRole()
     }
 }

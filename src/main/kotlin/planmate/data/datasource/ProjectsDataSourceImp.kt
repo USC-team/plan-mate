@@ -10,15 +10,14 @@ class ProjectsDataSourceImp(
 ) : ProjectsDataSource {
 
     private val header = arrayOf("id", "name", "userId")
-    private val filename = "projects.csv"
 
     override fun getAllProjects(): List<ProjectDto> {
         return csvFileHandler.readAllLines()
             .map { line ->
                 ProjectDto(
-                    id = line[0],
-                    name = line[1],
-                    userId = line[2]
+                    id = line[ID_INDEX],
+                    name = line[NAME_INDEX],
+                    userId = line[USERID_INDEX]
                 )
             }
     }
@@ -41,5 +40,11 @@ class ProjectsDataSourceImp(
             headerColumns = header,
             rowIdToDelete = projectId
         )
+    }
+
+    companion object{
+        private const val ID_INDEX=0
+        private const val NAME_INDEX=1
+        private const val USERID_INDEX=2
     }
 }

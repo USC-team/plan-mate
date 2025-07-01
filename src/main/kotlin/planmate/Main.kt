@@ -9,7 +9,6 @@ import planmate.presentation.projectsCli.MainProjectsCli
 import planmate.presentation.statesCli.MainStatesCli
 import planmate.presentation.tasksCli.MainTasksCli
 import planmate.presentation.usersCli.MainUsersCli
-import kotlin.math.log
 
 private var choice: String=""
 private const val USERS_FILE="users.csv"

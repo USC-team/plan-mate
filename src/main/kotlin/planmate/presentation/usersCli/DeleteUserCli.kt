@@ -8,13 +8,10 @@ import kotlin.uuid.ExperimentalUuidApi
 
 class DeleteUserCli(private val deleteUserUseCase: DeleteUserUseCase,
                     private val getAllUsersUseCase: GetAllUsersUseCase) {
-    private lateinit var user: User
-    private lateinit var userName: String
-
     @OptIn(ExperimentalUuidApi::class)
     fun deleteUser(){
         try {
-            findUser()
+            val user= findUser()
 
             deleteUserUseCase.deleteUser(user.id)
             ConsoleIO.writeSuccess("deleted successfully!")
@@ -24,13 +21,13 @@ class DeleteUserCli(private val deleteUserUseCase: DeleteUserUseCase,
         }
     }
 
-    private fun findUser(){
-        enterUserName()
-        user = getAllUsersUseCase.getAllUsers().first { it.name == userName }
+    private fun findUser():User{
+        val userName = enterUserName()
+        return getAllUsersUseCase.getAllUsers().first { it.name == userName }
     }
 
-    private fun enterUserName(){
+    private fun enterUserName(): String{
         ConsoleIO.write("Enter User name:")
-        userName= ConsoleIO.read()
+        return ConsoleIO.read()
     }
 }

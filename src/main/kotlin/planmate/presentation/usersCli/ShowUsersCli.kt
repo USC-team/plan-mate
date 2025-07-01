@@ -1,5 +1,6 @@
 package planmate.presentation.usersCli
 
+import planmate.domain.usecase.exceptions.NoUsersFoundException
 import planmate.domain.usecase.usersUseCases.GetAllUsersUseCase
 import planmate.presentation.console.ConsoleIO
 import kotlin.uuid.ExperimentalUuidApi
@@ -9,7 +10,7 @@ class ShowUsersCli(private val getAllUsersUseCase: GetAllUsersUseCase) {
     fun showUsers(){
         runCatching {
             getAllUsersUseCase.getAllUsers().takeIf { it.isNotEmpty() }
-                ?: throw Exception("")
+                ?: throw NoUsersFoundException()
         }.onSuccess { users ->
             users.forEach { user ->
                 ConsoleIO.writeSuccess("${user.id}\t${user.name}\t${user.role}\t")

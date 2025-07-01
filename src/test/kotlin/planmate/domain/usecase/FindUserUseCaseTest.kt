@@ -5,7 +5,6 @@ import io.mockk.mockk
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import planmate.domain.models.Role
 import planmate.domain.models.User
 import planmate.domain.repository.UsersRepository
 import planmate.domain.usecase.usersUseCases.FindUserUseCase
@@ -27,9 +26,9 @@ class FindUserUseCaseTest {
     fun `findUser should return user when found`() {
         // Given
         val users = listOf(
-            User( Uuid.random(), "User1", Role.ADMIN),
-            User( Uuid.random(), "User2", Role.MATE),
-            User( Uuid.random(), "User3", Role.MATE)
+            User( Uuid.random(), "User1", `User.Role`.ADMIN),
+            User( Uuid.random(), "User2", `User.Role`.MATE),
+            User( Uuid.random(), "User3", `User.Role`.MATE)
         )
 
         every { repository.getAllUsers() } returns users
@@ -46,9 +45,9 @@ class FindUserUseCaseTest {
     fun `findUsers should throw an exception when user is not found`() {
         // Given
         val users = listOf(
-            User( Uuid.random(), "User1", Role.ADMIN),
-            User( Uuid.random(), "User2", Role.MATE),
-            User( Uuid.random(), "User3", Role.MATE)
+            User( Uuid.random(), "User1", `User.Role`.ADMIN),
+            User( Uuid.random(), "User2", `User.Role`.MATE),
+            User( Uuid.random(), "User3", `User.Role`.MATE)
         )
 
         every { repository.getAllUsers() } returns users

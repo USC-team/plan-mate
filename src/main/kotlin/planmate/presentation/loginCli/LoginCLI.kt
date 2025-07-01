@@ -5,23 +5,21 @@ import planmate.domain.usecase.usersUseCases.FindUserUseCase
 import planmate.presentation.console.ConsoleIO
 
 class LoginCLI (private val findUserUseCase: FindUserUseCase){
-    private lateinit var userName: String
-
     fun login(){
         try {
-            enterUserName()
-            findUser()
+            val userName= enterUserName()
+            findUser(userName)
         }
         catch(e: Exception){
             ConsoleIO.writeError("User not Valid! ${e.message}")
             login()
         }
     }
-    private fun enterUserName(){
+    private fun enterUserName():String{
         ConsoleIO.write("Enter user name: ")
-        userName= ConsoleIO.read()
+        return ConsoleIO.read()
     }
-    private fun findUser(){
+    private fun findUser(userName: String){
         USER=findUserUseCase.findUser(userName)
     }
 

@@ -1,6 +1,5 @@
 package planmate.presentation.usersCli
 
-import planmate.domain.models.Role
 import planmate.domain.models.User
 import planmate.domain.usecase.usersUseCases.CreateUserUseCase
 import planmate.presentation.console.ConsoleIO
@@ -8,13 +7,9 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 class CreateUserCli(private val createUserUseCase:CreateUserUseCase) {
-    private lateinit var userName: String
-    private lateinit var userRole: Role
-    private lateinit var user: User
-
     fun createUser() {
         try {
-            buildUser()
+            val user= buildUser()
             createUserUseCase.createUser(user)
             ConsoleIO.writeSuccess("created successfully!")
         }
@@ -24,27 +19,25 @@ class CreateUserCli(private val createUserUseCase:CreateUserUseCase) {
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun buildUser() {
-        enterUserName()
-        enterUserRole()
-        user = User(Uuid.random(), userName,userRole)
+    private fun buildUser() : User{
+        val userName= enterUserName()
+        val userRole= enterUserRole()
+        return User(Uuid.random(), userName,userRole)
     }
 
-    private fun enterUserName() {
+    private fun enterUserName():String {
         ConsoleIO.write("Enter user name: ")
-        userName = ConsoleIO.read()
+        return ConsoleIO.read()
     }
 
-    private fun enterUserRole() {
+    private fun enterUserRole(): User.Role {
         ConsoleIO.write("Enter user role (admin, mate): ")
-        val userRole=ConsoleIO.read()
-        if(userRole.equals("admin", ignoreCase = true))
-            this.userRole = Role.ADMIN
-        else if(userRole.equals("mate", ignoreCase = true))
-            this.userRole = Role.MATE
-        else {
-            ConsoleIO.writeError("Wrong Entry")
-            enterUserRole()
-        }
+        val userRoleString=ConsoleIO.read()
+        if(userRoleString.equals("admin", ignoreCase = true))
+           return User.Role.ADMIN
+        if(userRoleString.equals("mate", ignoreCase = true))
+            return User.Role.ADMIN
+        ConsoleIO.writeError("Wrong Entry")
+        return enterUserRole()
     }
 }

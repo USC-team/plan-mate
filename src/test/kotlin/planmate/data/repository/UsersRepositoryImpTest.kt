@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import planmate.data.dto.UserDto
 import planmate.data.repository.datasource.UsersDataSource
-import planmate.domain.models.Role
 import planmate.domain.models.User
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -55,7 +54,7 @@ class UsersRepositoryImpTest {
     fun `createUser should delegate to data source with correct DTO`() {
         // Given
         val userId = Uuid.random()
-        val user = User(id = userId, name = "User1", role = Role.MATE)
+        val user = User(id = userId, name = "User1", role = `User.Role`.MATE)
 
         // When
         repo.createUser(user)
@@ -66,7 +65,7 @@ class UsersRepositoryImpTest {
                 match { dto ->
                     dto.id == userId.toString() &&
                             dto.name == "User1" &&
-                            dto.role== Role.MATE.toString()
+                            dto.role== `User.Role`.MATE.toString()
                 }
             )
         }
@@ -76,7 +75,7 @@ class UsersRepositoryImpTest {
     @Test
     fun `createUser should wrap exception when data source fails`() {
         // Given
-        val user = User(id = Uuid.random(), name = "User1", role = Role.ADMIN)
+        val user = User(id = Uuid.random(), name = "User1", role = `User.Role`.ADMIN)
         every { mockUsersDataSource.createUser(any()) } throws RuntimeException("Disk full")
 
         // When & Then
@@ -86,7 +85,7 @@ class UsersRepositoryImpTest {
     @Test
     fun `createUser should throw exception when user name is empty`() {
         // Given
-        val user = User(id = Uuid.random(), name = "", role = Role.ADMIN)
+        val user = User(id = Uuid.random(), name = "", role = `User.Role`.ADMIN)
 
         // When & Then
         assertThrows<Exception> { repo.createUser(user) }
@@ -97,7 +96,7 @@ class UsersRepositoryImpTest {
     fun `updateUser should delegate to data source with correct DTO`() {
         // Given
         val userId = Uuid.random()
-        val user = User(id = userId, name = "User1", role = Role.ADMIN)
+        val user = User(id = userId, name = "User1", role = `User.Role`.ADMIN)
 
         // When
         repo.updateUser(user)
@@ -108,7 +107,7 @@ class UsersRepositoryImpTest {
                 match { dto ->
                     dto.id == userId.toString() &&
                             dto.name == "User1" &&
-                            dto.role== Role.ADMIN.toString()
+                            dto.role== `User.Role`.ADMIN.toString()
                 }
             )
         }
@@ -118,7 +117,7 @@ class UsersRepositoryImpTest {
     @Test
     fun `updateUser should wrap exception when data source fails`() {
         // Given
-        val user = User(id = Uuid.random(), name = "User1",role = Role.ADMIN)
+        val user = User(id = Uuid.random(), name = "User1",role = `User.Role`.ADMIN)
         every { mockUsersDataSource.updateUser(any()) } throws RuntimeException("Error")
 
         // When & Then

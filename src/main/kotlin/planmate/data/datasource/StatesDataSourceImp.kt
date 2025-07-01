@@ -14,56 +14,41 @@ class StatesDataSourceImp(
     override fun getAllStates(projectId: String): List<StateDto> {
         return csvFileHandler.readAllLines()
             .filter { cols ->
-                cols.size >= 3 && cols[2] == projectId
+                cols.size >= header.size && cols[PROJECTID_INDEX] == projectId
             }
             .map { cols ->
                 StateDto(
-                    id = cols[0],
-                    name = cols[1],
-                    projectId = cols[2]
+                    id = cols[ID_INDEX],
+                    name = cols[NAME_INDEX],
+                    projectId = cols[PROJECTID_INDEX]
                 )
             }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun createState(state: StateDto) {
+        val stateRow = arrayOf(state.id, state.name, state.projectId)
 
-        try {
-
-            val stateRow = arrayOf(state.id, state.name, state.projectId)
-
-            csvFileHandler.appendLine(headerColumns = header, newRow = stateRow)
-        } catch (e: Exception) {
-            throw Exception(
-                "Failed to append new State '${state.id}' to CSV for project ${state.projectId}",
-                e
-            )
-        }
+        csvFileHandler.appendLine(headerColumns = header, newRow = stateRow)
     }
 
     override fun updateState(state: StateDto) {
-        try {
-            csvFileHandler.updateLine(
-                headerColumns = header,
-                updatedRow = arrayOf(state.id, state.name, state.projectId)
-            )
-        } catch (e: Exception) {
-            throw Exception(
-                "Failed to update State '${state.id}' in CSV for project ${state.projectId}",
-                e
-            )
-        }
+        csvFileHandler.updateLine(
+            headerColumns = header,
+            updatedRow = arrayOf(state.id, state.name, state.projectId)
+        )
     }
 
     override fun deleteState(stateId: String) {
-        try {
+        csvFileHandler.deleteLine(
+            headerColumns = header,
+            rowIdToDelete = stateId
+        )
+    }
 
-            csvFileHandler.deleteLine(
-                headerColumns = header,
-                rowIdToDelete = stateId
-            )
-        } catch (e: Exception) {
-            throw Exception("Failed to delete State '$stateId' from CSV", e)
-        }
+    companion object{
+        private const val ID_INDEX=0
+        private const val NAME_INDEX=1
+        private const val PROJECTID_INDEX=2
     }
 }

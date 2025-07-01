@@ -10,67 +10,59 @@ class TasksDataSourceImp(
 
     private val header = arrayOf("id", "title", "description", "stateId", "projectId")
 
-    override fun getAllTasks(projectId: String): List<TaskDto> = try {
-        csvFileHandler.readAllLines()
+    override fun getAllTasks(projectId: String): List<TaskDto>  {
+        return csvFileHandler.readAllLines()
             .drop(1)
             .filter { cols ->
-                cols.size >= 5 && cols[4] == projectId
+                cols.size >= header.size && cols[PROJECTID_INDEX] == projectId
             }
             .map { cols ->
                 TaskDto(
-                    id = cols[0],
-                    title = cols[1],
-                    description = cols[2],
-                    stateId = cols[3],
-                    projectId = cols[4]
+                    id = cols[ID_INDEX],
+                    title = cols[TITLE_INDEX],
+                    description = cols[DESCRIPTION_INDEX],
+                    stateId = cols[STATEID_INDEX],
+                    projectId = cols[PROJECTID_INDEX]
                 )
             }
-    } catch (e: Exception) {
-        throw Exception("Failed to read tasks CSV for project $projectId", e)
     }
 
-    override fun getTasksByState(projectId: String, stateId: String): List<TaskDto> = try {
-        csvFileHandler.readAllLines()
+    override fun getTasksByState(projectId: String, stateId: String): List<TaskDto> {
+        return csvFileHandler.readAllLines()
             .drop(1)
             .filter { cols ->
-                cols.size >= 5 && cols[4] == projectId && cols[3] == stateId
+                cols.size >= header.size && cols[PROJECTID_INDEX] == projectId && cols[STATEID_INDEX] == stateId
             }
             .map { cols ->
                 TaskDto(
-                    id = cols[0],
-                    title = cols[1],
-                    description = cols[2],
-                    stateId = cols[3],
-                    projectId = cols[4]
+                    id = cols[ID_INDEX],
+                    title = cols[TITLE_INDEX],
+                    description = cols[DESCRIPTION_INDEX],
+                    stateId = cols[STATEID_INDEX],
+                    projectId = cols[PROJECTID_INDEX]
                 )
             }
-    } catch (e: Exception) {
-        throw Exception("Failed to read tasks CSV for project $projectId and state $stateId", e)
     }
 
     override fun createTask(task: TaskDto) {
-        try {
-            val row = arrayOf(task.id, task.title, task.description, task.stateId, task.projectId)
-            csvFileHandler.appendLine(headerColumns = header, newRow = row)
-        } catch (e: Exception) {
-            throw Exception("Failed to append new Task '${task.id}' to CSV for project ${task.projectId}", e)
-        }
+        val row = arrayOf(task.id, task.title, task.description, task.stateId, task.projectId)
+        csvFileHandler.appendLine(headerColumns = header, newRow = row)
     }
 
     override fun updateTask(task: TaskDto) {
-        try {
-            val updatedRow = arrayOf(task.id, task.title, task.description, task.stateId, task.projectId)
-            csvFileHandler.updateLine(headerColumns = header, updatedRow = updatedRow)
-        } catch (e: Exception) {
-            throw Exception("Failed to update Task '${task.id}' in CSV for project ${task.projectId}", e)
-        }
+        val updatedRow = arrayOf(task.id, task.title, task.description, task.stateId, task.projectId)
+        csvFileHandler.updateLine(headerColumns = header, updatedRow = updatedRow)
     }
 
     override fun deleteTask(taskId: String) {
-        try {
-            csvFileHandler.deleteLine(headerColumns = header, rowIdToDelete = taskId)
-        } catch (e: Exception) {
-            throw Exception("Failed to delete Task '$taskId' from CSV", e)
-        }
+        csvFileHandler.deleteLine(headerColumns = header, rowIdToDelete = taskId)
+    }
+
+    companion object{
+        private const val ID_INDEX=0
+        private const val TITLE_INDEX=1
+        private const val DESCRIPTION_INDEX=2
+        private const val STATEID_INDEX=3
+        private const val PROJECTID_INDEX=4
     }
 }

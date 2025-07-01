@@ -13,45 +13,25 @@ class ProjectsRepositoryImp(
 ) : ProjectRepository {
 
     override fun getAllProjects(): List<Project> {
-        try {
-            return projectsDataSource.getAllProjects().drop(1)
-                .map { it.toDomain() }
-        }
-        catch (e: Exception){
-            throw Exception("Could not get projects", e)
-        }
+        return projectsDataSource.getAllProjects().drop(1)
+            .map { it.toDomain() }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun createProject(project: Project) {
-        try {
-            if (project.name.isNotEmpty()) {
-                projectsDataSource.createProject(ProjectDto.fromDomain(project))
-            } else
-                throw NameCantBeNullException()
-        }
-        catch (e: Exception){
-            throw Exception("Could not create project", e)
-        }
+        if (project.name.isNotEmpty()) {
+            projectsDataSource.createProject(ProjectDto.fromDomain(project))
+        } else
+            throw NameCantBeNullException()
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun updateProject(project: Project) {
-        try {
-            projectsDataSource.updateProject(ProjectDto.fromDomain(project))
-        }
-        catch(e: Exception) {
-            throw Exception("Could not update project", e)
-        }
+        projectsDataSource.updateProject(ProjectDto.fromDomain(project))
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun deleteProject(projectId: Uuid) {
-        try {
-            projectsDataSource.deleteProject(projectId.toString())
-        }
-        catch(e: Exception) {
-            throw Exception("Could not delete project", e)
-        }
+        projectsDataSource.deleteProject(projectId.toString())
     }
 }

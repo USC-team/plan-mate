@@ -6,7 +6,6 @@ import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import planmate.domain.models.Role
 import planmate.domain.models.User
 import planmate.domain.repository.UsersRepository
 import kotlin.uuid.ExperimentalUuidApi
@@ -25,7 +24,7 @@ class UpdateUserUseCaseTest {
     @Test
     fun `updateUser should update when repository updates successfully`() {
         // Given
-        val user = User(Uuid.random(), "User1", Role.ADMIN)
+        val user = User(Uuid.random(), "User1", `User.Role`.ADMIN)
 
         every { repository.updateUser(user) }  returns Unit
 
@@ -40,7 +39,7 @@ class UpdateUserUseCaseTest {
     @Test
     fun `updateUser should throw exception when repository throws`() {
         // Given
-        val user = User(Uuid.random(), "User1", Role.ADMIN)
+        val user = User(Uuid.random(), "User1", `User.Role`.ADMIN)
 
         every { repository.updateUser(user) } throws Exception()
 
