@@ -10,9 +10,6 @@ import planmate.presentation.statesCli.MainStatesCli
 import planmate.presentation.tasksCli.MainTasksCli
 import planmate.presentation.usersCli.MainUsersCli
 
-private var choice: String=""
-private const val USERS_FILE="users.csv"
-private const val PROJECTS_FILE="projects.csv"
 
 fun main() {
     startKoin {
@@ -26,7 +23,7 @@ fun main() {
 
 fun enterChoice(){
     choices()
-    enterUserChoice()
+    val choice = enterUserChoice()
 
     when (choice){
         "0"-> return
@@ -66,6 +63,6 @@ fun choices(){
             "0) Exit\n")
 }
 
-private fun enterUserChoice(){
-    choice= ConsoleIO.read()
+private fun enterUserChoice(): String{
+    return ConsoleIO.read()
 }
