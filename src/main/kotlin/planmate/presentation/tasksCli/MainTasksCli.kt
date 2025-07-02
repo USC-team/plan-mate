@@ -6,11 +6,10 @@ class MainTasksCli(
     private val showTasksCli: ShowTasksCli, private val createTasksCli: CreateTaskCli,
     private val updateTaskCli: UpdateTaskCli, private val deleteTaskCli: DeleteTaskCli
 ) {
-    private var choice: String=""
 
     fun enterChoice() {
         choices()
-        enterUserChoice()
+        val choice= enterUserChoice()
 
         when (choice) {
             "0" -> return
@@ -36,7 +35,7 @@ class MainTasksCli(
         )
     }
 
-    private fun enterUserChoice() {
-        choice=  ConsoleIO.read()
+    private fun enterUserChoice() : String{
+        return  ConsoleIO.read()
     }
 }

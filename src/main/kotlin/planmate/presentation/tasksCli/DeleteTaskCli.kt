@@ -12,15 +12,10 @@ class DeleteTaskCli(private val deleteTaskUseCase: DeleteTaskUseCase,
                     private val getAllTasksUseCase: GetAllTasksUseCase,
                     private val showProjectsCli: ShowProjectsCli) {
 
-    private lateinit var task: Task
-    private lateinit var taskTitle: String
-    @OptIn(ExperimentalUuidApi::class)
-    private lateinit var projectId: Uuid
-
     @OptIn(ExperimentalUuidApi::class)
     fun deleteTask(){
         try {
-            findTask()
+            val task= findTask()
 
             deleteTaskUseCase.invoke(task.id)
             ConsoleIO.writeSuccess("deleted successfully!")
@@ -36,21 +31,21 @@ class DeleteTaskCli(private val deleteTaskUseCase: DeleteTaskUseCase,
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun enterProjectId(){
+    private fun enterProjectId(): Uuid{
         ConsoleIO.write("Enter project id: ")
-        projectId = Uuid.parse(ConsoleIO.read())
+        return Uuid.parse(ConsoleIO.read())
     }
 
-    private fun enterTaskTitle(){
+    private fun enterTaskTitle():String{
         ConsoleIO.write("Enter task title: ")
-        taskTitle= ConsoleIO.read()
+        return ConsoleIO.read()
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun findTask(){
+    private fun findTask():Task {
         showProjects()
-        enterProjectId()
-        enterTaskTitle()
-        task = getAllTasksUseCase.invoke(projectId).first { it.title == taskTitle }
+        val projectId= enterProjectId()
+        val taskTitle= enterTaskTitle()
+        return getAllTasksUseCase.invoke(projectId).first { it.title == taskTitle }
     }
 }

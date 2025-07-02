@@ -9,14 +9,10 @@ import kotlin.uuid.Uuid
 
 class CreateStateCli(private val createStateUseCase:CreateStateUseCase,
                      private val showProjectsCli: ShowProjectsCli) {
-    private lateinit var stateName: String
-    private lateinit var state: State
-    @OptIn(ExperimentalUuidApi::class)
-    private lateinit var projectId: Uuid
 
     fun createState() {
         try {
-            buildState()
+            val state= buildState()
             createStateUseCase.invoke(state)
             ConsoleIO.writeSuccess("created successfully!")
         }
@@ -26,16 +22,16 @@ class CreateStateCli(private val createStateUseCase:CreateStateUseCase,
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun buildState() {
-        enterStateName()
+    private fun buildState(): State {
+        val stateName= enterStateName()
         showProjects()
-        enterProjectId()
-        state = State(Uuid.random(), stateName, projectId)
+        val projectId= enterProjectId()
+        return State(Uuid.random(), stateName, projectId)
     }
 
-    private fun enterStateName() {
+    private fun enterStateName() : String{
         ConsoleIO.write("Enter state name: ")
-        stateName = ConsoleIO.read()
+        return ConsoleIO.read()
     }
 
     private fun showProjects(){
@@ -44,9 +40,8 @@ class CreateStateCli(private val createStateUseCase:CreateStateUseCase,
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun enterProjectId(){
+    private fun enterProjectId(): Uuid{
        ConsoleIO.write("Enter project id: ")
-        projectId = Uuid.parse(ConsoleIO.read())
+        return Uuid.parse(ConsoleIO.read())
     }
-
 }

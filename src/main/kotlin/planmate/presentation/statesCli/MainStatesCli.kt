@@ -6,11 +6,9 @@ class MainStatesCli(
     private val showStatesCli: ShowStatesCli, private val createStatesCli: CreateStateCli,
     private val updateStateCli: UpdateStateCli, private val deleteStateCli: DeleteStateCli
 ) {
-    private var choice: String=""
-
     fun enterChoice() {
         choices()
-        enterUserChoice()
+        val choice= enterUserChoice()
 
         when (choice) {
             "0" -> return
@@ -36,7 +34,7 @@ class MainStatesCli(
         )
     }
 
-    private fun enterUserChoice() {
-        choice=  ConsoleIO.read()
+    private fun enterUserChoice() : String{
+       return  ConsoleIO.read()
     }
 }

@@ -12,19 +12,10 @@ class UpdateStateCli(private val updateStateUseCase: UpdateStateUseCase,
                      private val getAllStatesUseCase: GetAllStatesUseCase,
                      private val showProjectsCli: ShowProjectsCli) {
 
-    private lateinit var state: State
-    private var stateName: String=""
-    private lateinit var newState: State
-    private var newStateName: String=""
-    @OptIn(ExperimentalUuidApi::class)
-    private lateinit var projectId: Uuid
-    @OptIn(ExperimentalUuidApi::class)
-    private lateinit var newProjectId: Uuid
-
     fun updateState(){
         try {
-            findState()
-            buildUpdatedState()
+            val state= findState()
+            val newState = buildUpdatedState(state)
 
             updateStateUseCase.invoke(newState)
 
@@ -36,11 +27,11 @@ class UpdateStateCli(private val updateStateUseCase: UpdateStateUseCase,
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun findState(){
+    private fun findState(): State{
         showProjects()
-        enterProjectId()
-        enterStateName()
-        state = getAllStatesUseCase.invoke(projectId).first { it.name == stateName }
+        val projectId= enterProjectId()
+        val stateName= enterStateName()
+        return getAllStatesUseCase.invoke(projectId).first { it.name == stateName }
     }
 
     private fun showProjects(){
@@ -49,31 +40,31 @@ class UpdateStateCli(private val updateStateUseCase: UpdateStateUseCase,
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun enterProjectId(){
+    private fun enterProjectId(): Uuid{
         ConsoleIO.write("Enter project id: ")
-        projectId = Uuid.parse(ConsoleIO.read())
+        return Uuid.parse(ConsoleIO.read())
     }
 
-    private fun enterStateName(){
+    private fun enterStateName(): String{
         ConsoleIO.write("Enter state name: ")
-        stateName= ConsoleIO.read()
+        return ConsoleIO.read()
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun buildUpdatedState(){
-        enterNewProjectId()
-        enterNewStateName()
-        newState= State(state.id, newStateName, newProjectId)
+    private fun buildUpdatedState(state: State): State{
+        val newProjectId = enterNewProjectId()
+        val newStateName= enterNewStateName()
+        return State(state.id, newStateName, newProjectId)
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun enterNewProjectId(){
+    private fun enterNewProjectId(): Uuid{
         ConsoleIO.write("Enter new project id: ")
-        newProjectId = Uuid.parse(ConsoleIO.read())
+        return Uuid.parse(ConsoleIO.read())
     }
 
-    private fun enterNewStateName(){
+    private fun enterNewStateName(): String{
         ConsoleIO.write("Enter new state name: ")
-        newStateName= ConsoleIO.read()
+        return ConsoleIO.read()
     }
 }

@@ -10,17 +10,9 @@ import kotlin.uuid.Uuid
 class CreateTaskCli(private val createTaskUseCase:CreateTaskUseCase,
                     private val showStatesCli: ShowStatesCli) {
 
-    private var taskTitle: String=""
-    private var taskDescription: String=""
-    @OptIn(ExperimentalUuidApi::class)
-    private lateinit var stateId: Uuid
-    @OptIn(ExperimentalUuidApi::class)
-    private lateinit var projectId: Uuid
-    private lateinit var task:Task
-
     fun createTask() {
         try {
-            buildTask()
+            val task= buildTask()
             createTaskUseCase.invoke(task)
             ConsoleIO.writeSuccess("created successfully!")
         }
@@ -30,34 +22,34 @@ class CreateTaskCli(private val createTaskUseCase:CreateTaskUseCase,
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun buildTask() {
-        enterTaskTitle()
-        enterTaskDescription()
-        showStates()
-        enterStateId()
-        task = Task(Uuid.random(), taskTitle, taskDescription, stateId, projectId)
+    private fun buildTask() :Task{
+        val taskTitle= enterTaskTitle()
+        val taskDescription= enterTaskDescription()
+        val projectId= showStates()
+        val stateId = enterStateId()
+        return Task(Uuid.random(), taskTitle, taskDescription, stateId, projectId)
     }
 
-    private fun enterTaskTitle() {
+    private fun enterTaskTitle() : String{
         ConsoleIO.write("Enter task title: ")
-        taskTitle = ConsoleIO.read()
+        return ConsoleIO.read()
     }
 
-    private fun enterTaskDescription() {
+    private fun enterTaskDescription(): String {
         ConsoleIO.write("Enter task description: ")
-        taskDescription = ConsoleIO.read()
+        return ConsoleIO.read()
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun showStates(){
+    private fun showStates(): Uuid{
         ConsoleIO.write("List of States: ")
         showStatesCli.showStates()
-        projectId=showStatesCli.projectId
+        return showStatesCli.enterProjectId()
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun enterStateId(){
+    private fun enterStateId() : Uuid{
        ConsoleIO.write("Enter state id: ")
-        stateId = Uuid.parse(ConsoleIO.read())
+        return Uuid.parse(ConsoleIO.read())
     }
 }

@@ -7,11 +7,10 @@ class MainProjectsCli(
     private val updateProjectCli: UpdateProjectCli, private val deleteProjectCli: DeleteProjectCli,
     private val showProjectsSwimlanes : ShowProjectsSwimlanes
 ) {
-    private var choice: String=""
 
     fun enterChoice() {
         choices()
-        enterUserChoice()
+        val choice= enterUserChoice()
 
         when (choice) {
             "0" -> return
@@ -39,7 +38,7 @@ class MainProjectsCli(
         )
     }
 
-    private fun enterUserChoice() {
-        choice=  ConsoleIO.read()
+    private fun enterUserChoice(): String {
+       return  ConsoleIO.read()
     }
 }

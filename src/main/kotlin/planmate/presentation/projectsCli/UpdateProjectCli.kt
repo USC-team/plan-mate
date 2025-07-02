@@ -9,15 +9,11 @@ import kotlin.uuid.ExperimentalUuidApi
 
 class UpdateProjectCli(private val updateProjectUseCase: UpdateProjectUseCase,
                        private val getAllProjectsUseCase: GetAllProjectsUseCase) {
-    private lateinit var project: Project
-    private lateinit var newProject: Project
-    private var projectName: String=""
-    private var newProjectName: String=""
 
     fun updateProject(){
         try {
-            findProject()
-            buildUpdatedProject()
+            val project= findProject()
+            val newProject= buildUpdatedProject(project)
 
             updateProjectUseCase.updateProject(newProject)
 
@@ -28,25 +24,25 @@ class UpdateProjectCli(private val updateProjectUseCase: UpdateProjectUseCase,
         }
     }
 
-    private fun findProject(){
-        enterProjectName()
-        project = getAllProjectsUseCase.getAllProjects().first { it.name == projectName }
+    private fun findProject() : Project{
+        val projectName= enterProjectName()
+       return getAllProjectsUseCase.getAllProjects().first { it.name == projectName }
     }
 
-    private fun enterProjectName(){
+    private fun enterProjectName(): String{
         ConsoleIO.write("Enter project name:")
-        projectName= ConsoleIO.read()
+        return ConsoleIO.read()
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun buildUpdatedProject(){
-        enterNewProjectName()
-        newProject= Project(project.id, newProjectName, LoginCLI.USER.id)
+    private fun buildUpdatedProject(project: Project) : Project{
+        val newProjectName = enterNewProjectName()
+        return Project(project.id, newProjectName, LoginCLI.USER.id)
     }
 
-    private fun enterNewProjectName(){
+    private fun enterNewProjectName(): String{
         ConsoleIO.write("Enter new project name:")
-        newProjectName= ConsoleIO.read()
+        return ConsoleIO.read()
     }
 
 }

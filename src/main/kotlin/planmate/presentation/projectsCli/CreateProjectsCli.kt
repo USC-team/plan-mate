@@ -8,12 +8,11 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 class CreateProjectsCli(private val createProjectUseCase:CreateProjectUseCase) {
-    private lateinit var projectName: String
-    private lateinit var project: Project
+
 
     fun createProject() {
         try {
-            buildProject()
+            val project= buildProject()
             createProjectUseCase.createProject(project)
             ConsoleIO.writeSuccess("created successfully!")
         }
@@ -23,13 +22,13 @@ class CreateProjectsCli(private val createProjectUseCase:CreateProjectUseCase) {
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun buildProject() {
-        enterProjectName()
-        project = Project(Uuid.random(), projectName, LoginCLI.USER.id)
+    private fun buildProject() :Project{
+        val projectName= enterProjectName()
+        return Project(Uuid.random(), projectName, LoginCLI.USER.id)
     }
 
-    private fun enterProjectName() {
+    private fun enterProjectName(): String {
         ConsoleIO.write("Enter project name: ")
-        projectName = ConsoleIO.read()
+        return ConsoleIO.read()
     }
 }

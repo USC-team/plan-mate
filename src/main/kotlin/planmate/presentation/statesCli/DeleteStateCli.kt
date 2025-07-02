@@ -12,15 +12,11 @@ class DeleteStateCli(private val deleteStateUseCase: DeleteStateUseCase,
                      private val getAllStatesUseCase: GetAllStatesUseCase,
                      private val showProjectsCli: ShowProjectsCli) {
 
-    private lateinit var state: State
-    private lateinit var stateName: String
-    @OptIn(ExperimentalUuidApi::class)
-    private lateinit var projectId: Uuid
 
     @OptIn(ExperimentalUuidApi::class)
     fun deleteState(){
         try {
-            findState()
+            val state= findState()
             deleteStateUseCase.invoke(state.id)
             ConsoleIO.writeSuccess("deleted successfully!")
         }
@@ -30,11 +26,11 @@ class DeleteStateCli(private val deleteStateUseCase: DeleteStateUseCase,
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun findState(){
+    private fun findState():State{
         showProjects()
-        enterProjectId()
-        enterStateName()
-        state = getAllStatesUseCase.invoke(projectId).first { it.name == stateName }
+        val projectId= enterProjectId()
+        val stateName= enterStateName()
+        return getAllStatesUseCase.invoke(projectId).first { it.name == stateName }
     }
 
     private fun showProjects(){
@@ -43,13 +39,13 @@ class DeleteStateCli(private val deleteStateUseCase: DeleteStateUseCase,
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun enterProjectId(){
+    private fun enterProjectId(): Uuid{
         ConsoleIO.write("Enter project id: ")
-        projectId = Uuid.parse(ConsoleIO.read())
+       return Uuid.parse(ConsoleIO.read())
     }
 
-    private fun enterStateName(){
+    private fun enterStateName(): String{
         ConsoleIO.write("Enter state name: ")
-        stateName= ConsoleIO.read()
+        return ConsoleIO.read()
     }
 }
