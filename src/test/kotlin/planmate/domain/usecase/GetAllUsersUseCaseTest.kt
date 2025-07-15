@@ -25,9 +25,9 @@ class GetAllUsersUseCaseTest {
     fun `getAllUsers should delegate to repository and return list of users`() {
         // Given
         val expectedUsers = listOf(
-            User(Uuid.random(), "User1", `User.Role`.ADMIN),
-            User(Uuid.random(), "User2", `User.Role`.MATE),
-            User(Uuid.random(), "User3", `User.Role`.MATE)
+            User(Uuid.random(), "User1", User.Role.ADMIN),
+            User(Uuid.random(), "User2", User.Role.MATE),
+            User(Uuid.random(), "User3", User.Role.MATE)
         )
 
         every { repository.getAllUsers() } returns expectedUsers

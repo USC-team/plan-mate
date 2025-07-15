@@ -8,8 +8,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import planmate.domain.models.User
 import planmate.domain.repository.UsersRepository
+import planmate.domain.usecase.usersUseCases.UpdateUserUseCase
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
+import kotlin.uuid.Uuid.Companion.random
 
 class UpdateUserUseCaseTest {
     private var repository: UsersRepository = mockk(relaxed = true)
@@ -24,7 +25,8 @@ class UpdateUserUseCaseTest {
     @Test
     fun `updateUser should update when repository updates successfully`() {
         // Given
-        val user = User(Uuid.random(), "User1", `User.Role`.ADMIN)
+        val userId = random()
+        val user = User(userId, "User1", User.Role.ADMIN)
 
         every { repository.updateUser(user) }  returns Unit
 
@@ -39,7 +41,8 @@ class UpdateUserUseCaseTest {
     @Test
     fun `updateUser should throw exception when repository throws`() {
         // Given
-        val user = User(Uuid.random(), "User1", `User.Role`.ADMIN)
+        val userId = random()
+        val user = User(id = userId, "User1", User.Role.ADMIN)
 
         every { repository.updateUser(user) } throws Exception()
 

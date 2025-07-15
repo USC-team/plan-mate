@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import planmate.data.csvHandler.CsvFileHandler
 import planmate.data.dto.UserDto
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid.Companion.random
 
 class UserDataSourceImpTest {
 
@@ -130,10 +132,11 @@ class UserDataSourceImpTest {
         assertThrows<Exception> { dataSource.updateUser(userDto) }
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `deleteUser should deleteLine when correct parameters`() {
         // Given
-        val userId = "1"
+        val userId = random()
 
         // When
         dataSource.deleteUser(userId)
@@ -142,19 +145,20 @@ class UserDataSourceImpTest {
         verify(exactly = 1) {
             mockCsvHandler.deleteLine(
                 headerColumns = header,
-                rowIdToDelete = userId
+                rowIdToDelete = userId.toString()
             )
         }
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `deleteUser throws exception when delete fails`() {
         // Given
-        val userId = "1"
+        val userId = random()
         every {
             mockCsvHandler.deleteLine(
                 headerColumns = header,
-                rowIdToDelete = userId
+                rowIdToDelete = userId.toString()
             )
         } throws RuntimeException("Delete failure")
 

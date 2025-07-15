@@ -10,7 +10,7 @@ import planmate.domain.repository.ProjectRepository
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid.Companion.random
 import org.junit.jupiter.api.assertThrows
-import kotlin.uuid.Uuid
+import planmate.domain.usecase.projectsUseCases.UpdateProjectUseCase
 
 class UpdateProjectUseCaseTest {
     private var repository: ProjectRepository = mockk(relaxed = true)

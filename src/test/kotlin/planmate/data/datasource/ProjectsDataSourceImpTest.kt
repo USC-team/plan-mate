@@ -21,7 +21,7 @@ class ProjectsDataSourceImpTest {
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `getAllProjects should return correct DTO list when CSV contains projects`() {
-        //Given
+        // Given
         val id1 = Uuid.random().toString()
         val id2 = Uuid.random().toString()
         val userId = Uuid.random().toString()
@@ -37,19 +37,17 @@ class ProjectsDataSourceImpTest {
             ProjectDto(id2, "project2", userId)
         )
 
-        //When
+        // When
         val result = dataSource.getAllProjects().drop(1).map { ProjectDto(it.id, it.name, it.userId) }
 
-        //Then
+        // Then
         assertThat(result).containsExactlyElementsIn(expected)
     }
 
     @Test
     fun `getAllProjects throws IO exception when csv file is empty`() {
-        // Given
         every { mockCsvHandler.readAllLines() } throws RuntimeException("I/O error")
 
-        // When & Then
         assertThrows<Exception> {
             dataSource.getAllProjects()
         }
@@ -57,19 +55,11 @@ class ProjectsDataSourceImpTest {
 
     @Test
     fun `createProject should appendLine when correct header and row are passed`() {
-        // Given
-        val projectDto = ProjectDto(
-            toString(),
-            "Project1",
-            toString()
+        val projectDto = ProjectDto("id-123", "Project1", "user-456")
 
-        )
-
-        // When
         dataSource.createProject(projectDto)
 
-        // Then
-        val expectedRow = arrayOf(projectDto.id, projectDto.name)
+        val expectedRow = arrayOf(projectDto.id, projectDto.name, projectDto.userId)
         verify(exactly = 1) {
             mockCsvHandler.appendLine(
                 headerColumns = header,
@@ -80,73 +70,51 @@ class ProjectsDataSourceImpTest {
 
     @Test
     fun `createProject throws exception when the dist is full`() {
-        // Given
-        val projectDto = ProjectDto(
-            toString(),
-            "Project1",
-            toString(),
-        )
+        val projectDto = ProjectDto("id-123", "Project1", "user-456")
         every {
             mockCsvHandler.appendLine(
                 headerColumns = header,
-                newRow = arrayOf(projectDto.id, projectDto.name)
+                newRow = arrayOf(projectDto.id, projectDto.name, projectDto.userId)
             )
         } throws RuntimeException("Disk full")
 
-        // When && Then
         assertThrows<Exception> { dataSource.createProject(projectDto) }
     }
 
     @Test
     fun `updateProject should updateLine with correct parameters`() {
-        // Given
-        val projectDto = ProjectDto(
-            toString(),
-            "Project1",
-            toString(),
-        )
+        val projectDto = ProjectDto("id-123", "Project1", "user-456")
 
-        // When
         dataSource.updateProject(projectDto)
 
-        // Then
-        val expectedUpdatedRow = arrayOf(projectDto.id, projectDto.name)
+        val expectedRow = arrayOf(projectDto.id, projectDto.name, projectDto.userId)
         verify(exactly = 1) {
             mockCsvHandler.updateLine(
                 headerColumns = header,
-                updatedRow = expectedUpdatedRow
+                updatedRow = expectedRow
             )
         }
     }
 
     @Test
     fun `updateProject throws exception when a write exception happens`() {
-        // Given
-        val projectDto = ProjectDto(
-            toString(),
-            "Project1",
-            toString(),
-        )
+        val projectDto = ProjectDto("id-123", "Project1", "user-456")
         every {
             mockCsvHandler.updateLine(
                 headerColumns = header,
-                updatedRow = arrayOf(projectDto.id, projectDto.name)
+                updatedRow = arrayOf(projectDto.id, projectDto.name, projectDto.userId)
             )
         } throws RuntimeException("Write error")
 
-        // When && Then
         assertThrows<Exception> { dataSource.updateProject(projectDto) }
     }
 
     @Test
     fun `deleteProject should deleteLine when correct parameters`() {
-        // Given
-        val projectId = toString()
+        val projectId = "id-123"
 
-        // When
         dataSource.deleteProject(projectId)
 
-        // Then
         verify(exactly = 1) {
             mockCsvHandler.deleteLine(
                 headerColumns = header,
@@ -157,8 +125,7 @@ class ProjectsDataSourceImpTest {
 
     @Test
     fun `deleteProject throws exception when delete fails`() {
-        // Given
-        val projectId = toString()
+        val projectId = "id-123"
         every {
             mockCsvHandler.deleteLine(
                 headerColumns = header,
@@ -166,8 +133,6 @@ class ProjectsDataSourceImpTest {
             )
         } throws RuntimeException("Delete failure")
 
-        // When && Then
         assertThrows<Exception> { dataSource.deleteProject(projectId) }
     }
-
 }

@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import planmate.domain.repository.UsersRepository
 import planmate.domain.usecase.usersUseCases.DeleteUserUseCase
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid.Companion.random
 
 class DeleteUserUseCaseTest {
     private var repository: UsersRepository = mockk(relaxed = true)
@@ -18,10 +20,11 @@ class DeleteUserUseCaseTest {
         deleteUserUseCase = DeleteUserUseCase(repository)
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `deleteUser should delegate to repository`() {
         // Given
-        val userId = "1"
+        val userId = random()
 
         every { repository.deleteUser(userId) } returns Unit
 
@@ -32,10 +35,11 @@ class DeleteUserUseCaseTest {
         verify(exactly = 1) { repository.deleteUser(userId) }
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `deleteUser should propagate exception if repository throws`() {
         // Given
-        val userId = "1"
+        val userId = random()
 
         every { repository.deleteUser(userId) } throws Exception()
 

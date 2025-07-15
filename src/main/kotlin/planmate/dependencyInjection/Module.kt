@@ -90,10 +90,10 @@ val appModule = module {
 
     // Projects
     single<ProjectsDataSource> { ProjectsDataSourceImp(get(named("projects file"))) }
-    single<ProjectRepository> { ProjectsRepositoryImp(get()) }
+    single<ProjectRepository> { ProjectsRepositoryImp(get(),get()) }
 
     single { GetAllProjectsUseCase(get()) }
-    single { CreateProjectUseCase(get(), get()) }
+    single { CreateProjectUseCase(get()) }
     single { UpdateProjectUseCase(get()) }
     single { DeleteProjectUseCase(get()) }
 

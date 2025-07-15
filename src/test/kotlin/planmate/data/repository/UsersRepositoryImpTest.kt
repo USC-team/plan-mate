@@ -10,7 +10,6 @@ import planmate.data.dto.UserDto
 import planmate.data.repository.datasource.UsersDataSource
 import planmate.domain.models.User
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 import kotlin.uuid.Uuid.Companion.random
 
 class UsersRepositoryImpTest {
@@ -53,8 +52,8 @@ class UsersRepositoryImpTest {
     @Test
     fun `createUser should delegate to data source with correct DTO`() {
         // Given
-        val userId = Uuid.random()
-        val user = User(id = userId, name = "User1", role = `User.Role`.MATE)
+        val userId = random()
+        val user = User(id = userId, name = "User1", role = User.Role.MATE)
 
         // When
         repo.createUser(user)
@@ -65,7 +64,7 @@ class UsersRepositoryImpTest {
                 match { dto ->
                     dto.id == userId.toString() &&
                             dto.name == "User1" &&
-                            dto.role== `User.Role`.MATE.toString()
+                            dto.role== User.Role.MATE.toString()
                 }
             )
         }
@@ -75,7 +74,8 @@ class UsersRepositoryImpTest {
     @Test
     fun `createUser should wrap exception when data source fails`() {
         // Given
-        val user = User(id = Uuid.random(), name = "User1", role = `User.Role`.ADMIN)
+        val userId = random()
+        val user = User(id = userId, name = "User1", role = User.Role.ADMIN)
         every { mockUsersDataSource.createUser(any()) } throws RuntimeException("Disk full")
 
         // When & Then
@@ -85,7 +85,8 @@ class UsersRepositoryImpTest {
     @Test
     fun `createUser should throw exception when user name is empty`() {
         // Given
-        val user = User(id = Uuid.random(), name = "", role = `User.Role`.ADMIN)
+        val userId = random()
+        val user = User(id = userId, name = "", role = User.Role.ADMIN)
 
         // When & Then
         assertThrows<Exception> { repo.createUser(user) }
@@ -95,8 +96,8 @@ class UsersRepositoryImpTest {
     @Test
     fun `updateUser should delegate to data source with correct DTO`() {
         // Given
-        val userId = Uuid.random()
-        val user = User(id = userId, name = "User1", role = `User.Role`.ADMIN)
+        val userId = random()
+        val user = User(id = userId, name = "User1", role = User.Role.ADMIN)
 
         // When
         repo.updateUser(user)
@@ -107,7 +108,7 @@ class UsersRepositoryImpTest {
                 match { dto ->
                     dto.id == userId.toString() &&
                             dto.name == "User1" &&
-                            dto.role== `User.Role`.ADMIN.toString()
+                            dto.role== User.Role.ADMIN.toString()
                 }
             )
         }
@@ -117,17 +118,19 @@ class UsersRepositoryImpTest {
     @Test
     fun `updateUser should wrap exception when data source fails`() {
         // Given
-        val user = User(id = Uuid.random(), name = "User1",role = `User.Role`.ADMIN)
+        val userId = random()
+        val user = User(id = userId, name = "User1",role = User.Role.ADMIN)
         every { mockUsersDataSource.updateUser(any()) } throws RuntimeException("Error")
 
         // When & Then
         assertThrows<Exception> { repo.updateUser(user) }
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `deleteUser should delegate to data source with correct ID`() {
         // Given
-        val userId = "1"
+        val userId = random()
 
         // When
         repo.deleteUser(userId)
@@ -138,10 +141,11 @@ class UsersRepositoryImpTest {
         }
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `deleteUser should wrap exception when data source fails`() {
         // Given
-        val userId = "1"
+        val userId = random()
         every { mockUsersDataSource.deleteUser(userId) } throws RuntimeException("Delete failure")
 
         // When & Then

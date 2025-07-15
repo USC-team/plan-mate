@@ -13,7 +13,7 @@ class UsersRepositoryImp (
 ) : UsersRepository {
 
     override fun getAllUsers(): List<User> {
-        return usersDataSource.getAllUsers().drop(1)
+        return usersDataSource.getAllUsers()
             .map { it.toDomain() }
     }
 

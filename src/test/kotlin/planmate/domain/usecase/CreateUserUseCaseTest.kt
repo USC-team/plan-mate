@@ -7,10 +7,14 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import planmate.domain.models.User
+import planmate.domain.models.User.Role
 import planmate.domain.repository.UsersRepository
 import planmate.domain.usecase.exceptions.InvalidRoleException
+import planmate.domain.usecase.usersUseCases.CreateUserUseCase
+import kotlin.test.assertFailsWith
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
+import kotlin.uuid.Uuid.Companion.random
 
 class CreateUserUseCaseTest {
     private var repository: UsersRepository = mockk(relaxed = true)
@@ -25,28 +29,17 @@ class CreateUserUseCaseTest {
     @Test
     fun `createUser should succeed when user is admin and name is not empty`() {
         // Given
-        val creator = User(id = Uuid.random(),name="Ala", role = `User.Role`.ADMIN)
-        val user = User(id =  Uuid.random(), name = "New User", role = `User.Role`.MATE)
+//        val creator = User(id = Uuid.random(),name="Ala", role = User.Role.ADMIN)
+        val user = User(id =  Uuid.random(), name = "New User", role = User.Role.MATE)
 
         every { repository.createUser(user) } returns Unit
 
         // When
-        createUserUseCase.createUser(user, creator)
+        createUserUseCase.createUser(user)
 
         // Then
         verify(exactly = 1) { repository.createUser(user) }
     }
 
-    @OptIn(ExperimentalUuidApi::class)
-    @Test
-    fun `createUser should throw InvalidRoleException when user is not admin`() {
-        // Given
-        val creator = User(id =  Uuid.random(),name="Ala", role = `User.Role`.MATE)
-        val user = User(id =  Uuid.random(), name = "New User", role = `User.Role`.MATE)
 
-        // When & Then
-        assertThrows<InvalidRoleException> {
-            createUserUseCase.createUser(user, creator)
-        }
-    }
 }
