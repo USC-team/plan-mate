@@ -1,57 +1,54 @@
 package planmate.data.repository
 
-import planmate.data.dto.ProjectDto
+import planmate.data.mapper.fromDomain
+import planmate.data.mapper.toDomain
 import planmate.data.repository.datasource.ProjectsDataSource
+import planmate.data.repository.datasource.UsersDataSource
 import planmate.domain.models.Project
+import planmate.domain.models.User
 import planmate.domain.repository.ProjectRepository
+import planmate.domain.usecase.exceptions.InvalidRoleException
 import planmate.domain.usecase.exceptions.NameCantBeNullException
+import planmate.domain.usecase.exceptions.UserNotFoundException
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 class ProjectsRepositoryImp(
-    private val projectsDataSource: ProjectsDataSource,
+    private val projectsDataSource: ProjectsDataSource, private val usersDataSource: UsersDataSource
 ) : ProjectRepository {
 
     override fun getAllProjects(): List<Project> {
-        try {
-            return projectsDataSource.getAllProjects()
-                .map { it.toDomain() }
-        }
-        catch (e: Exception){
-            throw Exception("Could not get projects", e)
-        }
+        return projectsDataSource.getAllProjects()
+            .map { it.toDomain() }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun createProject(project: Project) {
-        try {
-            if (project.name.isNotEmpty()) {
-                projectsDataSource.createProject(ProjectDto.fromDomain(project))
-            } else
-                throw NameCantBeNullException()
-        }
-        catch (e: Exception){
-            throw Exception("Could not create project", e)
+        val user = getUser(project)
+        if (user.role == User.Role.ADMIN){
+        if (project.name.trim().isNotEmpty()) {
+                projectsDataSource.createProject(project.fromDomain(project))
+        } else
+            throw NameCantBeNullException()
+        }else{
+            throw InvalidRoleException()
         }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun updateProject(project: Project) {
-        try {
-            projectsDataSource.updateProject(ProjectDto.fromDomain(project))
-        }
-        catch(e: Exception) {
-            throw Exception("Could not update project", e)
-        }
+        projectsDataSource.updateProject(project.fromDomain(project))
     }
 
     @OptIn(ExperimentalUuidApi::class)
     override fun deleteProject(projectId: Uuid) {
-        try {
-            projectsDataSource.deleteProject(projectId.toString())
-        }
-        catch(e: Exception) {
-            throw Exception("Could not delete project", e)
-        }
+        projectsDataSource.deleteProject(projectId.toString())
+    }
+
+    @OptIn(ExperimentalUuidApi::class)
+     fun getUser(project: Project): User {
+        return usersDataSource.getAllUsers().map { it.toDomain() }
+            .find { it.id == project.userId } ?: throw UserNotFoundException()
+
     }
 }

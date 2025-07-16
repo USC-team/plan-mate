@@ -2,12 +2,12 @@ package planmate.domain.usecase
 
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import planmate.domain.models.State
 import planmate.domain.repository.StatesRepository
 import io.mockk.verify
+import planmate.domain.usecase.statesUseCases.CreateStateUseCase
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid.Companion.random
 
@@ -30,7 +30,7 @@ class CreateStateUseCaseTest {
         every { repository.createState(state) } returns Unit
 
         // When
-        createStateUseCase(state)
+        createStateUseCase.createState(state)
 
         // Then
         verify(exactly = 1) { repository.createState(state) }
@@ -46,7 +46,7 @@ class CreateStateUseCaseTest {
 
         // When && Then
         try {
-            createStateUseCase(invalidState)
+            createStateUseCase.createState(invalidState)
             throw AssertionError("Expected IllegalArgumentException but none was thrown")
         } catch (e: IllegalArgumentException) {
             assert(e.message == "Name cannot be empty")

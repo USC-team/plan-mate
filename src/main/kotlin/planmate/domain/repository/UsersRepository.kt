@@ -1,6 +1,8 @@
 package planmate.domain.repository
 
 import planmate.domain.models.User
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 interface UsersRepository {
     fun getAllUsers(): List<User>
@@ -9,5 +11,6 @@ interface UsersRepository {
 
     fun updateUser(user: User)
 
-    fun deleteUser(userId: String)
+    @OptIn(ExperimentalUuidApi::class)
+    fun deleteUser(userId: Uuid)
 }

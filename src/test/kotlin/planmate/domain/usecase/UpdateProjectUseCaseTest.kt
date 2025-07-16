@@ -10,6 +10,7 @@ import planmate.domain.repository.ProjectRepository
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid.Companion.random
 import org.junit.jupiter.api.assertThrows
+import planmate.domain.usecase.projectsUseCases.UpdateProjectUseCase
 
 class UpdateProjectUseCaseTest {
     private var repository: ProjectRepository = mockk(relaxed = true)
@@ -24,7 +25,7 @@ class UpdateProjectUseCaseTest {
     @Test
     fun `updateProject should update when repository updates successfully`() {
         // Given
-        val project = Project(random(), "Project1")
+        val project = Project(random(), "Project1", random())
 
         every { repository.updateProject(project) }  returns Unit
 
@@ -39,7 +40,7 @@ class UpdateProjectUseCaseTest {
     @Test
     fun `updateProject should throw exception when repository throws`() {
         // Given
-        val project = Project(random(), "Project1")
+        val project = Project(random(), "Project1", random())
 
         every { repository.updateProject(project) } throws Exception()
 

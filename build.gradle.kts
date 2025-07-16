@@ -11,39 +11,42 @@ repositories {
 }
 
 dependencies {
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.4.0")
+    implementation(platform("io.insert-koin:koin-bom:4.0.3"))
+    implementation("io.insert-koin:koin-core")
+
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.junit.jupiter:junit-jupiter:5.12.2")
     testImplementation("com.google.truth:truth:1.4.4")
     testImplementation("io.mockk:mockk:1.14.2")
-    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.4.0")
-    implementation(project.dependencies.platform("io.insert-koin:koin-bom:4.0.3"))
-    implementation("io.insert-koin:koin-core")
-    testImplementation(kotlin("test"))
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
 kotlin {
     jvmToolchain(21)
 }
 
+tasks.test {
+    useJUnitPlatform()
+    finalizedBy("jacocoTestReport")
+}
 
 val includedPackages = listOf(
     "**/data/**",
-    "**/domain/**",
+    "**/domain/**"
 )
 
 val excludedPackages = listOf(
     "**/dependencyInjection/**",
-    "**/domain/model/**",
+    "**/domain/model/**"
 )
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
+
     reports {
         xml.required.set(true)
         html.required.set(true)
+        csv.required.set(false)
     }
 
     classDirectories.setFrom(
@@ -52,14 +55,28 @@ tasks.jacocoTestReport {
             exclude(excludedPackages)
         }
     )
+    sourceDirectories.setFrom(files("src/main/kotlin"))
+    executionData.setFrom(files("${buildDir}/jacoco/test.exec"))
 }
 
 tasks.jacocoTestCoverageVerification {
     dependsOn(tasks.test)
+
     violationRules {
         rule {
+            enabled = true
+            element = "CLASS"
+
             limit {
-                minimum = "0.80".toBigDecimal()
+                counter = "BRANCH"
+                value = "COVEREDRATIO"
+                minimum = "1.0".toBigDecimal() // 100% branch coverage
+            }
+
+            limit {
+                counter = "LINE"
+                value = "COVEREDRATIO"
+                minimum = "1.0".toBigDecimal() // 100% line coverage
             }
         }
     }
@@ -70,4 +87,6 @@ tasks.jacocoTestCoverageVerification {
             exclude(excludedPackages)
         }
     )
+    sourceDirectories.setFrom(files("src/main/kotlin"))
+    executionData.setFrom(files("${buildDir}/jacoco/test.exec"))
 }

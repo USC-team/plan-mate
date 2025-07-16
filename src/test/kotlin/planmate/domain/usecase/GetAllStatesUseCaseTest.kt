@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import planmate.domain.models.State
 import planmate.domain.repository.StatesRepository
+import planmate.domain.usecase.statesUseCases.GetAllStatesUseCase
 import kotlin.test.assertEquals
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid.Companion.random
@@ -33,7 +34,7 @@ class GetAllStatesUseCaseTest {
         every { repository.getAllStates(projectId) } returns expectedStates
 
         // When
-        val actual = getAllStatesUseCase(projectId)
+        val actual = getAllStatesUseCase.getAllStates(projectId)
 
         // Then
         assertEquals(expectedStates, actual, "UseCase must return exactly what the repository returns")
@@ -47,7 +48,7 @@ class GetAllStatesUseCaseTest {
         every { repository.getAllStates(projectId) } returns emptyList()
 
         // When
-        val actual = getAllStatesUseCase(projectId)
+        val actual = getAllStatesUseCase.getAllStates(projectId)
 
         // Then
         assertEquals(emptyList(), actual)

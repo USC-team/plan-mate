@@ -3,27 +3,28 @@ package planmate.data.datasource
 import planmate.data.csvHandler.CsvFileHandler
 import planmate.data.dto.UserDto
 import planmate.data.repository.datasource.UsersDataSource
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class UserDataSourceImp (
     private val csvFileHandler: CsvFileHandler,
 ) : UsersDataSource {
 
     private val header = arrayOf("id", "name", "role")
-    private val filename = "users.csv"
 
     override fun getAllUsers(): List<UserDto> {
         return csvFileHandler.readAllLines()
             .map { line ->
                 UserDto(
-                    id = line[0],
-                    name = line[1],
-                    role = line[2]
+                    id = line[ID_INDEX],
+                    name = line[NAME_INDEX],
+                    role = line[ROLE_INDEX]
                 )
             }
     }
 
     override fun createUser(user: UserDto) {
-        val userRow = arrayOf(user.id.toString(), user.name, user.role)
+        val userRow = arrayOf(user.id, user.name, user.role)
 
         csvFileHandler.appendLine(headerColumns = header, newRow = userRow)
     }
@@ -35,10 +36,17 @@ class UserDataSourceImp (
         )
     }
 
-    override fun deleteUser(userId: String) {
+    @OptIn(ExperimentalUuidApi::class)
+    override fun deleteUser(userId: Uuid) {
         csvFileHandler.deleteLine(
             headerColumns = header,
-            rowIdToDelete = userId
+            rowIdToDelete = userId.toString()
         )
+    }
+
+    companion object{
+        private const val ID_INDEX=0
+        private const val NAME_INDEX=1
+        private const val ROLE_INDEX=2
     }
 }
