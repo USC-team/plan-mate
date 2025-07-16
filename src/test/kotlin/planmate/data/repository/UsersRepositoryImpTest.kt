@@ -7,6 +7,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import planmate.data.dto.UserDto
+import planmate.data.mapper.toDomain
 import planmate.data.repository.datasource.UsersDataSource
 import planmate.domain.models.User
 import kotlin.uuid.ExperimentalUuidApi

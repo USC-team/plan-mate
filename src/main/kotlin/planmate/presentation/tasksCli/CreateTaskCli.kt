@@ -13,7 +13,7 @@ class CreateTaskCli(private val createTaskUseCase:CreateTaskUseCase,
     fun createTask() {
         try {
             val task= buildTask()
-            createTaskUseCase.invoke(task)
+            createTaskUseCase.createTask(task)
             ConsoleIO.writeSuccess("created successfully!")
         }
         catch (e: Exception){

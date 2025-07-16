@@ -8,6 +8,8 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import planmate.data.dto.TaskDto
+import planmate.data.mapper.fromDomain
+import planmate.data.mapper.toDomain
 import planmate.data.repository.datasource.TasksDataSource
 import planmate.domain.models.Task
 import java.util.*
@@ -180,7 +182,7 @@ class TasksRepositoryImpTest {
             stateId = Uuid.random(),
             projectId = projectId
         )
-        val existingDto = TaskDto.fromDomain(task)
+        val existingDto = task.fromDomain(task)
         every { mockTasksDataSource.getAllTasks(projectId.toString()) } returns listOf(existingDto)
 
         // When && Then
@@ -223,7 +225,7 @@ class TasksRepositoryImpTest {
             stateId = Uuid.random(),
             projectId = projectId
         )
-        val existingDto = TaskDto.fromDomain(task)
+        val existingDto = task.fromDomain(task)
         every { mockTasksDataSource.getAllTasks(projectId.toString()) } returns listOf(existingDto)
 
         // When
@@ -311,7 +313,7 @@ class TasksRepositoryImpTest {
             stateId = Uuid.random(),
             projectId = projectId
         )
-        every { mockTasksDataSource.getAllTasks(projectId.toString()) } returns listOf(TaskDto.fromDomain(task))
+        every { mockTasksDataSource.getAllTasks(projectId.toString()) } returns listOf(task.fromDomain(task))
         every { mockTasksDataSource.updateTask(any()) } throws Exception("error")
 
         // When && Then

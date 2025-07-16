@@ -17,7 +17,7 @@ class DeleteTaskCli(private val deleteTaskUseCase: DeleteTaskUseCase,
         try {
             val task= findTask()
 
-            deleteTaskUseCase.invoke(task.id)
+            deleteTaskUseCase.deleteTask(task.id)
             ConsoleIO.writeSuccess("deleted successfully!")
         }
         catch (e: Exception){
@@ -46,6 +46,6 @@ class DeleteTaskCli(private val deleteTaskUseCase: DeleteTaskUseCase,
         showProjects()
         val projectId= enterProjectId()
         val taskTitle= enterTaskTitle()
-        return getAllTasksUseCase.invoke(projectId).first { it.title == taskTitle }
+        return getAllTasksUseCase.getAllTasks(projectId).first { it.title == taskTitle }
     }
 }

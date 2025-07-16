@@ -30,7 +30,7 @@ class CreateStateUseCaseTest {
         every { repository.createState(state) } returns Unit
 
         // When
-        createStateUseCase(state)
+        createStateUseCase.createState(state)
 
         // Then
         verify(exactly = 1) { repository.createState(state) }
@@ -46,7 +46,7 @@ class CreateStateUseCaseTest {
 
         // When && Then
         try {
-            createStateUseCase(invalidState)
+            createStateUseCase.createState(invalidState)
             throw AssertionError("Expected IllegalArgumentException but none was thrown")
         } catch (e: IllegalArgumentException) {
             assert(e.message == "Name cannot be empty")

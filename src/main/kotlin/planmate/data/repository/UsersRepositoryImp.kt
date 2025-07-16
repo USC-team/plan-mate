@@ -1,6 +1,7 @@
 package planmate.data.repository
 
-import planmate.data.dto.UserDto
+import planmate.data.mapper.fromDomain
+import planmate.data.mapper.toDomain
 import planmate.data.repository.datasource.UsersDataSource
 import planmate.domain.models.User
 import planmate.domain.repository.UsersRepository
@@ -19,13 +20,13 @@ class UsersRepositoryImp (
 
     override fun createUser(user: User) {
         if (user.name.isNotEmpty()) {
-            usersDataSource.createUser(UserDto.fromDomain(user))
+            usersDataSource.createUser(user.fromDomain(user))
         } else
             throw NameCantBeNullException()
     }
 
     override fun updateUser(user: User) {
-        usersDataSource.updateUser(UserDto.fromDomain(user))
+        usersDataSource.updateUser(user.fromDomain(user))
     }
 
     @OptIn(ExperimentalUuidApi::class)

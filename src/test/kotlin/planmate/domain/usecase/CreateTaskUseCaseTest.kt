@@ -39,7 +39,7 @@ class CreateTaskUseCaseTest {
         every { repository.createTask(task) } returns Unit
 
         // When
-        createTasksUseCase(task)
+        createTasksUseCase.createTask(task)
 
         // Then
         verify(exactly = 1) { repository.createTask(task) }
@@ -60,7 +60,7 @@ class CreateTaskUseCaseTest {
 
         // When && Then
         assertThrows<Exception> {
-            createTasksUseCase(invalidTask)
+            createTasksUseCase.createTask(invalidTask)
         }
 
     }
@@ -80,7 +80,7 @@ class CreateTaskUseCaseTest {
 
         // When && Then
         assertThrows<Exception> {
-            createTasksUseCase(invalidTask)
+            createTasksUseCase.createTask(invalidTask)
         }
 
     }

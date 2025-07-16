@@ -17,7 +17,7 @@ class UpdateStateCli(private val updateStateUseCase: UpdateStateUseCase,
             val state= findState()
             val newState = buildUpdatedState(state)
 
-            updateStateUseCase.invoke(newState)
+            updateStateUseCase.updateState(newState)
 
             ConsoleIO.writeSuccess("updated successfully!")
         }
@@ -31,7 +31,7 @@ class UpdateStateCli(private val updateStateUseCase: UpdateStateUseCase,
         showProjects()
         val projectId= enterProjectId()
         val stateName= enterStateName()
-        return getAllStatesUseCase.invoke(projectId).first { it.name == stateName }
+        return getAllStatesUseCase.getAllStates(projectId).first { it.name == stateName }
     }
 
     private fun showProjects(){

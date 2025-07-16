@@ -29,7 +29,7 @@ class DeleteTaskUseCaseTest {
         every { repository.deleteTask(taskId) } returns Unit
 
         // When
-        deleteTaskUseCase(taskId)
+        deleteTaskUseCase.deleteTask(taskId)
 
         // Then
         verify(exactly = 1) { repository.deleteTask(taskId) }
@@ -45,7 +45,7 @@ class DeleteTaskUseCaseTest {
 
         // When && Then
         assertThrows<Exception> {
-            deleteTaskUseCase(taskId)
+            deleteTaskUseCase.deleteTask(taskId)
         }
     }
 }

@@ -1,7 +1,8 @@
 package planmate.data.repository
 
 
-import planmate.data.dto.TaskDto
+import planmate.data.mapper.fromDomain
+import planmate.data.mapper.toDomain
 import planmate.data.repository.datasource.TasksDataSource
 import planmate.domain.models.Task
 import planmate.domain.repository.TasksRepository
@@ -37,7 +38,7 @@ class TasksRepositoryImp(
             throw IllegalArgumentException("Task with ID ${task.id} already exists in project ${task.projectId}")
         }
 
-        val dto = TaskDto.fromDomain(task)
+        val dto = task.fromDomain(task)
         tasksDataSource.createTask(dto)
     }
 
@@ -52,7 +53,7 @@ class TasksRepositoryImp(
             throw Exception("Task ID ${task.id} not found in project ${task.projectId}")
         }
 
-        val dto = TaskDto.fromDomain(task)
+        val dto = task.fromDomain(task)
         tasksDataSource.updateTask(dto)
     }
 

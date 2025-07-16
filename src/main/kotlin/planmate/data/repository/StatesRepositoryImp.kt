@@ -1,6 +1,7 @@
 package planmate.data.repository
 
-import planmate.data.dto.StateDto
+import planmate.data.mapper.fromDomain
+import planmate.data.mapper.toDomain
 import planmate.data.repository.datasource.StatesDataSource
 import planmate.domain.models.State
 import planmate.domain.repository.StatesRepository
@@ -18,11 +19,11 @@ class StatesRepositoryImp(
     }
 
     override fun createState(state: State) {
-        statesDataSource.createState(StateDto.fromDomain(state))
+        statesDataSource.createState(state.fromDomain(state))
     }
 
     override fun updateState(state: State) {
-        statesDataSource.updateState(StateDto.fromDomain(state))
+        statesDataSource.updateState(state.fromDomain(state))
     }
 
     @OptIn(ExperimentalUuidApi::class)

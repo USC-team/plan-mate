@@ -13,7 +13,7 @@ class CreateStateCli(private val createStateUseCase:CreateStateUseCase,
     fun createState() {
         try {
             val state= buildState()
-            createStateUseCase.invoke(state)
+            createStateUseCase.createState(state)
             ConsoleIO.writeSuccess("created successfully!")
         }
         catch (e: Exception){

@@ -31,7 +31,7 @@ class UpdateStateUseCaseTest {
         every { repository.updateState(updatedState) } returns Unit
 
         // When
-        updateStateUseCase(updatedState)
+        updateStateUseCase.updateState(updatedState)
 
         // Then
         verify(exactly = 1) { repository.updateState(updatedState) }
@@ -48,7 +48,7 @@ class UpdateStateUseCaseTest {
 
         // When && Then
         assertThrows<Exception> {
-            updateStateUseCase(invalidState)
+            updateStateUseCase.updateState(invalidState)
         }
 
     }

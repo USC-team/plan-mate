@@ -6,5 +6,5 @@ import kotlin.uuid.Uuid
 
 class DeleteStateUseCase(private val repo: StatesRepository) {
     @OptIn(ExperimentalUuidApi::class)
-    operator fun invoke(stateId: Uuid) = repo.deleteState(stateId)
+     fun deleteState(stateId: Uuid) = repo.deleteState(stateId)
 }

@@ -1,6 +1,7 @@
 package planmate.data.repository
 
-import planmate.data.dto.ProjectDto
+import planmate.data.mapper.fromDomain
+import planmate.data.mapper.toDomain
 import planmate.data.repository.datasource.ProjectsDataSource
 import planmate.data.repository.datasource.UsersDataSource
 import planmate.domain.models.Project
@@ -26,7 +27,7 @@ class ProjectsRepositoryImp(
         val user = getUser(project)
         if (user.role == User.Role.ADMIN){
         if (project.name.trim().isNotEmpty()) {
-                projectsDataSource.createProject(ProjectDto.fromDomain(project))
+                projectsDataSource.createProject(project.fromDomain(project))
         } else
             throw NameCantBeNullException()
         }else{
@@ -36,7 +37,7 @@ class ProjectsRepositoryImp(
 
     @OptIn(ExperimentalUuidApi::class)
     override fun updateProject(project: Project) {
-        projectsDataSource.updateProject(ProjectDto.fromDomain(project))
+        projectsDataSource.updateProject(project.fromDomain(project))
     }
 
     @OptIn(ExperimentalUuidApi::class)

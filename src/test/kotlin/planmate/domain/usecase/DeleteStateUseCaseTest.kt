@@ -28,7 +28,7 @@ class DeleteStateUseCaseTest {
         every { repository.deleteState(stateId) } returns Unit
 
         // When
-        deleteStateUseCase(stateId)
+        deleteStateUseCase.deleteState(stateId)
 
         // Then
         verify(exactly = 1) { repository.deleteState(stateId) }
@@ -44,7 +44,7 @@ class DeleteStateUseCaseTest {
 
         // When && Then
         assertThrows<Exception> {
-            deleteStateUseCase(stateId)
+            deleteStateUseCase.deleteState(stateId)
         }
     }
 }

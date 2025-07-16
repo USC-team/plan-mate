@@ -53,7 +53,7 @@ class GetTasksByStateUseCaseTest {
         every { repository.getTasksByState(projectId, stateId) } returns expectedTasks
 
         // When
-        val actual = getAllTasksUseCase(projectId,stateId)
+        val actual = getAllTasksUseCase.getTaskByState(projectId,stateId)
 
         // Then
         assertEquals(expectedTasks, actual, "UseCase must return exactly what the repository returns")
@@ -68,7 +68,7 @@ class GetTasksByStateUseCaseTest {
         every { repository.getTasksByState(projectId, stateId) } returns emptyList()
 
         // When
-        val actual = getAllTasksUseCase(projectId,stateId)
+        val actual = getAllTasksUseCase.getTaskByState(projectId,stateId)
 
         // Then
         assertEquals(emptyList(), actual)

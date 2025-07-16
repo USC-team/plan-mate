@@ -38,8 +38,8 @@ class ShowProjectsSwimlanes(private val getAllProjectsUseCase: GetAllProjectsUse
 
     @OptIn(ExperimentalUuidApi::class)
     private fun getStatesAndTasks(project: Project){
-        states = getAllStatesUseCase(project.id)
-        tasks = getAllTasksUseCase(project.id)
+        states = getAllStatesUseCase.getAllStates(project.id)
+        tasks = getAllTasksUseCase.getAllTasks(project.id)
 
         tasksOfState = states.associateWith { state ->
             tasks.filter { it.stateId == state.id }

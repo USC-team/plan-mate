@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import planmate.data.dto.ProjectDto
 import planmate.data.dto.UserDto
+import planmate.data.mapper.toDomain
 import planmate.data.repository.datasource.ProjectsDataSource
 import planmate.data.repository.datasource.UsersDataSource
 import planmate.domain.models.Project

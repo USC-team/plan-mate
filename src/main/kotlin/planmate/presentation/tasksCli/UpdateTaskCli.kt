@@ -17,7 +17,7 @@ class UpdateTaskCli(private val updateTaskUseCase: UpdateTaskUseCase,
             val task= findTask()
             val newTask= buildUpdatedTask(task)
 
-            updateTaskUseCase.invoke(newTask)
+            updateTaskUseCase.updateTask(newTask)
 
             ConsoleIO.writeSuccess("updated successfully!")
         }
@@ -31,7 +31,7 @@ class UpdateTaskCli(private val updateTaskUseCase: UpdateTaskUseCase,
         showProjects()
         val projectId= enterProjectId()
         val taskTitle= enterTaskTitle()
-        return getAllTasksUseCase.invoke(projectId).first { it.title == taskTitle }
+        return getAllTasksUseCase.getAllTasks(projectId).first { it.title == taskTitle }
     }
 
     private fun showProjects(){

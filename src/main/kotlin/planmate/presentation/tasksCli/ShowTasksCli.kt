@@ -12,7 +12,7 @@ class ShowTasksCli(private val getAllTasksUseCase: GetAllTasksUseCase) {
     fun showTasks(){
         runCatching {
             val projectId = enterProjectId()
-            getAllTasksUseCase(projectId).takeIf { it.isNotEmpty() }
+            getAllTasksUseCase.getAllTasks(projectId).takeIf { it.isNotEmpty() }
                 ?: throw NoTasksFoundException()
         }.onSuccess { tasks ->
             tasks.forEach {

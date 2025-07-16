@@ -11,7 +11,7 @@ class ShowStatesCli(private val getAllStatesUseCase: GetAllStatesUseCase) {
     fun showStates(){
         runCatching {
             val projectId= enterProjectId()
-            getAllStatesUseCase(projectId)
+            getAllStatesUseCase.getAllStates(projectId)
                 .takeIf { it.isNotEmpty() }
                 ?: throw NoStatesFoundException()
         }.onSuccess { states ->

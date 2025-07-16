@@ -37,7 +37,7 @@ class UpdateTaskUseCaseTest {
         every { repository.updateTask(updatedTask) } returns Unit
 
         // When
-        updateTaskUseCase(updatedTask)
+        updateTaskUseCase.updateTask(updatedTask)
 
         // Then
         verify(exactly = 1) { repository.updateTask(updatedTask) }
@@ -60,7 +60,7 @@ class UpdateTaskUseCaseTest {
 
         // When && Then
         assertThrows<Exception> {
-            updateTaskUseCase(invalidTask)
+            updateTaskUseCase.updateTask(invalidTask)
         }
 
     }

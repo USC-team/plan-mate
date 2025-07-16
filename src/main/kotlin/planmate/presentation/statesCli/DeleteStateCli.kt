@@ -17,7 +17,7 @@ class DeleteStateCli(private val deleteStateUseCase: DeleteStateUseCase,
     fun deleteState(){
         try {
             val state= findState()
-            deleteStateUseCase.invoke(state.id)
+            deleteStateUseCase.deleteState(state.id)
             ConsoleIO.writeSuccess("deleted successfully!")
         }
         catch (e: Exception){
@@ -30,7 +30,7 @@ class DeleteStateCli(private val deleteStateUseCase: DeleteStateUseCase,
         showProjects()
         val projectId= enterProjectId()
         val stateName= enterStateName()
-        return getAllStatesUseCase.invoke(projectId).first { it.name == stateName }
+        return getAllStatesUseCase.getAllStates(projectId).first { it.name == stateName }
     }
 
     private fun showProjects(){
