@@ -5,7 +5,7 @@ import planmate.domain.repository.UsersRepository
 import planmate.domain.usecase.exceptions.UserNotFoundException
 
 class FindUserUseCase (private val repo: UsersRepository) {
-    fun findUser(userName:String): User {
+    suspend fun findUser(userName:String): User {
         return repo.getAllUsers().find { it.name==userName }
             ?: throw UserNotFoundException()
     }

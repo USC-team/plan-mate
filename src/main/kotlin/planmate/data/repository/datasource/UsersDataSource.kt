@@ -5,12 +5,12 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 interface UsersDataSource {
-    fun getAllUsers(): List<UserDto>
+    suspend fun getAllUsers(): List<UserDto>
 
-    fun createUser(user: UserDto)
+    suspend fun createUser(user: UserDto)
 
-    fun updateUser(user: UserDto)
+    suspend fun updateUser(user: UserDto)
 
     @OptIn(ExperimentalUuidApi::class)
-    fun deleteUser(userId: Uuid)
+    suspend fun deleteUser(userId: Uuid)
 }

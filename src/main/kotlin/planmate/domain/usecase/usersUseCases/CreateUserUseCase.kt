@@ -5,5 +5,5 @@ import planmate.domain.repository.UsersRepository
 
 class CreateUserUseCase(private val repo: UsersRepository) {
 
-    fun createUser(user: User) = repo.createUser(user)
+    suspend fun createUser(user: User) = repo.createUser(user)
 }

@@ -4,11 +4,11 @@ import planmate.data.dto.ProjectDto
 
 interface ProjectsDataSource {
 
-    fun getAllProjects(): List<ProjectDto>
+    suspend fun getAllProjects(): List<ProjectDto>
 
-    fun createProject(project: ProjectDto)
+    suspend fun createProject(project: ProjectDto)
 
-    fun updateProject(project: ProjectDto)
+    suspend fun updateProject(project: ProjectDto)
 
-    fun deleteProject(projectId: String)
+    suspend fun deleteProject(projectId: String)
 }

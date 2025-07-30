@@ -13,24 +13,24 @@ class UsersRepositoryImp (
     private val usersDataSource: UsersDataSource,
 ) : UsersRepository {
 
-    override fun getAllUsers(): List<User> {
+    override suspend fun getAllUsers(): List<User> {
         return usersDataSource.getAllUsers()
             .map { it.toDomain() }
     }
 
-    override fun createUser(user: User) {
+    override suspend fun createUser(user: User) {
         if (user.name.isNotEmpty()) {
             usersDataSource.createUser(user.fromDomain(user))
         } else
             throw NameCantBeNullException()
     }
 
-    override fun updateUser(user: User) {
+    override suspend fun updateUser(user: User) {
         usersDataSource.updateUser(user.fromDomain(user))
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    override fun deleteUser(userId: Uuid) {
+    override suspend fun deleteUser(userId: Uuid) {
        usersDataSource.deleteUser(userId)
     }
 }

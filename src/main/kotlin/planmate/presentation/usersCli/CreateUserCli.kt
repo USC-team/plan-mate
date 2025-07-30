@@ -1,5 +1,6 @@
 package planmate.presentation.usersCli
 
+import kotlinx.coroutines.runBlocking
 import planmate.domain.models.User
 import planmate.domain.usecase.usersUseCases.CreateUserUseCase
 import planmate.presentation.console.ConsoleIO
@@ -10,7 +11,7 @@ class CreateUserCli(private val createUserUseCase:CreateUserUseCase) {
     fun createUser() {
         try {
             val user= buildUser()
-            createUserUseCase.createUser(user)
+            runBlocking { createUserUseCase.createUser(user) }
             ConsoleIO.writeSuccess("created successfully!")
         }
         catch (e: Exception){

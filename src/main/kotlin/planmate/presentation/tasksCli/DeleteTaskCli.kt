@@ -1,5 +1,6 @@
 package planmate.presentation.tasksCli
 
+import kotlinx.coroutines.runBlocking
 import planmate.domain.models.Task
 import planmate.domain.usecase.tasksUseCases.DeleteTaskUseCase
 import planmate.domain.usecase.tasksUseCases.GetAllTasksUseCase
@@ -14,14 +15,16 @@ class DeleteTaskCli(private val deleteTaskUseCase: DeleteTaskUseCase,
 
     @OptIn(ExperimentalUuidApi::class)
     fun deleteTask(){
-        try {
-            val task= findTask()
+        runBlocking {
+            try {
+                val task= findTask()
 
-            deleteTaskUseCase.deleteTask(task.id)
-            ConsoleIO.writeSuccess("deleted successfully!")
-        }
-        catch (e: Exception){
-            ConsoleIO.writeError("Task is not valid!\n${e.message}")
+                deleteTaskUseCase.deleteTask(task.id)
+                ConsoleIO.writeSuccess("deleted successfully!")
+            }
+            catch (e: Exception){
+                ConsoleIO.writeError("Task is not valid!\n${e.message}")
+            }
         }
     }
 
@@ -42,7 +45,7 @@ class DeleteTaskCli(private val deleteTaskUseCase: DeleteTaskUseCase,
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun findTask():Task {
+    private suspend fun findTask():Task {
         showProjects()
         val projectId= enterProjectId()
         val taskTitle= enterTaskTitle()

@@ -1,5 +1,6 @@
 package planmate.presentation.statesCli
 
+import kotlinx.coroutines.runBlocking
 import planmate.domain.models.State
 import planmate.domain.usecase.statesUseCases.DeleteStateUseCase
 import planmate.domain.usecase.statesUseCases.GetAllStatesUseCase
@@ -15,18 +16,20 @@ class DeleteStateCli(private val deleteStateUseCase: DeleteStateUseCase,
 
     @OptIn(ExperimentalUuidApi::class)
     fun deleteState(){
-        try {
-            val state= findState()
-            deleteStateUseCase.deleteState(state.id)
-            ConsoleIO.writeSuccess("deleted successfully!")
-        }
-        catch (e: Exception){
-            ConsoleIO.writeError("State is not valid!\n${e.message}")
+        runBlocking {
+            try {
+                val state= findState()
+                deleteStateUseCase.deleteState(state.id)
+                ConsoleIO.writeSuccess("deleted successfully!")
+            }
+            catch (e: Exception){
+                ConsoleIO.writeError("State is not valid!\n${e.message}")
+            }
         }
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun findState():State{
+    private suspend fun findState():State{
         showProjects()
         val projectId= enterProjectId()
         val stateName= enterStateName()

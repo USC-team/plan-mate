@@ -1,5 +1,6 @@
 package planmate.presentation.usersCli
 
+import kotlinx.coroutines.runBlocking
 import planmate.domain.models.User
 import planmate.domain.usecase.usersUseCases.DeleteUserUseCase
 import planmate.domain.usecase.usersUseCases.GetAllUsersUseCase
@@ -10,18 +11,20 @@ class DeleteUserCli(private val deleteUserUseCase: DeleteUserUseCase,
                     private val getAllUsersUseCase: GetAllUsersUseCase) {
     @OptIn(ExperimentalUuidApi::class)
     fun deleteUser(){
-        try {
-            val user= findUser()
+        runBlocking {
+            try {
+                val user= findUser()
 
-            deleteUserUseCase.deleteUser(user.id)
-            ConsoleIO.writeSuccess("deleted successfully!")
-        }
-        catch (e: Exception){
-            ConsoleIO.writeError("User is not valid!\n${e.message}")
+                deleteUserUseCase.deleteUser(user.id)
+                ConsoleIO.writeSuccess("deleted successfully!")
+            }
+            catch (e: Exception){
+                ConsoleIO.writeError("User is not valid!\n${e.message}")
+            }
         }
     }
 
-    private fun findUser():User{
+    private suspend fun findUser():User{
         val userName = enterUserName()
         return getAllUsersUseCase.getAllUsers().first { it.name == userName }
     }

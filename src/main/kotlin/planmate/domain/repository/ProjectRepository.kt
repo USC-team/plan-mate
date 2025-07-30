@@ -5,12 +5,12 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 interface ProjectRepository {
-    fun getAllProjects(): List<Project>
+    suspend fun getAllProjects(): List<Project>
 
-    fun createProject(project: Project)
+    suspend fun createProject(project: Project)
 
-    fun updateProject(project: Project)
+    suspend fun updateProject(project: Project)
 
     @OptIn(ExperimentalUuidApi::class)
-    fun deleteProject(projectId: Uuid)
+    suspend fun deleteProject(projectId: Uuid)
 }

@@ -1,7 +1,9 @@
 package planmate.domain.usecase
 
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import planmate.domain.models.User
@@ -23,31 +25,35 @@ class GetAllUsersUseCaseTest {
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `getAllUsers should delegate to repository and return list of users`() {
-        // Given
-        val expectedUsers = listOf(
-            User(Uuid.random(), "User1", User.Role.ADMIN),
-            User(Uuid.random(), "User2", User.Role.MATE),
-            User(Uuid.random(), "User3", User.Role.MATE)
-        )
+        runTest {
+            // Given
+            val expectedUsers = listOf(
+                User(Uuid.random(), "User1", User.Role.ADMIN),
+                User(Uuid.random(), "User2", User.Role.MATE),
+                User(Uuid.random(), "User3", User.Role.MATE)
+            )
 
-        every { repository.getAllUsers() } returns expectedUsers
+            coEvery { repository.getAllUsers() } returns expectedUsers
 
-        // When
-        val actual = getAllUsersUseCase.getAllUsers()
+            // When
+            val actual = getAllUsersUseCase.getAllUsers()
 
-        // Then
-        assertEquals(expectedUsers, actual, "UseCase must return exactly what the repository returns")
+            // Then
+            assertEquals(expectedUsers, actual, "UseCase must return exactly what the repository returns")
+        }
     }
 
     @Test
     fun `getAllUsers should return empty list when repository returns empty`() {
-        // Given
-        every { repository.getAllUsers() } returns emptyList()
+        runTest {
+            // Given
+            coEvery { repository.getAllUsers() } returns emptyList()
 
-        // When
-        val actual = getAllUsersUseCase.getAllUsers()
+            // When
+            val actual = getAllUsersUseCase.getAllUsers()
 
-        // Then
-        assertEquals(emptyList(), actual)
+            // Then
+            assertEquals(emptyList(), actual)
+        }
     }
 }

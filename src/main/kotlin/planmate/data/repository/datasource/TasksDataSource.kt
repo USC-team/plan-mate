@@ -4,9 +4,9 @@ import planmate.data.dto.TaskDto
 
 interface TasksDataSource {
 
-    fun getAllTasks(projectId: String): List<TaskDto>
-    fun getTasksByState(projectId: String, stateId: String): List<TaskDto>
-    fun createTask(task: TaskDto)
-    fun updateTask(task: TaskDto)
-    fun deleteTask(taskId: String)
+    suspend fun getAllTasks(projectId: String): List<TaskDto>
+    suspend fun getTasksByState(projectId: String, stateId: String): List<TaskDto>
+    suspend fun createTask(task: TaskDto)
+    suspend fun updateTask(task: TaskDto)
+    suspend fun deleteTask(taskId: String)
 }

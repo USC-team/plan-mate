@@ -1,7 +1,9 @@
 package planmate.domain.usecase
 
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import planmate.domain.models.Task
@@ -23,52 +25,56 @@ class GetAllTasksUseCaseTest {
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `invoke should delegate to repository and return list of tasks`() {
-        // Given
-        val projectId = random()
-        val expectedTasks = listOf(
-            Task(
-                id = random(),
-                title = "task1",
-                description = "details",
-                stateId = random(),
-                projectId = projectId
-            ),
-            Task(
-                id = random(),
-                title = "task2",
-                description = "details",
-                stateId = random(),
-                projectId = projectId
-            ),
-            Task(
-                id = random(),
-                title = "task3",
-                description = "details",
-                stateId = random(),
-                projectId = projectId
+        runTest {
+            // Given
+            val projectId = random()
+            val expectedTasks = listOf(
+                Task(
+                    id = random(),
+                    title = "task1",
+                    description = "details",
+                    stateId = random(),
+                    projectId = projectId
+                ),
+                Task(
+                    id = random(),
+                    title = "task2",
+                    description = "details",
+                    stateId = random(),
+                    projectId = projectId
+                ),
+                Task(
+                    id = random(),
+                    title = "task3",
+                    description = "details",
+                    stateId = random(),
+                    projectId = projectId
+                )
             )
-        )
 
-        every { repository.getAllTasks(projectId) } returns expectedTasks
+            coEvery { repository.getAllTasks(projectId) } returns expectedTasks
 
-        // When
-        val actual = getAllTasksUseCase.getAllTasks(projectId)
+            // When
+            val actual = getAllTasksUseCase.getAllTasks(projectId)
 
-        // Then
-        assertEquals(expectedTasks, actual, "UseCase must return exactly what the repository returns")
+            // Then
+            assertEquals(expectedTasks, actual, "UseCase must return exactly what the repository returns")
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `getAllTasks should return empty list when repository returns empty`() {
-        // Given
-        val projectId = random()
-        every { repository.getAllTasks(projectId) } returns emptyList()
+        runTest {
+            // Given
+            val projectId = random()
+            coEvery { repository.getAllTasks(projectId) } returns emptyList()
 
-        // When
-        val actual = getAllTasksUseCase.getAllTasks(projectId)
+            // When
+            val actual = getAllTasksUseCase.getAllTasks(projectId)
 
-        // Then
-        assertEquals(emptyList(), actual)
+            // Then
+            assertEquals(emptyList(), actual)
+        }
     }
 }

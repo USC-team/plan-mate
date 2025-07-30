@@ -6,13 +6,13 @@ import planmate.data.repository.datasource.UsersDataSource
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-class UserDataSourceImp (
+class UserDataSourceImp(
     private val csvFileHandler: CsvFileHandler,
 ) : UsersDataSource {
 
     private val header = arrayOf("id", "name", "role")
 
-    override fun getAllUsers(): List<UserDto> {
+    override suspend fun getAllUsers(): List<UserDto> {
         return csvFileHandler.readAllLines()
             .map { line ->
                 UserDto(
@@ -23,13 +23,13 @@ class UserDataSourceImp (
             }
     }
 
-    override fun createUser(user: UserDto) {
+    override suspend fun createUser(user: UserDto) {
         val userRow = arrayOf(user.id, user.name, user.role)
 
         csvFileHandler.appendLine(headerColumns = header, newRow = userRow)
     }
 
-    override fun updateUser(user: UserDto) {
+    override suspend fun updateUser(user: UserDto) {
         csvFileHandler.updateLine(
             headerColumns = header,
             updatedRow = arrayOf(user.id, user.name, user.role)
@@ -37,16 +37,16 @@ class UserDataSourceImp (
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    override fun deleteUser(userId: Uuid) {
+    override suspend fun deleteUser(userId: Uuid) {
         csvFileHandler.deleteLine(
             headerColumns = header,
             rowIdToDelete = userId.toString()
         )
     }
 
-    companion object{
-        private const val ID_INDEX=0
-        private const val NAME_INDEX=1
-        private const val ROLE_INDEX=2
+    companion object {
+        private const val ID_INDEX = 0
+        private const val NAME_INDEX = 1
+        private const val ROLE_INDEX = 2
     }
 }

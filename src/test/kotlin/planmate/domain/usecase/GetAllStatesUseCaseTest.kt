@@ -1,7 +1,9 @@
 package planmate.domain.usecase
 
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import planmate.domain.models.State
@@ -23,34 +25,38 @@ class GetAllStatesUseCaseTest {
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `invoke should delegate to repository and return list of states`() {
-        // Given
-        val projectId = random()
-        val expectedStates = listOf(
-            State(random(), "Draft", projectId),
-            State(random(), "InProgress", projectId),
-            State(random(), "Completed", projectId)
-        )
+        runTest {
+            // Given
+            val projectId = random()
+            val expectedStates = listOf(
+                State(random(), "Draft", projectId),
+                State(random(), "InProgress", projectId),
+                State(random(), "Completed", projectId)
+            )
 
-        every { repository.getAllStates(projectId) } returns expectedStates
+            coEvery { repository.getAllStates(projectId) } returns expectedStates
 
-        // When
-        val actual = getAllStatesUseCase.getAllStates(projectId)
+            // When
+            val actual = getAllStatesUseCase.getAllStates(projectId)
 
-        // Then
-        assertEquals(expectedStates, actual, "UseCase must return exactly what the repository returns")
+            // Then
+            assertEquals(expectedStates, actual, "UseCase must return exactly what the repository returns")
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `getAllStats should return empty list when repository returns empty`() {
-        // Given
-        val projectId = random()
-        every { repository.getAllStates(projectId) } returns emptyList()
+        runTest {
+            // Given
+            val projectId = random()
+            coEvery { repository.getAllStates(projectId) } returns emptyList()
 
-        // When
-        val actual = getAllStatesUseCase.getAllStates(projectId)
+            // When
+            val actual = getAllStatesUseCase.getAllStates(projectId)
 
-        // Then
-        assertEquals(emptyList(), actual)
+            // Then
+            assertEquals(emptyList(), actual)
+        }
     }
 }

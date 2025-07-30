@@ -5,12 +5,12 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 interface UsersRepository {
-    fun getAllUsers(): List<User>
+    suspend fun getAllUsers(): List<User>
 
-    fun createUser(user: User)
+    suspend fun createUser(user: User)
 
-    fun updateUser(user: User)
+    suspend fun updateUser(user: User)
 
     @OptIn(ExperimentalUuidApi::class)
-    fun deleteUser(userId: Uuid)
+    suspend fun deleteUser(userId: Uuid)
 }

@@ -1,5 +1,6 @@
 package planmate.presentation.statesCli
 
+import kotlinx.coroutines.runBlocking
 import planmate.domain.models.State
 import planmate.domain.usecase.statesUseCases.CreateStateUseCase
 import planmate.presentation.console.ConsoleIO
@@ -13,7 +14,9 @@ class CreateStateCli(private val createStateUseCase:CreateStateUseCase,
     fun createState() {
         try {
             val state= buildState()
-            createStateUseCase.createState(state)
+            runBlocking {
+                createStateUseCase.createState(state)
+            }
             ConsoleIO.writeSuccess("created successfully!")
         }
         catch (e: Exception){

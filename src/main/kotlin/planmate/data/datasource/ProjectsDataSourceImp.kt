@@ -11,7 +11,7 @@ class ProjectsDataSourceImp(
 
     private val header = arrayOf("id", "name", "userId")
 
-    override fun getAllProjects(): List<ProjectDto> {
+    override suspend fun getAllProjects(): List<ProjectDto> {
         return csvFileHandler.readAllLines()
             .map { line ->
                 ProjectDto(
@@ -22,29 +22,29 @@ class ProjectsDataSourceImp(
             }
     }
 
-    override fun createProject(project: ProjectDto) {
+    override suspend fun createProject(project: ProjectDto) {
         val projectRow = arrayOf(project.id.toString(), project.name, project.userId)
 
         csvFileHandler.appendLine(headerColumns = header, newRow = projectRow)
     }
 
-    override fun updateProject(project: ProjectDto) {
+    override suspend fun updateProject(project: ProjectDto) {
         csvFileHandler.updateLine(
             headerColumns = header,
             updatedRow = arrayOf(project.id.toString(), project.name, project.userId)
         )
     }
 
-    override fun deleteProject(projectId: String) {
+    override suspend fun deleteProject(projectId: String) {
         csvFileHandler.deleteLine(
             headerColumns = header,
             rowIdToDelete = projectId
         )
     }
 
-    companion object{
-        private const val ID_INDEX=0
-        private const val NAME_INDEX=1
-        private const val USERID_INDEX=2
+    companion object {
+        private const val ID_INDEX = 0
+        private const val NAME_INDEX = 1
+        private const val USERID_INDEX = 2
     }
 }

@@ -1,5 +1,6 @@
 package planmate.presentation.projectsCli
 
+import kotlinx.coroutines.runBlocking
 import planmate.domain.models.Project
 import planmate.domain.usecase.projectsUseCases.CreateProjectUseCase
 import planmate.presentation.console.ConsoleIO
@@ -13,7 +14,9 @@ class CreateProjectsCli(private val createProjectUseCase:CreateProjectUseCase) {
     fun createProject() {
         try {
             val project= buildProject()
-            createProjectUseCase.createProject(project)
+            runBlocking {
+                createProjectUseCase.createProject(project)
+            }
             ConsoleIO.writeSuccess("created successfully!")
         }
         catch (e: Exception){

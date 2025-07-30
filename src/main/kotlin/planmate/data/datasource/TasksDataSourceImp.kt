@@ -10,7 +10,7 @@ class TasksDataSourceImp(
 
     private val header = arrayOf("id", "title", "description", "stateId", "projectId")
 
-    override fun getAllTasks(projectId: String): List<TaskDto>  {
+    override suspend fun getAllTasks(projectId: String): List<TaskDto>  {
         return csvFileHandler.readAllLines()
             .drop(1)
             .filter { cols ->
@@ -27,7 +27,7 @@ class TasksDataSourceImp(
             }
     }
 
-    override fun getTasksByState(projectId: String, stateId: String): List<TaskDto> {
+    override suspend fun getTasksByState(projectId: String, stateId: String): List<TaskDto> {
         return csvFileHandler.readAllLines()
             .drop(1)
             .filter { cols ->
@@ -44,17 +44,17 @@ class TasksDataSourceImp(
             }
     }
 
-    override fun createTask(task: TaskDto) {
+    override suspend fun createTask(task: TaskDto) {
         val row = arrayOf(task.id, task.title, task.description, task.stateId, task.projectId)
         csvFileHandler.appendLine(headerColumns = header, newRow = row)
     }
 
-    override fun updateTask(task: TaskDto) {
+    override suspend fun updateTask(task: TaskDto) {
         val updatedRow = arrayOf(task.id, task.title, task.description, task.stateId, task.projectId)
         csvFileHandler.updateLine(headerColumns = header, updatedRow = updatedRow)
     }
 
-    override fun deleteTask(taskId: String) {
+    override suspend fun deleteTask(taskId: String) {
         csvFileHandler.deleteLine(headerColumns = header, rowIdToDelete = taskId)
     }
 

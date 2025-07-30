@@ -1,5 +1,6 @@
 package planmate.presentation.tasksCli
 
+import kotlinx.coroutines.runBlocking
 import planmate.domain.models.Task
 import planmate.domain.usecase.tasksUseCases.CreateTaskUseCase
 import planmate.presentation.console.ConsoleIO
@@ -13,7 +14,7 @@ class CreateTaskCli(private val createTaskUseCase:CreateTaskUseCase,
     fun createTask() {
         try {
             val task= buildTask()
-            createTaskUseCase.createTask(task)
+            runBlocking { createTaskUseCase.createTask(task) }
             ConsoleIO.writeSuccess("created successfully!")
         }
         catch (e: Exception){

@@ -1,9 +1,12 @@
 package planmate.data.repository
 
 import com.google.common.truth.Truth.assertThat
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import planmate.data.dto.UserDto
@@ -20,137 +23,155 @@ class UsersRepositoryImpTest {
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `getAllUsers should return all users when data source returns DTOs`() {
-        // Given
-        val dto1 = UserDto(
-            id = random().toString(),
-            name = "User1",
-            role = "ADMIN"
-        )
-        val dto2 = UserDto(
-            id = random().toString(),
-            name = "User2",
-            role = "MATE"
-        )
-        every { mockUsersDataSource.getAllUsers() } returns listOf(dto1, dto2)
+        runTest {
+            // Given
+            val dto1 = UserDto(
+                id = random().toString(),
+                name = "User1",
+                role = "ADMIN"
+            )
+            val dto2 = UserDto(
+                id = random().toString(),
+                name = "User2",
+                role = "MATE"
+            )
+            coEvery { mockUsersDataSource.getAllUsers() } returns listOf(dto1, dto2)
 
-        // When
-        val result = repo.getAllUsers()
+            // When
+            val result = repo.getAllUsers()
 
-        // Then
-        assertThat(result).containsExactlyElementsIn(listOf(dto1.toDomain(), dto2.toDomain()))
+            // Then
+            assertThat(result).containsExactlyElementsIn(listOf(dto1.toDomain(), dto2.toDomain()))
+        }
     }
 
     @Test
     fun `getAllUsers should throw exception when data source fails`() {
-        // Given
-        every { mockUsersDataSource.getAllUsers() } throws RuntimeException("I/O error")
+        runTest {
+            // Given
+            coEvery { mockUsersDataSource.getAllUsers() } throws RuntimeException("I/O error")
 
-        // When && Then
-        assertThrows<Exception> { repo.getAllUsers() }
+            // When && Then
+            assertThrows<Exception> { repo.getAllUsers() }
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `createUser should delegate to data source with correct DTO`() {
-        // Given
-        val userId = random()
-        val user = User(id = userId, name = "User1", role = User.Role.MATE)
+        runTest {
+            // Given
+            val userId = random()
+            val user = User(id = userId, name = "User1", role = User.Role.MATE)
 
-        // When
-        repo.createUser(user)
+            // When
+            repo.createUser(user)
 
-        // Then
-        verify(exactly = 1) {
-            mockUsersDataSource.createUser(
-                match { dto ->
-                    dto.id == userId.toString() &&
-                            dto.name == "User1" &&
-                            dto.role== User.Role.MATE.toString()
-                }
-            )
+            // Then
+            coVerify(exactly = 1) {
+                mockUsersDataSource.createUser(
+                    match { dto ->
+                        dto.id == userId.toString() &&
+                                dto.name == "User1" &&
+                                dto.role== User.Role.MATE.toString()
+                    }
+                )
+            }
         }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `createUser should wrap exception when data source fails`() {
-        // Given
-        val userId = random()
-        val user = User(id = userId, name = "User1", role = User.Role.ADMIN)
-        every { mockUsersDataSource.createUser(any()) } throws RuntimeException("Disk full")
+        runTest {
+            // Given
+            val userId = random()
+            val user = User(id = userId, name = "User1", role = User.Role.ADMIN)
+            coEvery { mockUsersDataSource.createUser(any()) } throws RuntimeException("Disk full")
 
-        // When & Then
-        assertThrows<Exception> { repo.createUser(user) }
+            // When & Then
+            assertThrows<Exception> { repo.createUser(user) }
+        }
     }
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `createUser should throw exception when user name is empty`() {
-        // Given
-        val userId = random()
-        val user = User(id = userId, name = "", role = User.Role.ADMIN)
+        runTest {
+            // Given
+            val userId = random()
+            val user = User(id = userId, name = "", role = User.Role.ADMIN)
 
-        // When & Then
-        assertThrows<Exception> { repo.createUser(user) }
+            // When & Then
+            assertThrows<Exception> { repo.createUser(user) }
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `updateUser should delegate to data source with correct DTO`() {
-        // Given
-        val userId = random()
-        val user = User(id = userId, name = "User1", role = User.Role.ADMIN)
+        runTest {
+            // Given
+            val userId = random()
+            val user = User(id = userId, name = "User1", role = User.Role.ADMIN)
 
-        // When
-        repo.updateUser(user)
+            // When
+            repo.updateUser(user)
 
-        // Then
-        verify(exactly = 1) {
-            mockUsersDataSource.updateUser(
-                match { dto ->
-                    dto.id == userId.toString() &&
-                            dto.name == "User1" &&
-                            dto.role== User.Role.ADMIN.toString()
-                }
-            )
+            // Then
+            coVerify(exactly = 1) {
+                mockUsersDataSource.updateUser(
+                    match { dto ->
+                        dto.id == userId.toString() &&
+                                dto.name == "User1" &&
+                                dto.role== User.Role.ADMIN.toString()
+                    }
+                )
+            }
         }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `updateUser should wrap exception when data source fails`() {
-        // Given
-        val userId = random()
-        val user = User(id = userId, name = "User1",role = User.Role.ADMIN)
-        every { mockUsersDataSource.updateUser(any()) } throws RuntimeException("Error")
+        runTest {
+            // Given
+            val userId = random()
+            val user = User(id = userId, name = "User1",role = User.Role.ADMIN)
+            coEvery { mockUsersDataSource.updateUser(any()) } throws RuntimeException("Error")
 
-        // When & Then
-        assertThrows<Exception> { repo.updateUser(user) }
+            // When & Then
+            assertThrows<Exception> { repo.updateUser(user) }
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `deleteUser should delegate to data source with correct ID`() {
-        // Given
-        val userId = random()
+        runTest {
+            // Given
+            val userId = random()
 
-        // When
-        repo.deleteUser(userId)
+            // When
+            repo.deleteUser(userId)
 
-        // Then
-        verify(exactly = 1) {
-            mockUsersDataSource.deleteUser(userId)
+            // Then
+            coVerify(exactly = 1) {
+                mockUsersDataSource.deleteUser(userId)
+            }
         }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `deleteUser should wrap exception when data source fails`() {
-        // Given
-        val userId = random()
-        every { mockUsersDataSource.deleteUser(userId) } throws RuntimeException("Delete failure")
+        runTest {
+            // Given
+            val userId = random()
+            coEvery { mockUsersDataSource.deleteUser(userId) } throws RuntimeException("Delete failure")
 
-        // When & Then
-        assertThrows<Exception> { repo.deleteUser(userId) }
+            // When & Then
+            assertThrows<Exception> { repo.deleteUser(userId) }
+        }
     }
 
 }

@@ -1,8 +1,11 @@
 package planmate.domain.usecase
 
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -28,17 +31,18 @@ class CreateUserUseCaseTest {
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `createUser should succeed when user is admin and name is not empty`() {
-        // Given
-//        val creator = User(id = Uuid.random(),name="Ala", role = User.Role.ADMIN)
-        val user = User(id =  Uuid.random(), name = "New User", role = User.Role.MATE)
+        runTest {
+            // Given
+            val user = User(id = random(), name = "New User", role = User.Role.MATE)
 
-        every { repository.createUser(user) } returns Unit
+            coEvery { repository.createUser(user) } returns Unit
 
-        // When
-        createUserUseCase.createUser(user)
+            // When
+            createUserUseCase.createUser(user)
 
-        // Then
-        verify(exactly = 1) { repository.createUser(user) }
+            // Then
+            coVerify(exactly = 1) { repository.createUser(user) }
+        }
     }
 
 

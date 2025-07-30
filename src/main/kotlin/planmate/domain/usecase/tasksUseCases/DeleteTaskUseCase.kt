@@ -6,5 +6,5 @@ import kotlin.uuid.Uuid
 
 class DeleteTaskUseCase(private val repo: TasksRepository) {
     @OptIn(ExperimentalUuidApi::class)
-     fun deleteTask(taskId: Uuid) = repo.deleteTask(taskId)
+    suspend fun deleteTask(taskId: Uuid) = repo.deleteTask(taskId)
 }

@@ -1,8 +1,11 @@
 package planmate.domain.usecase
 
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -24,31 +27,35 @@ class UpdateUserUseCaseTest {
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `updateUser should update when repository updates successfully`() {
-        // Given
-        val userId = random()
-        val user = User(userId, "User1", User.Role.ADMIN)
+        runTest {
+            // Given
+            val userId = random()
+            val user = User(userId, "User1", User.Role.ADMIN)
 
-        every { repository.updateUser(user) }  returns Unit
+            coEvery { repository.updateUser(user) } returns Unit
 
-        // When
-        updateUsersUseCase.updateUser(user)
+            // When
+            updateUsersUseCase.updateUser(user)
 
-        // Then
-        verify(exactly = 1) { repository.updateUser(user) }
+            // Then
+            coVerify(exactly = 1) { repository.updateUser(user) }
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `updateUser should throw exception when repository throws`() {
-        // Given
-        val userId = random()
-        val user = User(id = userId, "User1", User.Role.ADMIN)
+        runTest {
+            // Given
+            val userId = random()
+            val user = User(id = userId, "User1", User.Role.ADMIN)
 
-        every { repository.updateUser(user) } throws Exception()
+            coEvery { repository.updateUser(user) } throws Exception()
 
-        // When && Then
-        assertThrows<Exception> {
-            updateUsersUseCase.updateUser(user)
+            // When && Then
+            assertThrows<Exception> {
+                updateUsersUseCase.updateUser(user)
+            }
         }
     }
 }

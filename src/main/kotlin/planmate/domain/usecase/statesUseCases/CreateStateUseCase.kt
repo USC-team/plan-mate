@@ -4,5 +4,5 @@ import planmate.domain.models.State
 import planmate.domain.repository.StatesRepository
 
 class CreateStateUseCase(private val repo: StatesRepository) {
-     fun createState(state: State) = repo.createState(state)
+     suspend fun createState(state: State) = repo.createState(state)
 }

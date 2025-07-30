@@ -1,5 +1,6 @@
 package planmate.presentation.tasksCli
 
+import kotlinx.coroutines.runBlocking
 import planmate.domain.models.Task
 import planmate.domain.usecase.tasksUseCases.GetAllTasksUseCase
 import planmate.domain.usecase.tasksUseCases.UpdateTaskUseCase
@@ -13,21 +14,23 @@ class UpdateTaskCli(private val updateTaskUseCase: UpdateTaskUseCase,
                     private val showProjectsCli: ShowProjectsCli) {
 
     fun updateTask(){
-        try {
-            val task= findTask()
-            val newTask= buildUpdatedTask(task)
+        runBlocking {
+            try {
+                val task= findTask()
+                val newTask= buildUpdatedTask(task)
 
-            updateTaskUseCase.updateTask(newTask)
+                updateTaskUseCase.updateTask(newTask)
 
-            ConsoleIO.writeSuccess("updated successfully!")
-        }
-        catch (e: Exception){
-            ConsoleIO.writeError("Task is not valid!\n${e.message}")
+                ConsoleIO.writeSuccess("updated successfully!")
+            }
+            catch (e: Exception){
+                ConsoleIO.writeError("Task is not valid!\n${e.message}")
+            }
         }
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun findTask():Task{
+    private suspend fun findTask():Task{
         showProjects()
         val projectId= enterProjectId()
         val taskTitle= enterTaskTitle()

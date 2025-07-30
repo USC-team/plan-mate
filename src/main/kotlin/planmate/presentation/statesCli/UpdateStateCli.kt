@@ -1,5 +1,6 @@
 package planmate.presentation.statesCli
 
+import kotlinx.coroutines.runBlocking
 import planmate.domain.models.State
 import planmate.domain.usecase.statesUseCases.GetAllStatesUseCase
 import planmate.domain.usecase.statesUseCases.UpdateStateUseCase
@@ -13,21 +14,23 @@ class UpdateStateCli(private val updateStateUseCase: UpdateStateUseCase,
                      private val showProjectsCli: ShowProjectsCli) {
 
     fun updateState(){
-        try {
-            val state= findState()
-            val newState = buildUpdatedState(state)
+        runBlocking {
+            try {
+                val state= findState()
+                val newState = buildUpdatedState(state)
 
-            updateStateUseCase.updateState(newState)
+                updateStateUseCase.updateState(newState)
 
-            ConsoleIO.writeSuccess("updated successfully!")
-        }
-        catch (e: Exception){
-            ConsoleIO.writeError("State is not valid!\n${e.message}")
+                ConsoleIO.writeSuccess("updated successfully!")
+            }
+            catch (e: Exception){
+                ConsoleIO.writeError("State is not valid!\n${e.message}")
+            }
         }
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun findState(): State{
+    private suspend fun findState(): State{
         showProjects()
         val projectId= enterProjectId()
         val stateName= enterStateName()

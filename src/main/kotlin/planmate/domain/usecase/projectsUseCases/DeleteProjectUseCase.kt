@@ -6,5 +6,5 @@ import kotlin.uuid.Uuid
 
 class DeleteProjectUseCase(private val repo: ProjectRepository) {
     @OptIn(ExperimentalUuidApi::class)
-    fun deleteProject(projectId: Uuid)= repo.deleteProject(projectId)
+    suspend fun deleteProject(projectId: Uuid)= repo.deleteProject(projectId)
 }

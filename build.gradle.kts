@@ -14,8 +14,10 @@ dependencies {
     implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.4.0")
     implementation(platform("io.insert-koin:koin-bom:4.0.3"))
     implementation("io.insert-koin:koin-core")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     testImplementation("org.junit.jupiter:junit-jupiter:5.12.2")
     testImplementation("com.google.truth:truth:1.4.4")
     testImplementation("io.mockk:mockk:1.14.2")

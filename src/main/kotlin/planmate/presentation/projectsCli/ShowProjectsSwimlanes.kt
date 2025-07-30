@@ -1,5 +1,6 @@
 package planmate.presentation.projectsCli
 
+import kotlinx.coroutines.runBlocking
 import planmate.domain.models.Project
 import planmate.domain.models.Task
 import planmate.domain.models.State
@@ -20,29 +21,33 @@ class ShowProjectsSwimlanes(private val getAllProjectsUseCase: GetAllProjectsUse
 
     @OptIn(ExperimentalUuidApi::class)
     fun showProjects() {
-        runCatching {
-            getAllProjectsUseCase.getAllProjects().takeIf { it.isNotEmpty() }
-                ?: throw Exception("")
-        }.onSuccess { projects ->
-            projects.forEach { project ->
-                getStatesAndTasks(project)
-                printProjects(project)
-                printStates(tasksOfState)
-                printTasks(tasksOfState)
-                writeLineBreak()
+        runBlocking {
+            runCatching {
+                getAllProjectsUseCase.getAllProjects().takeIf { it.isNotEmpty() }
+                    ?: throw Exception("")
+            }.onSuccess { projects ->
+                projects.forEach { project ->
+                    getStatesAndTasks(project)
+                    printProjects(project)
+                    printStates(tasksOfState)
+                    printTasks(tasksOfState)
+                    writeLineBreak()
+                }
+            }.onFailure { e ->
+                ConsoleIO.writeError("No projects to show\n${e.message}")
             }
-        }.onFailure { e ->
-            ConsoleIO.writeError("No projects to show\n${e.message}")
         }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     private fun getStatesAndTasks(project: Project){
-        states = getAllStatesUseCase.getAllStates(project.id)
-        tasks = getAllTasksUseCase.getAllTasks(project.id)
+        runBlocking {
+            states = getAllStatesUseCase.getAllStates(project.id)
+            tasks = getAllTasksUseCase.getAllTasks(project.id)
 
-        tasksOfState = states.associateWith { state ->
-            tasks.filter { it.stateId == state.id }
+            tasksOfState = states.associateWith { state ->
+                tasks.filter { it.stateId == state.id }
+            }
         }
     }
 

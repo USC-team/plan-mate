@@ -14,21 +14,21 @@ class TasksRepositoryImp(
 ) : TasksRepository {
 
     @OptIn(ExperimentalUuidApi::class)
-    override fun getAllTasks(projectId: Uuid): List<Task> {
+    override suspend fun getAllTasks(projectId: Uuid): List<Task> {
         return tasksDataSource
             .getAllTasks(projectId.toString())
             .map { it.toDomain() }
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    override fun getTasksByState(projectId: Uuid, stateId: Uuid): List<Task> {
+    override suspend fun getTasksByState(projectId: Uuid, stateId: Uuid): List<Task> {
         return tasksDataSource
             .getTasksByState(projectId.toString(), stateId.toString())
             .map { it.toDomain() }
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    override fun createTask(task: Task) {
+    override suspend fun createTask(task: Task) {
         if (task.title.isBlank()) throw IllegalArgumentException("Task.title must not be blank")
         if (task.description.isBlank()) throw IllegalArgumentException("Task.description must not be blank")
 
@@ -43,7 +43,7 @@ class TasksRepositoryImp(
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    override fun updateTask(task: Task) {
+    override suspend fun updateTask(task: Task) {
         if (task.title.isBlank()) throw Exception("Task.title must not be blank")
         if (task.description.isBlank()) throw Exception("Task.description must not be blank")
 
@@ -58,7 +58,7 @@ class TasksRepositoryImp(
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    override fun deleteTask(taskId: Uuid) {
+    override suspend fun deleteTask(taskId: Uuid) {
         tasksDataSource.deleteTask(taskId.toString())
     }
 }

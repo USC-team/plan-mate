@@ -13,21 +13,21 @@ class StatesRepositoryImp(
 ) : StatesRepository {
 
     @OptIn(ExperimentalUuidApi::class)
-    override fun getAllStates(projectId: Uuid): List<State> {
+    override suspend fun getAllStates(projectId: Uuid): List<State> {
         return statesDataSource.getAllStates(projectId.toString())
             .map { it.toDomain() }
     }
 
-    override fun createState(state: State) {
+    override suspend fun createState(state: State) {
         statesDataSource.createState(state.fromDomain(state))
     }
 
-    override fun updateState(state: State) {
+    override suspend fun updateState(state: State) {
         statesDataSource.updateState(state.fromDomain(state))
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    override fun deleteState(stateId: Uuid) {
+    override suspend fun deleteState(stateId: Uuid) {
         statesDataSource.deleteState(stateId.toString())
     }
 }

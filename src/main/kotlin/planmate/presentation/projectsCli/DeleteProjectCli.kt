@@ -1,5 +1,6 @@
 package planmate.presentation.projectsCli
 
+import kotlinx.coroutines.runBlocking
 import planmate.domain.models.Project
 import planmate.domain.usecase.projectsUseCases.DeleteProjectUseCase
 import planmate.domain.usecase.projectsUseCases.GetAllProjectsUseCase
@@ -11,17 +12,19 @@ class DeleteProjectCli(private val deleteProjectUseCase: DeleteProjectUseCase,
 
     @OptIn(ExperimentalUuidApi::class)
     fun deleteProject(){
-        try {
-            val project= findProject()
-            deleteProjectUseCase.deleteProject(project.id)
-            ConsoleIO.writeSuccess("deleted successfully!")
-        }
-        catch (e: Exception){
-            ConsoleIO.writeError("Project is not valid!\n${e.message}")
+        runBlocking {
+            try {
+                val project= findProject()
+                deleteProjectUseCase.deleteProject(project.id)
+                ConsoleIO.writeSuccess("deleted successfully!")
+            }
+            catch (e: Exception){
+                ConsoleIO.writeError("Project is not valid!\n${e.message}")
+            }
         }
     }
 
-    private fun findProject() : Project{
+    private suspend fun findProject() : Project{
         val projectName= enterProjectName()
         return getAllProjectsUseCase.getAllProjects().first { it.name == projectName }
     }

@@ -7,15 +7,15 @@ import kotlin.uuid.Uuid
 
 interface TasksRepository {
     @OptIn(ExperimentalUuidApi::class)
-    fun getAllTasks(projectId: Uuid): List<Task>
+    suspend fun getAllTasks(projectId: Uuid): List<Task>
 
     @OptIn(ExperimentalUuidApi::class)
-    fun getTasksByState(projectId: Uuid, stateId: Uuid): List<Task>
+    suspend fun getTasksByState(projectId: Uuid, stateId: Uuid): List<Task>
 
-    fun createTask(task: Task)
+    suspend fun createTask(task: Task)
 
-    fun updateTask(task: Task)
+    suspend fun updateTask(task: Task)
 
     @OptIn(ExperimentalUuidApi::class)
-    fun deleteTask(taskId: Uuid)
+    suspend fun deleteTask(taskId: Uuid)
 }

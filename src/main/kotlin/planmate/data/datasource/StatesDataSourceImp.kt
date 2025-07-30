@@ -11,7 +11,7 @@ class StatesDataSourceImp(
 
     private val header = arrayOf("id", "name", "projectId")
 
-    override fun getAllStates(projectId: String): List<StateDto> {
+    override suspend fun getAllStates(projectId: String): List<StateDto> {
         return csvFileHandler.readAllLines()
             .filter { cols ->
                 cols.size >= header.size && cols[PROJECTID_INDEX] == projectId
@@ -26,29 +26,29 @@ class StatesDataSourceImp(
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    override fun createState(state: StateDto) {
+    override suspend fun createState(state: StateDto) {
         val stateRow = arrayOf(state.id, state.name, state.projectId)
 
         csvFileHandler.appendLine(headerColumns = header, newRow = stateRow)
     }
 
-    override fun updateState(state: StateDto) {
+    override suspend fun updateState(state: StateDto) {
         csvFileHandler.updateLine(
             headerColumns = header,
             updatedRow = arrayOf(state.id, state.name, state.projectId)
         )
     }
 
-    override fun deleteState(stateId: String) {
+    override suspend fun deleteState(stateId: String) {
         csvFileHandler.deleteLine(
             headerColumns = header,
             rowIdToDelete = stateId
         )
     }
 
-    companion object{
-        private const val ID_INDEX=0
-        private const val NAME_INDEX=1
-        private const val PROJECTID_INDEX=2
+    companion object {
+        private const val ID_INDEX = 0
+        private const val NAME_INDEX = 1
+        private const val PROJECTID_INDEX = 2
     }
 }

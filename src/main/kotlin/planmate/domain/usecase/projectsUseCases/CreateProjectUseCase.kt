@@ -10,6 +10,6 @@ import kotlin.uuid.ExperimentalUuidApi
 
 class CreateProjectUseCase(private val repo: ProjectRepository) {
 
-    fun createProject(project: Project) = repo.createProject(project)
+    suspend fun createProject(project: Project) = repo.createProject(project)
 
 }

@@ -1,8 +1,11 @@
 package planmate.domain.usecase
 
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -23,29 +26,33 @@ class DeleteProjectUseCaseTest {
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `deleteProject should delegate to repository`() {
-        // Given
-        val projectId = random()
-        
-        every { repository.deleteProject(projectId) } returns Unit
+        runTest {
+            // Given
+            val projectId = random()
 
-        // When
-        deleteProjectUseCase.deleteProject(projectId)
+            coEvery { repository.deleteProject(projectId) } returns Unit
 
-        // Then
-        verify(exactly = 1) { repository.deleteProject(projectId) }
+            // When
+            deleteProjectUseCase.deleteProject(projectId)
+
+            // Then
+            coVerify(exactly = 1) { repository.deleteProject(projectId) }
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `deleteProject should propagate exception if repository throws`() {
-        // Given
-        val projectId = random()
+        runTest {
+            // Given
+            val projectId = random()
 
-        every { repository.deleteProject(projectId) } throws Exception()
+            coEvery { repository.deleteProject(projectId) } throws Exception()
 
-        // When && Then
-        assertThrows<Exception> {
-            deleteProjectUseCase.deleteProject(projectId)
+            // When && Then
+            assertThrows<Exception> {
+                deleteProjectUseCase.deleteProject(projectId)
+            }
         }
     }
 }

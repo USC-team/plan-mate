@@ -1,8 +1,9 @@
 package planmate.domain.usecase
 
-import io.mockk.every
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -24,43 +25,47 @@ class UpdateTaskUseCaseTest {
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `updateTask should return created Task`() {
-        // Given
-        val projectId = random()
-        val updatedTask = Task(
-            id = random(),
-            title = "task",
-            description = "details",
-            stateId = random(),
-            projectId = projectId
-        )
+        runTest {
+            // Given
+            val projectId = random()
+            val updatedTask = Task(
+                id = random(),
+                title = "task",
+                description = "details",
+                stateId = random(),
+                projectId = projectId
+            )
 
-        every { repository.updateTask(updatedTask) } returns Unit
+            coEvery { repository.updateTask(updatedTask) } returns Unit
 
-        // When
-        updateTaskUseCase.updateTask(updatedTask)
+            // When
+            updateTaskUseCase.updateTask(updatedTask)
 
-        // Then
-        verify(exactly = 1) { repository.updateTask(updatedTask) }
+            // Then
+            coVerify(exactly = 1) { repository.updateTask(updatedTask) }
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `invoke should propagate exception if repository throws`() {
-        // Given
-        val invalidTask = Task(
-            id = random(),
-            title = " ",
-            description = "details",
-            stateId = random(),
-            projectId = random()
-        )
-        val expectedException = Exception("title cannot be empty")
+        runTest {
+            // Given
+            val invalidTask = Task(
+                id = random(),
+                title = " ",
+                description = "details",
+                stateId = random(),
+                projectId = random()
+            )
+            val expectedException = Exception("title cannot be empty")
 
-        every { repository.updateTask(invalidTask) } throws expectedException
+            coEvery { repository.updateTask(invalidTask) } throws expectedException
 
-        // When && Then
-        assertThrows<Exception> {
-            updateTaskUseCase.updateTask(invalidTask)
+            // When && Then
+            assertThrows<Exception> {
+                updateTaskUseCase.updateTask(invalidTask)
+            }
         }
 
     }

@@ -1,9 +1,10 @@
 package planmate.domain.usecase
 
 
-import io.mockk.every
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -26,41 +27,45 @@ class CreateTaskUseCaseTest {
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `createTask should return created Task`() {
-        // Given
-        val projectId = random()
-        val task = Task(
-            id = random(),
-            title = "NewTask",
-            description = "details",
-            stateId = random(),
-            projectId = projectId
-        )
+        runTest {
+            // Given
+            val projectId = random()
+            val task = Task(
+                id = random(),
+                title = "NewTask",
+                description = "details",
+                stateId = random(),
+                projectId = projectId
+            )
 
-        every { repository.createTask(task) } returns Unit
+            coEvery { repository.createTask(task) } returns Unit
 
-        // When
-        createTasksUseCase.createTask(task)
+            // When
+            createTasksUseCase.createTask(task)
 
-        // Then
-        verify(exactly = 1) { repository.createTask(task) }
+            // Then
+            coVerify(exactly = 1) { repository.createTask(task) }
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `createTask should propagate exception when Title empty`() {
-        // Given
-        val invalidTask = Task(
-            id = random(),
-            title = "",
-            description = "details",
-            stateId = random(),
-            projectId = random()
-        )
-        every { repository.createTask(invalidTask) } throws Exception("Title cannot be empty")
+        runTest {
+            // Given
+            val invalidTask = Task(
+                id = random(),
+                title = "",
+                description = "details",
+                stateId = random(),
+                projectId = random()
+            )
+            coEvery { repository.createTask(invalidTask) } throws Exception("Title cannot be empty")
 
-        // When && Then
-        assertThrows<Exception> {
-            createTasksUseCase.createTask(invalidTask)
+            // When && Then
+            assertThrows<Exception> {
+                createTasksUseCase.createTask(invalidTask)
+            }
         }
 
     }
@@ -68,19 +73,21 @@ class CreateTaskUseCaseTest {
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `createTask should propagate exception when description empty`() {
-        // Given
-        val invalidTask = Task(
-            id = random(),
-            title = "NewTask",
-            description = "",
-            stateId = random(),
-            projectId = random()
-        )
-        every { repository.createTask(invalidTask) } throws Exception("Description cannot be empty")
+        runTest {
+            // Given
+            val invalidTask = Task(
+                id = random(),
+                title = "NewTask",
+                description = "",
+                stateId = random(),
+                projectId = random()
+            )
+            coEvery { repository.createTask(invalidTask) } throws Exception("Description cannot be empty")
 
-        // When && Then
-        assertThrows<Exception> {
-            createTasksUseCase.createTask(invalidTask)
+            // When && Then
+            assertThrows<Exception> {
+                createTasksUseCase.createTask(invalidTask)
+            }
         }
 
     }

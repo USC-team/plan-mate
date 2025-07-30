@@ -1,8 +1,10 @@
 package planmate.domain.usecase
 
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -24,31 +26,35 @@ class UpdateStateUseCaseTest {
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `updateState should return created state`() {
-        // Given
-        val projectId = random()
-        val updatedState = State(id = random(), name = "UpdatedState", projectId = projectId)
+        runTest {
+            // Given
+            val projectId = random()
+            val updatedState = State(id = random(), name = "UpdatedState", projectId = projectId)
 
-        every { repository.updateState(updatedState) } returns Unit
+            coEvery { repository.updateState(updatedState) } returns Unit
 
-        // When
-        updateStateUseCase.updateState(updatedState)
+            // When
+            updateStateUseCase.updateState(updatedState)
 
-        // Then
-        verify(exactly = 1) { repository.updateState(updatedState) }
+            // Then
+            coVerify(exactly = 1) { repository.updateState(updatedState) }
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `invoke should propagate exception if repository throws`() {
-        // Given
-        val invalidState = State(id = random(), name = "", projectId = random())
-        val expectedException = IllegalArgumentException("Name cannot be empty")
+        runTest {
+            // Given
+            val invalidState = State(id = random(), name = "", projectId = random())
+            val expectedException = IllegalArgumentException("Name cannot be empty")
 
-        every { repository.updateState(invalidState) } throws expectedException
+            coEvery { repository.updateState(invalidState) } throws expectedException
 
-        // When && Then
-        assertThrows<Exception> {
-            updateStateUseCase.updateState(invalidState)
+            // When && Then
+            assertThrows<Exception> {
+                updateStateUseCase.updateState(invalidState)
+            }
         }
 
     }

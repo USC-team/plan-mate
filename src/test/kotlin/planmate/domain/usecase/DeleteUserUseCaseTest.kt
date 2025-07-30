@@ -1,8 +1,11 @@
 package planmate.domain.usecase
 
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -23,29 +26,33 @@ class DeleteUserUseCaseTest {
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `deleteUser should delegate to repository`() {
-        // Given
-        val userId = random()
+        runTest {
+            // Given
+            val userId = random()
 
-        every { repository.deleteUser(userId) } returns Unit
+            coEvery { repository.deleteUser(userId) } returns Unit
 
-        // When
-        deleteUserUseCase.deleteUser(userId)
+            // When
+            deleteUserUseCase.deleteUser(userId)
 
-        // Then
-        verify(exactly = 1) { repository.deleteUser(userId) }
+            // Then
+            coVerify(exactly = 1) { repository.deleteUser(userId) }
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `deleteUser should propagate exception if repository throws`() {
-        // Given
-        val userId = random()
+        runTest {
+            // Given
+            val userId = random()
 
-        every { repository.deleteUser(userId) } throws Exception()
+            coEvery { repository.deleteUser(userId) } throws Exception()
 
-        // When && Then
-        assertThrows<Exception> {
-            deleteUserUseCase.deleteUser(userId)
+            // When && Then
+            assertThrows<Exception> {
+                deleteUserUseCase.deleteUser(userId)
+            }
         }
     }
 }

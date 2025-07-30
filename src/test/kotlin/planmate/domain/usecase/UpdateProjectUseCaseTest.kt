@@ -1,8 +1,11 @@
 package planmate.domain.usecase
 
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import planmate.domain.models.Project
@@ -24,29 +27,33 @@ class UpdateProjectUseCaseTest {
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `updateProject should update when repository updates successfully`() {
-        // Given
-        val project = Project(random(), "Project1", random())
+        runTest {
+            // Given
+            val project = Project(random(), "Project1", random())
 
-        every { repository.updateProject(project) }  returns Unit
+            coEvery { repository.updateProject(project) } returns Unit
 
-        // When
-        updateProjectsUseCase.updateProject(project)
+            // When
+            updateProjectsUseCase.updateProject(project)
 
-        // Then
-        verify(exactly = 1) { repository.updateProject(project) }
+            // Then
+            coVerify(exactly = 1) { repository.updateProject(project) }
+        }
     }
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `updateProject should throw exception when repository throws`() {
-        // Given
-        val project = Project(random(), "Project1", random())
+        runTest {
+            // Given
+            val project = Project(random(), "Project1", random())
 
-        every { repository.updateProject(project) } throws Exception()
+            coEvery { repository.updateProject(project) } throws Exception()
 
-        // When && Then
-        assertThrows<Exception> {
-            updateProjectsUseCase.updateProject(project)
+            // When && Then
+            assertThrows<Exception> {
+                updateProjectsUseCase.updateProject(project)
+            }
         }
     }
 }

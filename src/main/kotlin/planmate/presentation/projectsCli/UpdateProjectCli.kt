@@ -1,5 +1,6 @@
 package planmate.presentation.projectsCli
 
+import kotlinx.coroutines.runBlocking
 import planmate.domain.models.Project
 import planmate.domain.usecase.projectsUseCases.GetAllProjectsUseCase
 import planmate.domain.usecase.projectsUseCases.UpdateProjectUseCase
@@ -11,20 +12,22 @@ class UpdateProjectCli(private val updateProjectUseCase: UpdateProjectUseCase,
                        private val getAllProjectsUseCase: GetAllProjectsUseCase) {
 
     fun updateProject(){
-        try {
-            val project= findProject()
-            val newProject= buildUpdatedProject(project)
+        runBlocking {
+            try {
+                val project= findProject()
+                val newProject= buildUpdatedProject(project)
 
-            updateProjectUseCase.updateProject(newProject)
+                updateProjectUseCase.updateProject(newProject)
 
-            ConsoleIO.writeSuccess("updated successfully!")
-        }
-        catch (e: Exception){
-            ConsoleIO.writeError("Project is not valid!\n${e.message}")
+                ConsoleIO.writeSuccess("updated successfully!")
+            }
+            catch (e: Exception){
+                ConsoleIO.writeError("Project is not valid!\n${e.message}")
+            }
         }
     }
 
-    private fun findProject() : Project{
+    private suspend fun findProject() : Project{
         val projectName= enterProjectName()
        return getAllProjectsUseCase.getAllProjects().first { it.name == projectName }
     }

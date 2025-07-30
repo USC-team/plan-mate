@@ -6,5 +6,5 @@ import kotlin.uuid.Uuid
 
 class GetAllTasksUseCase(private val repo: TasksRepository) {
     @OptIn(ExperimentalUuidApi::class)
-     fun getAllTasks(projectId: Uuid) = repo.getAllTasks(projectId)
+    suspend fun getAllTasks(projectId: Uuid) = repo.getAllTasks(projectId)
 }

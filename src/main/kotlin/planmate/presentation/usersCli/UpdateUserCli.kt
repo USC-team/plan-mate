@@ -1,5 +1,6 @@
 package planmate.presentation.usersCli
 
+import kotlinx.coroutines.runBlocking
 import planmate.domain.models.User
 import planmate.domain.usecase.usersUseCases.GetAllUsersUseCase
 import planmate.domain.usecase.usersUseCases.UpdateUserUseCase
@@ -9,20 +10,22 @@ import kotlin.uuid.ExperimentalUuidApi
 class UpdateUserCli(private val updateUserUseCase: UpdateUserUseCase,
                     private val getAllUsersUseCase: GetAllUsersUseCase) {
     fun updateUser(){
-        try {
-            val user= findUser()
-            val newUser= buildUpdatedUser(user)
+        runBlocking {
+            try {
+                val user= findUser()
+                val newUser= buildUpdatedUser(user)
 
-            updateUserUseCase.updateUser(newUser)
+                updateUserUseCase.updateUser(newUser)
 
-            ConsoleIO.writeSuccess("updated successfully!")
-        }
-        catch (e: Exception){
-            ConsoleIO.writeError("User is not valid!\n${e.message}")
+                ConsoleIO.writeSuccess("updated successfully!")
+            }
+            catch (e: Exception){
+                ConsoleIO.writeError("User is not valid!\n${e.message}")
+            }
         }
     }
 
-    private fun findUser(): User{
+    private suspend fun findUser(): User{
         val userName= enterUserName()
        return getAllUsersUseCase.getAllUsers().first { it.name == userName }
     }
